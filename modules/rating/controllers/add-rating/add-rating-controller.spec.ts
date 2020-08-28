@@ -10,7 +10,7 @@ import {
   AddRatingModel,
   AddRating,
 } from '../../usecases/add-rating/add-rating';
-import { rejects } from 'assert';
+
 interface SutTypes {
   sut: AddRatingController;
   addRatingStub: AddRating;
@@ -40,8 +40,8 @@ const makeSut = (): SutTypes => {
 };
 const makeFakeRequest = (): HttpRequest => ({
   body: {
-    ratingType: 'any_ratingtype',
-    ratings: [{ obs: 'any_rating', stars: 3 }],
+    ratingFor: 'any_entity',
+    ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
   },
 });
 describe('AddRating Controller', () => {

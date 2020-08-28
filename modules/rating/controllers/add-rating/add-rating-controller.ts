@@ -16,11 +16,11 @@ export class AddRatingController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const errors = this.validation.validate(httpRequest.body);
-      if (errors) {
+      if (errors?.length > 0) {
         return badRequest(errors);
       }
-      const { ratingType, ratings } = httpRequest.body;
-      await this.addRating.add({ ratingType, ratings });
+      const { ratingFor, ratings } = httpRequest.body;
+      await this.addRating.add({ ratingFor, ratings });
       return noContent();
     } catch (error) {
       return serverError(error);

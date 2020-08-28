@@ -1,6 +1,6 @@
 import { DbAddRating } from './db-add-rating';
-import { AddRatingRepository } from '../../../../../bin/protocols/repositories/rating/add-rating-repository';
 import { AddRatingModel } from '../add-rating';
+import { AddRatingRepository } from '../../../repositories/protocols/add-rating-repository';
 interface SutTypes {
   sut: DbAddRating;
   addRatingStub: AddRatingRepository;
