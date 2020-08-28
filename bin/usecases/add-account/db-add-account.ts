@@ -26,13 +26,13 @@ export class DbAddAccount implements AddAccount {
     const account = await this.loadAccountByEmailRepository.loadByEmail(
       accountData.email,
     );
-    //if (!account) {
-    const hashedPassword = await this.encrypter.encrypt(accountData.password);
-    const newAccount = await this.addAccountRepository.add(
-      Object.assign({}, accountData, { password: hashedPassword }),
-    );
-    return newAccount;
-    //}
-    //return null
+    if (!account) {
+      const hashedPassword = await this.encrypter.encrypt(accountData.password);
+      const newAccount = await this.addAccountRepository.add(
+        Object.assign({}, accountData, { password: hashedPassword }),
+      );
+      return newAccount;
+    }
+    return null;
   }
 }
