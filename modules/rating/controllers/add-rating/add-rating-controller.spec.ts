@@ -1,11 +1,16 @@
 import { HttpRequest, HttpResponse } from '../../../../bin/protocols/http';
 import { Validation } from '../../../../bin/helpers/validators/validation';
 import { AddRatingController } from './add-rating-controller';
-import { badRequest } from '../../../../bin/helpers/http-helper';
+import {
+  badRequest,
+  serverError,
+  noContent,
+} from '../../../../bin/helpers/http-helper';
 import {
   AddRatingModel,
   AddRating,
 } from '../../usecases/add-rating/add-rating';
+import { rejects } from 'assert';
 interface SutTypes {
   sut: AddRatingController;
   addRatingStub: AddRating;
@@ -60,5 +65,22 @@ describe('AddRating Controller', () => {
     const httpRequest = makeFakeRequest();
     await sut.handle(httpRequest);
     expect(addRatingSpy).toHaveBeenCalledWith(httpRequest.body);
+  });
+  test('should return 500 if AddRating throws', async () => {
+    const { sut, addRatingStub } = makeSut();
+    jest
+      .spyOn(addRatingStub, 'add')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+    const httpRequest = makeFakeRequest();
+    const httpResponse = await sut.handle(httpRequest);
+    expect(httpResponse).toEqual(serverError(new Error()));
+  });
+  test('should return 204 on success', async () => {
+    const { sut } = makeSut();
+    const httpRequest = makeFakeRequest();
+    const httpResponse = await sut.handle(httpRequest);
+    expect(httpResponse).toEqual(noContent());
   });
 });
