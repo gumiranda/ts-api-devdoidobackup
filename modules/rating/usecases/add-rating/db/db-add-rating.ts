@@ -1,5 +1,5 @@
 import { AddRating, AddRatingModel } from '../add-rating';
-import { AddRatingRepository } from '../../../../../bin/protocols/repositories/rating/add-rating-repository';
+import { AddRatingRepository } from '../../../repositories/protocols/add-rating-repository';
 
 export class DbAddRating implements AddRating {
   constructor(private readonly addRatingRepository: AddRatingRepository) {}

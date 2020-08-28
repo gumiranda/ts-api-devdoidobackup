@@ -1,7 +1,7 @@
 import { Authentication } from '../authentication';
 import { HashComparer } from '../../../../../bin/protocols/crypto/hash-comparer';
 import { TokenGenerator } from '../../../../../bin/protocols/crypto/token-generator';
-import { LoadAccountByEmailRepository } from '../../../../../bin/protocols/repositories/account/load-account-by-email-repository';
+import { LoadAccountByEmailRepository } from '../../../repositories/protocols/load-account-by-email-repository';
 
 export class DbAuthentication implements Authentication {
   private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository;
