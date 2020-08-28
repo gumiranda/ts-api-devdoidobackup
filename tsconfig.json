@@ -6,6 +6,8 @@
     "target": "es2019",
     "typeRoots": ["./custom_typings", "./node_modules/@types"],
     "esModuleInterop": true,
-    "allowJs": true
-  }
+    "allowJs": true,
+    "sourceMap": true
+  },
+  "exclude": ["coverage", "**/**.js", "**/*.spec.ts", "**/*.test.ts"]
 }

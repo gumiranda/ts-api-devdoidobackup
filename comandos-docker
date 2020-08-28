@@ -1,0 +1,7 @@
+docker build -t devdoido .
+
+docker run -it devdoido sh
+
+docker run -p 3333:3333 devdoido
+
+docker-compose up -d
