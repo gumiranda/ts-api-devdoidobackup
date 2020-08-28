@@ -1,10 +1,8 @@
-import {
-  LoadAccountByEmailRepository,
-  HashComparer,
-  TokenGenerator,
-} from './db-authentication-protocols';
-import { AccountModel } from '../../../modules/account/models/account-model';
 import { DbAuthentication } from './db-authentication';
+import { AccountModel } from '../../../models/account-model';
+import { HashComparer } from '../../../../../bin/protocols/crypto/hash-comparer';
+import { TokenGenerator } from '../../../../../bin/protocols/crypto/token-generator';
+import { LoadAccountByEmailRepository } from '../../../../../bin/protocols/repositories/account/load-account-by-email-repository';
 
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub

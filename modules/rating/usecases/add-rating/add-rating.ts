@@ -1,10 +1,11 @@
 export interface AddRatingModel {
-  ratingType: string;
+  ratingFor: string;
   ratings: RatingStars[];
 }
 export interface RatingStars {
   obs: string;
   stars: number;
+  ratingType: string;
 }
 
 export interface AddRating {

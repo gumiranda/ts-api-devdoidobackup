@@ -1,11 +1,9 @@
 import { DbAddAccount } from './db-add-account';
-import {
-  Encrypter,
-  AddAccountModel,
-  AccountModel,
-  AddAccountRepository,
-} from './db-add-account-protocols';
-import { LoadAccountByEmailRepository } from '../auth/db-authentication-protocols';
+import { Encrypter } from '../../../../../bin/protocols/crypto/encrypter';
+import { AccountModel } from '../../../models/account-model';
+import { AddAccountModel } from '../add-account';
+import { AddAccountRepository } from '../../../../../bin/protocols/repositories/account/add-account-repository';
+import { LoadAccountByEmailRepository } from '../../../../../bin/protocols/repositories/account/load-account-by-email-repository';
 
 const makeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {

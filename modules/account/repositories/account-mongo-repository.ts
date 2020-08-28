@@ -1,8 +1,8 @@
-import { AddAccountRepository } from '../../../bin/protocols/repositories/add-account-repository';
+import { AddAccountRepository } from '../../../bin/protocols/repositories/account/add-account-repository';
 import { MongoHelper } from '../../../bin/helpers/db/mongo/mongo-helper';
 import { AddAccountModel } from '../usecases/add-account/add-account';
-import { LoadAccountByEmailRepository } from '../../../bin/usecases/auth/db-authentication-protocols';
 import { AccountModel } from '../models/account-model';
+import { LoadAccountByEmailRepository } from '../../../bin/protocols/repositories/account/load-account-by-email-repository';
 export class AccountMongoRepository
   implements AddAccountRepository, LoadAccountByEmailRepository {
   async loadByEmail(email: string): Promise<AccountModel> {
