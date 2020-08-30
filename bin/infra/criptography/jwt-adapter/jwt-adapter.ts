@@ -10,8 +10,8 @@ export class JwtAdapter implements TokenGenerator, TokenDecrypter {
     const value: any = await jwt.verify(token, this.secret);
     return value;
   }
-  async generate(id: string): Promise<string> {
-    const accessToken = await jwt.sign({ id }, this.secret);
+  async generate(_id: string): Promise<string> {
+    const accessToken = await jwt.sign({ _id }, this.secret);
     return accessToken;
   }
 }

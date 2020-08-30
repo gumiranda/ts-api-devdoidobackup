@@ -23,7 +23,7 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'valid_password',
 });
 const makeFakeRequest = (): HttpRequest => ({
-  headers: { Authorization: 'Bearer any_token' },
+  headers: { authorization: 'Bearer any_token' },
 });
 const makeSut = (role?: string): SutTypes => {
   const loadAccountByTokenStub = makeLoadAccountByToken();
@@ -34,7 +34,7 @@ const makeSut = (role?: string): SutTypes => {
   };
 };
 describe('auth middleware', () => {
-  test('should return 403 if no Authorization exists in headers', async () => {
+  test('should return 403 if no authorization exists in headers', async () => {
     const role = 'any_role';
     const { sut } = makeSut(role);
     const httpResponse = await sut.handle({});

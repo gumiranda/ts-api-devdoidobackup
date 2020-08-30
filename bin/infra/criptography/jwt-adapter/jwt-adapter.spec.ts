@@ -17,7 +17,7 @@ describe('jwt geral', () => {
       const sut = makeSut();
       const signSpy = jest.spyOn(jwt, 'sign');
       await sut.generate('any_id');
-      expect(signSpy).toHaveBeenCalledWith({ id: 'any_id' }, 'secret');
+      expect(signSpy).toHaveBeenCalledWith({ _id: 'any_id' }, 'secret');
     });
     test('should return a token on sign success', async () => {
       const sut = makeSut();
