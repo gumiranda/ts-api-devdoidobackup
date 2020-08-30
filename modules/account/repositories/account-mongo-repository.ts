@@ -3,8 +3,18 @@ import { MongoHelper } from '../../../bin/helpers/db/mongo/mongo-helper';
 import { AddAccountModel } from '../usecases/add-account/add-account';
 import { AccountModel } from '../models/account-model';
 import { LoadAccountByEmailRepository } from './protocols/load-account-by-email-repository';
+import { LoadAccountByTokenRepository } from './protocols/load-account-by-token-repository';
 export class AccountMongoRepository
-  implements AddAccountRepository, LoadAccountByEmailRepository {
+  implements
+    AddAccountRepository,
+    LoadAccountByEmailRepository,
+    LoadAccountByTokenRepository {
+  async loadByToken(token: string, role?: string): Promise<AccountModel> {
+    const accountCollection = await MongoHelper.getCollection('accounts');
+    const result = await accountCollection.findOne({ token });
+    return result;
+  }
+
   async loadByEmail(email: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const result = await accountCollection.findOne({ email });
