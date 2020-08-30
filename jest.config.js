@@ -2,6 +2,7 @@ module.exports = {
   bail: 1,
   clearMocks: true,
   collectCoverage: true,
+  setupFiles: ['dotenv/config'],
   roots: ['<rootDir>/bin', '<rootDir>/modules'],
   collectCoverageFrom: ['<rootDir>/bin/**/*.ts', '<rootDir>/modules/**/*.ts'],
   //collectCoverageFrom: ['modules/**/*.js'],
