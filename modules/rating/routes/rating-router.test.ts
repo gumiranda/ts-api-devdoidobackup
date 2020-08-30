@@ -17,7 +17,7 @@ describe('POST /add', () => {
     await accountCollection.deleteMany({});
   });
 
-  test('Should return 200 an rating on success', async () => {
+  test('Should return 403 an rating without accessToken', async () => {
     await request(app)
       .post('/api/rating/add')
       .send({
@@ -26,6 +26,6 @@ describe('POST /add', () => {
           { ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 },
         ],
       })
-      .expect(204);
+      .expect(403);
   });
 });

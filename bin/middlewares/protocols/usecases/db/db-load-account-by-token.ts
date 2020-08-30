@@ -2,7 +2,6 @@ import { LoadAccountByToken } from '../load-account-by-token';
 import { AccountModel } from '../../../../../modules/account/models/account-model';
 import { TokenDecrypter } from '../../../../protocols/crypto/token-decrypter';
 import { LoadAccountByTokenRepository } from '../../../../../modules/account/repositories/protocols/load-account-by-token-repository';
-import { serverError } from '../../../../helpers/http-helper';
 
 export class DbLoadAccountByToken implements LoadAccountByToken {
   constructor(
