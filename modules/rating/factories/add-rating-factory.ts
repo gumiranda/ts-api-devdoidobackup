@@ -6,9 +6,8 @@ import { makeDbAddRating } from '../../../bin/patterns/factories/usecases/add-ra
 
 export const makeAddRatingController = (): Controller => {
   const requiredFields = ['ratingFor', 'ratings'];
-  const validationComposite = makeValidationComposite(requiredFields);
   const addRatingController = new AddRatingController(
-    validationComposite,
+    makeValidationComposite(requiredFields),
     makeDbAddRating(),
   );
   return makeLogControllerDecorator(addRatingController);

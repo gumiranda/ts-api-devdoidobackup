@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import variables from '../bin/configuration/variables';
-import usuario from '../modules/user/models/user-model';
+import variables from '../configuration/variables';
+import usuario from '../../modules/user/models/user-model';
 import { Response, NextFunction } from 'express';
 
 export const auth = async (

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import controller from '../controllers/notification-controller';
-import { auth } from '../../../middlewares/authentication';
+import { auth } from '../../../bin/middlewares/authentication';
 
 const _ctrl = new controller();
 export default (router: Router): void => {

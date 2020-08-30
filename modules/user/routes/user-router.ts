@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import controller from '../controllers/user-controller';
-import { auth } from '../../../middlewares/authentication';
+import { auth } from '../../../bin/middlewares/authentication';
 
 const _ctrl = new controller();
 export default (router: Router): void => {
