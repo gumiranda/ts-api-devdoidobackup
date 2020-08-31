@@ -4,6 +4,7 @@ import {
   badRequest,
   serverError,
   noContent,
+  ok,
 } from '../../../../bin/helpers/http-helper';
 import { LoadRating } from '../../usecases/load-rating/load-rating';
 import MockDate from 'mockdate';
@@ -55,5 +56,20 @@ describe('LoadRating Controller', () => {
     const loadSpy = jest.spyOn(loadRatingStub, 'load');
     await sut.handle({});
     expect(loadSpy).toHaveBeenCalledWith();
+  });
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(ok(makeFakeRating()));
+  });
+  test('should return 500 if AddRating throws', async () => {
+    const { sut, loadRatingStub } = makeSut();
+    jest
+      .spyOn(loadRatingStub, 'load')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(serverError(new Error()));
   });
 });
