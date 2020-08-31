@@ -42,13 +42,14 @@ const makeFakeRequest = (): HttpRequest => ({
     email: 'any_email@mail.com',
     password: 'any_password',
     passwordConfirmation: 'any_password',
+    role: 'client',
   },
 });
-interface SutTypes {
+type SutTypes = {
   sut: SignUpController;
   addAccountStub: AddAccount;
   validationStub: Validation;
-}
+};
 
 const makeSut = (): SutTypes => {
   const addAccountStub = makeAddAccount();
@@ -88,6 +89,7 @@ describe('SignUp Controller', () => {
       name: 'any_name',
       email: 'any_email@mail.com',
       password: 'any_password',
+      role: 'client',
     });
   });
   test('Should call Validation with correct values', async () => {

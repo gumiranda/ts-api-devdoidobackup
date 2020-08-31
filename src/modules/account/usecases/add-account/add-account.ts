@@ -1,12 +1,7 @@
 import { AccountModel } from '../../models/account-model';
 
-export interface AddAccountModel {
-  name: string;
-  email: string;
-  password: string;
-  role?: string;
-}
+export type AddAccountModel = Omit<AccountModel, '_id'>;
 
-export interface AddAccount {
+export type AddAccount = {
   add(account: AddAccountModel): Promise<AccountModel>;
-}
+};

@@ -1,14 +1,12 @@
-export interface AddRatingModel {
-  ratingFor: string;
-  ratings: RatingStars[];
-  date: Date;
-}
-export interface RatingStars {
+import { RatingModel } from '../../models/rating';
+
+export type AddRatingModel = Omit<RatingModel, '_id'>;
+export type RatingStars = {
   obs: string;
   stars: number;
   ratingType: string;
-}
+};
 
-export interface AddRating {
+export type AddRating = {
   add(data: AddRatingModel): Promise<void>;
-}
+};

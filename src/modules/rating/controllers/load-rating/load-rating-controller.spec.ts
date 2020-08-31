@@ -9,10 +9,10 @@ import {
 import { LoadRating } from '../../usecases/load-rating/load-rating';
 import MockDate from 'mockdate';
 import { RatingModel } from '../../models/rating';
-interface SutTypes {
+type SutTypes = {
   sut: LoadRatingController;
   loadRatingStub: LoadRating;
-}
+};
 const makeLoadRating = (): LoadRating => {
   class LoadRatingStub implements LoadRating {
     async load(): Promise<RatingModel[]> {

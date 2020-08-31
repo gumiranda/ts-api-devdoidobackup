@@ -3,10 +3,10 @@ import { AddRatingModel } from '../add-rating';
 import { AddRatingRepository } from '../../../repositories/protocols/add-rating-repository';
 import MockDate from 'mockdate';
 
-interface SutTypes {
+type SutTypes = {
   sut: DbAddRating;
   addRatingStub: AddRatingRepository;
-}
+};
 const makeFakeRatingData = () => ({
   ratingFor: 'any_entity',
   date: new Date(),

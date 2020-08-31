@@ -7,11 +7,11 @@ import {
   AddRating,
   AddRatingModel,
 } from '../../usecases/add-rating/add-rating';
-interface SutTypes {
+type SutTypes = {
   sut: AddRatingController;
   addRatingStub: AddRating;
   validatorStub: Validation;
-}
+};
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
     validate(input: any): Error[] {

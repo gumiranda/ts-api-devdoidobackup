@@ -35,12 +35,12 @@ const makeTokenGenerator = (): TokenGenerator => {
   }
   return new TokenGeneratorStub();
 };
-interface SutTypes {
+type SutTypes = {
   sut: DbAuthentication;
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
   hashComparerStub: HashComparer;
   tokenGeneratorStub: TokenGenerator;
-}
+};
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();

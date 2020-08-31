@@ -1,5 +1,5 @@
-export interface AddNotificationModel {
+export type AddNotificationModel = {
   content: string;
   userFor: string;
   userBy: string;
-}
+};

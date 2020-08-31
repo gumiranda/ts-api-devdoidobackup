@@ -1,11 +1,11 @@
-export interface RatingModel {
+export type RatingModel = {
   _id: string;
   ratingFor: string;
   ratings: RatingStarsModel[];
   date: Date;
-}
-export interface RatingStarsModel {
+};
+export type RatingStarsModel = {
   obs: string;
   stars: number;
   ratingType: string;
-}
+};

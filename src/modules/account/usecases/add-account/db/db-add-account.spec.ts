@@ -33,12 +33,12 @@ const makeAddAccountRepository = (): AddAccountRepository => {
   return new AddAccountRepositoryStub();
 };
 
-interface SutTypes {
+type SutTypes = {
   sut: DbAddAccount;
   encrypterStub: Encrypter;
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
   addAccountRepositoryStub: AddAccountRepository;
-}
+};
 
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub

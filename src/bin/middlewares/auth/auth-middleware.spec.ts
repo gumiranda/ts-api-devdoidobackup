@@ -12,10 +12,10 @@ const makeLoadAccountByToken = (): LoadAccountByToken => {
   }
   return new LoadAccountByTokenStub();
 };
-interface SutTypes {
+type SutTypes = {
   sut: AuthMiddleware;
   loadAccountByTokenStub: LoadAccountByToken;
-}
+};
 const makeFakeAccount = (): AccountModel => ({
   _id: 'valid_id',
   name: 'valid_name',

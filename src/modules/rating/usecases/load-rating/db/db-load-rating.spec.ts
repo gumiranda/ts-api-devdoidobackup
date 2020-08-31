@@ -2,10 +2,10 @@ import { DbLoadRating } from './db-load-rating';
 import MockDate from 'mockdate';
 import { RatingModel } from '../../../models/rating';
 import { LoadRatingRepository } from '../../../repositories/protocols/load-rating-repository';
-interface SutTypes {
+type SutTypes = {
   sut: DbLoadRating;
   loadRatingStub: LoadRatingRepository;
-}
+};
 const makeFakeRating = (): RatingModel[] => {
   return [
     {

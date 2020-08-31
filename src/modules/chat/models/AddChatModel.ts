@@ -1,4 +1,4 @@
-export interface AddChatModel {
+export type AddChatModel = {
   userDest: string;
   userRemet: string;
-}
+};

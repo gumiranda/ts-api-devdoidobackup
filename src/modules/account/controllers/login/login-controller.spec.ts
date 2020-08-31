@@ -4,11 +4,11 @@ import { LoginController } from './login-controller';
 import { Authentication } from '../../usecases/auth/authentication';
 import { Validation } from '@/bin/helpers/validators/validation';
 
-interface SutTypes {
+type SutTypes = {
   sut: LoginController;
   validatorStub: Validation;
   authenticationStub: Authentication;
-}
+};
 
 const makeSut = (): SutTypes => {
   const validatorStub = makeValidation();
