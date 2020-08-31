@@ -5,8 +5,10 @@ import { LoadRatingRepository } from './protocols/load-rating-repository';
 import { RatingModel } from '../models/rating';
 export class RatingMongoRepository
   implements AddRatingRepository, LoadRatingRepository {
-  loadAll(): Promise<RatingModel[]> {
-    throw new Error('Method not implemented.');
+  async loadAll(): Promise<RatingModel[]> {
+    const ratingCollection = await MongoHelper.getCollection('ratings');
+    const ratings: RatingModel[] = await ratingCollection.find().toArray();
+    return ratings;
   }
   async add(ratingData: AddRatingModel): Promise<void> {
     const ratingCollection = await MongoHelper.getCollection('ratings');
