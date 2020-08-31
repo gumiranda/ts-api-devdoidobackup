@@ -14,7 +14,7 @@ export class LoadRatingController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const ratings = await this.loadRating.load();
-      return ok(ratings);
+      return ratings.length ? ok(ratings) : noContent();
     } catch (error) {
       return serverError(error);
     }

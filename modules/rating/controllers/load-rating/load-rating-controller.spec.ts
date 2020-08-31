@@ -62,6 +62,14 @@ describe('LoadRating Controller', () => {
     const httpResponse = await sut.handle({});
     expect(httpResponse).toEqual(ok(makeFakeRating()));
   });
+  test('should return 204 if LoadRatings returns noContent', async () => {
+    const { sut, loadRatingStub } = makeSut();
+    jest
+      .spyOn(loadRatingStub, 'load')
+      .mockReturnValueOnce(new Promise((resolve) => resolve([])));
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(noContent());
+  });
   test('should return 500 if AddRating throws', async () => {
     const { sut, loadRatingStub } = makeSut();
     jest
