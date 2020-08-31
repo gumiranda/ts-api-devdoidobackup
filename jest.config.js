@@ -3,16 +3,18 @@ module.exports = {
   clearMocks: true,
   collectCoverage: true,
   setupFiles: ['dotenv/config'],
-  roots: ['<rootDir>/bin', '<rootDir>/modules'],
-  collectCoverageFrom: ['<rootDir>/bin/**/*.ts', '<rootDir>/modules/**/*.ts'],
-  //collectCoverageFrom: ['modules/**/*.js'],
+  roots: ['<rootDir>/src'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
   coverageDirectory: 'coverage',
-  //coverageProvider: 'v8',
-  //coverageReporters: ['text', 'lcov'],
+  // coverageProvider: 'v8',
+  // coverageReporters: ['text', 'lcov'],
   preset: '@shelf/jest-mongodb',
   testEnvironment: 'node',
   transform: {
     '.+\\.ts$': 'ts-jest',
+  },
+  moduleNameMapper: {
+    '@/(.*)': '<rootDir>/src/$1',
   },
   // testMatch: ['**/__tests__/**/*.test.js'],
 };

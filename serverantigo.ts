@@ -3,7 +3,7 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import variables from './bin/configuration/variables';
+import variables from '@/bin/configuration/variables';
 import helmet from 'helmet';
 
 // EXPRESS BRUTE FORCE
@@ -16,10 +16,10 @@ import rateLimit from 'express-rate-limit';
 import rateLimitStore from '@lykmapipo/rate-limit-mongoose';
 
 // ROTAS
-import userRouter from './modules/user/routes/user-router';
-import cardRouter from './modules/payment/routes/card-router';
-import chatRouter from './modules/chat/routes/chat-router';
-import transactionRouter from './modules/payment/routes/transaction-router';
+import userRouter from '@/modules/user/routes/user-router';
+import cardRouter from '@/modules/payment/routes/card-router';
+import chatRouter from '@/modules/chat/routes/chat-router';
+import transactionRouter from '@/modules/payment/routes/transaction-router';
 
 const app = express();
 const server = require('http').Server(app);

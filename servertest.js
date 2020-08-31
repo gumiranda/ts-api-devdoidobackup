@@ -2,10 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 // ROTAS
-const userRouter = require('./modules/user/routes/user-router');
-const cardRouter = require('./modules/payment/routes/card-router');
-const transactionRouter = require('./modules/payment/routes/transaction-router');
-const chatRouter = require('./modules/chat/routes/chat-router');
+const userRouter = require('@/modules/user/routes/user-router');
+const cardRouter = require('@/modules/payment/routes/card-router');
+const transactionRouter = require('@/modules/payment/routes/transaction-router');
+const chatRouter = require('@/modules/chat/routes/chat-router');
 
 const app = express();
 

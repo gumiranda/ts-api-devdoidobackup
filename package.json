@@ -4,8 +4,8 @@
   "description": "Um bom projeto",
   "main": "index.js",
   "scripts": {
-    "startAlternativo": "sucrase-node server.ts",
-    "build": "rimraf dist && tsc",
+    "startAlternativo": "sucrase-node src/server.ts",
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
     "build:watch": "tsc -w",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/server.js",
     "up": "yarn build && docker-compose up -d",
@@ -80,5 +80,11 @@
     "supertest": "^4.0.2",
     "ts-jest": "^26.0.0",
     "typescript": "^3.9.3"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "_moduleAliases": {
+    "@": "dist"
   }
 }
