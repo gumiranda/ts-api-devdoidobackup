@@ -44,7 +44,7 @@ describe('DbLoadRating', () => {
   beforeAll(() => {
     MockDate.set(new Date());
   });
-  beforeAll(() => {
+  afterAll(() => {
     MockDate.reset();
   });
   test('should call LoadRatingRepository with correct values', async () => {
@@ -52,6 +52,11 @@ describe('DbLoadRating', () => {
     const loadRatingSpy = jest.spyOn(loadRatingStub, 'loadAll');
     await sut.load();
     expect(loadRatingSpy).toHaveBeenCalledWith();
+  });
+  test('should return a list of ratings on success', async () => {
+    const { sut } = makeSut();
+    const ratings = await sut.load();
+    expect(ratings).toEqual(makeFakeRating());
   });
   test('should throw if LoadRatingRepository throws', async () => {
     const { sut, loadRatingStub } = makeSut();
