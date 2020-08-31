@@ -1,9 +1,10 @@
 import { RatingMongoRepository } from './rating-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection } from 'mongodb';
+import { AddRatingModel } from '../usecases/add-rating/add-rating';
 import { RatingModel } from '../models/rating';
 let ratingCollection: Collection;
-const makeFakeRating = (): RatingModel[] => {
+const makeFakeRatings = (): RatingModel[] => {
   return [
     {
       ratingFor: 'any_entity',
@@ -21,6 +22,11 @@ const makeFakeRating = (): RatingModel[] => {
     },
   ];
 };
+const makeFakeRating = (): AddRatingModel => ({
+  ratingFor: 'any_entity',
+  date: new Date(),
+  ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
+});
 describe('Rating Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
@@ -53,11 +59,18 @@ describe('Rating Mongo Repository', () => {
   });
   test('Should return an rating list load success', async () => {
     const sut = makeSut();
-    await ratingCollection.insertMany(makeFakeRating());
+    await ratingCollection.insertMany(makeFakeRatings());
     const ratings = await sut.loadAll();
     expect(ratings.length).toBe(2);
     expect(ratings[0].ratingFor).toBe('any_entity');
     expect(ratings[1].ratingFor).toBe('other_entity');
+  });
+  test('Should return an rating by id load success', async () => {
+    const sut = makeSut();
+    const { ops } = await ratingCollection.insertOne(makeFakeRating());
+    const { _id } = ops[0];
+    const rating = await sut.loadById(_id);
+    expect(rating._id).toEqual(_id);
   });
   test('Should return an empty list load success', async () => {
     const sut = makeSut();
