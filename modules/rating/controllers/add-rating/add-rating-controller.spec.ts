@@ -6,11 +6,11 @@ import {
   serverError,
   noContent,
 } from '../../../../bin/helpers/http-helper';
+import MockDate from 'mockdate';
 import {
-  AddRatingModel,
   AddRating,
+  AddRatingModel,
 } from '../../usecases/add-rating/add-rating';
-
 interface SutTypes {
   sut: AddRatingController;
   addRatingStub: AddRating;
@@ -41,10 +41,17 @@ const makeSut = (): SutTypes => {
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     ratingFor: 'any_entity',
+    date: new Date(),
     ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
   },
 });
 describe('AddRating Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+  afterAll(() => {
+    MockDate.reset();
+  });
   test('should call Validation with correct values', async () => {
     const { sut, validatorStub } = makeSut();
     const validatorSpy = jest.spyOn(validatorStub, 'validate');

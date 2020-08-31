@@ -20,7 +20,7 @@ export class AddRatingController implements Controller {
         return badRequest(errors);
       }
       const { ratingFor, ratings } = httpRequest.body;
-      await this.addRating.add({ ratingFor, ratings });
+      await this.addRating.add({ ratingFor, ratings, date: new Date() });
       return noContent();
     } catch (error) {
       return serverError(error);

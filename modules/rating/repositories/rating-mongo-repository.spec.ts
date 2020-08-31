@@ -23,6 +23,7 @@ describe('Rating Mongo Repository', () => {
     const sut = makeSut();
     await sut.add({
       ratingFor: 'any_entity',
+      date: new Date(),
       ratings: [
         { ratingType: 'any_type', obs: 'any_email@mail.com', stars: 3 },
         { ratingType: 'any_type', obs: 'any_email@mail.com', stars: 4 },

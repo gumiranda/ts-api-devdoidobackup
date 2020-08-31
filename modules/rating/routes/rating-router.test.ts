@@ -46,6 +46,7 @@ describe('POST /add', () => {
       .post('/api/rating/add')
       .send({
         ratingFor: 'any_entity',
+        //date: new Date(),
         ratings: [
           { ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 },
         ],

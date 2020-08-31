@@ -1,12 +1,15 @@
 import { DbAddRating } from './db-add-rating';
 import { AddRatingModel } from '../add-rating';
 import { AddRatingRepository } from '../../../repositories/protocols/add-rating-repository';
+import MockDate from 'mockdate';
+
 interface SutTypes {
   sut: DbAddRating;
   addRatingStub: AddRatingRepository;
 }
 const makeFakeRatingData = () => ({
   ratingFor: 'any_entity',
+  date: new Date(),
   ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
 });
 const makeAddRatingRepository = (): AddRatingRepository => {
@@ -26,6 +29,12 @@ const makeSut = (): SutTypes => {
   };
 };
 describe('DbAddRating', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+  beforeAll(() => {
+    MockDate.reset();
+  });
   test('should call AddRatingRepository with correct values', async () => {
     const { sut, addRatingStub } = makeSut();
     const ratingData = makeFakeRatingData();
