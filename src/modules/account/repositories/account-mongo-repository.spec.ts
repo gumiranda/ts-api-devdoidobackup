@@ -53,22 +53,7 @@ describe('Account Mongo Repository', () => {
     const account = await sut.loadByEmail('any_email@mail.com');
     expect(account).toBeFalsy();
   });
-  test('Should return an account loadByToken success without role', async () => {
-    const sut = makeSut();
-    const userAdd = {
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password',
-    };
-    const { ops } = await accountCollection.insertOne(userAdd);
-    const { _id } = ops[0];
-    const token = await jwt.sign({ _id }, variables.Security.secretKey);
-    const account = await sut.loadByToken(token);
-    expect(account).toBeTruthy();
-    expect(account._id).toBeTruthy();
-    expect(account.name).toBe('any_name');
-    expect(account.email).toBe('any_email@mail.com');
-  });
+
   test('Should return an account loadByToken success with role', async () => {
     const sut = makeSut();
     const userAdd = {
@@ -92,7 +77,7 @@ describe('Account Mongo Repository', () => {
       { _id: new ObjectId() },
       variables.Security.secretKey,
     );
-    const account = await sut.loadByToken(token);
+    const account = await sut.loadByToken(token, 'any_role');
     expect(account).toBeFalsy();
   });
 });

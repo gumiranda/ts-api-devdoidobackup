@@ -12,14 +12,15 @@ export class AccountMongoRepository
     AddAccountRepository,
     LoadAccountByEmailRepository,
     LoadAccountByTokenRepository {
-  async loadByToken(token: string, role?: string): Promise<AccountModel> {
+  async loadByToken(token: string, role: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const decoded: any = await jwt.verify(token, variables.Security.secretKey);
     const { _id } = decoded;
-    const result = await accountCollection.findOne({
-      _id: new ObjectId(_id),
-      role,
-    });
+    let query: any = { _id: new ObjectId(_id) };
+    if (role) {
+      query.role = role;
+    }
+    const result = await accountCollection.findOne(query);
     return result && MongoHelper.mapPassword(result);
   }
 

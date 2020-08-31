@@ -1,8 +1,6 @@
 import { Router } from 'express';
 import { makeAddRatingController } from '../factories/add-rating-factory';
 import { adaptRoute } from '@/bin/configuration/adapters/express-route-adapter';
-import { makeAuthMiddleware } from '@/bin/patterns/factories/middlewares/auth-middleware-factory';
-import { adaptMiddleware } from '@/bin/configuration/adapters/express-middleware-adapter';
 import { makeLoadRatingsController } from '../factories/load-rating-factory';
 import { adminAuth } from '@/bin/middlewares/admin-auth';
 import { auth } from '@/bin/middlewares/auth';

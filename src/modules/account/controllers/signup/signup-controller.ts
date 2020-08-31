@@ -24,6 +24,9 @@ export class SignUpController implements Controller {
       if (errors?.length > 0) {
         return badRequest(errors);
       }
+      if (!httpRequest.body.role) {
+        httpRequest.body.role = 'client';
+      }
       const { name, email, password, role } = httpRequest.body;
       const account = await this.addAccount.add({
         name,
