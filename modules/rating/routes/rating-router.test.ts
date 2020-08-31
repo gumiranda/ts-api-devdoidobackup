@@ -6,7 +6,7 @@ import { sign } from 'jsonwebtoken';
 import variables from '../../../bin/configuration/variables';
 let accountCollection: Collection;
 let ratingCollection: Collection;
-describe('POST /add', () => {
+describe('POST /', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
   });
@@ -24,7 +24,7 @@ describe('POST /add', () => {
 
   test('Should return 403 an rating without accessToken', async () => {
     await request(app)
-      .post('/api/rating/add')
+      .post('/api/rating')
       .send({
         ratingFor: 'any_entity',
         ratings: [
@@ -43,7 +43,7 @@ describe('POST /add', () => {
     const _id = res.ops[0]._id;
     const accessToken = sign({ _id }, variables.Security.secretKey);
     await request(app)
-      .post('/api/rating/add')
+      .post('/api/rating')
       .send({
         ratingFor: 'any_entity',
         //date: new Date(),
@@ -53,5 +53,11 @@ describe('POST /add', () => {
       })
       .set('Authorization', 'Bearer ' + accessToken)
       .expect(204);
+  });
+
+  describe('GET /', () => {
+    test('Should return 403 an rating without accessToken', async () => {
+      await request(app).get('/api/rating').expect(403);
+    });
   });
 });
