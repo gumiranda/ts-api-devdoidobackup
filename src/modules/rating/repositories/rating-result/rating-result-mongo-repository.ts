@@ -11,6 +11,7 @@ export class RatingResultMongoRepository implements SaveRatingResultRepository {
     const ratingResultCollection = await MongoHelper.getCollection(
       'ratingResults',
     );
+
     const rest = await ratingResultCollection.findOneAndUpdate(
       {
         ratingId,
