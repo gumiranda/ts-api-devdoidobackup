@@ -1,8 +1,8 @@
-import MockDate from 'mockdate';
 import { DbSaveRatingResult } from './db-save-rating-result';
-import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating/protocols/save-rating-result-repository';
 import { SaveRatingResultModel } from '../save-rating-result';
 import { RatingResultModel } from '@/modules/rating/models/rating-result';
+import MockDate from 'mockdate';
+import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/save-rating-result-repository';
 
 type SutTypes = {
   sut: DbSaveRatingResult;
@@ -38,7 +38,7 @@ describe('DbSaveRatingResult', () => {
   beforeAll(() => {
     MockDate.set(new Date());
   });
-  beforeAll(() => {
+  afterAll(() => {
     MockDate.reset();
   });
   test('should call SaveRatingResultRepository with correct values', async () => {

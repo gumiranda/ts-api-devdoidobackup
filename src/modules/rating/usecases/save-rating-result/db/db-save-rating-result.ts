@@ -1,6 +1,6 @@
 import { SaveRatingResult, SaveRatingResultModel } from '../save-rating-result';
-import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating/protocols/save-rating-result-repository';
 import { RatingResultModel } from '@/modules/rating/models/rating-result';
+import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/save-rating-result-repository';
 
 export class DbSaveRatingResult implements SaveRatingResult {
   constructor(

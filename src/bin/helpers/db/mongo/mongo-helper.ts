@@ -36,4 +36,7 @@ export const MongoHelper = {
     const { password, ...collectionWithoutPassword } = collection;
     return collectionWithoutPassword;
   },
+  mapCollectionPassword: (collection: any[]): any[] => {
+    return collection.map((c) => MongoHelper.mapPassword(c));
+  },
 };
