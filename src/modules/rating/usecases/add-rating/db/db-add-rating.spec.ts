@@ -1,6 +1,6 @@
 import { DbAddRating } from './db-add-rating';
 import { AddRatingModel } from '../add-rating';
-import { AddRatingRepository } from '../../../repositories/protocols/add-rating-repository';
+import { AddRatingRepository } from '../../../repositories/rating/protocols/add-rating-repository';
 import MockDate from 'mockdate';
 
 type SutTypes = {

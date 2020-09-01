@@ -1,6 +1,6 @@
 import MockDate from 'mockdate';
 import { DbSaveRatingResult } from './db-save-rating-result';
-import { SaveRatingResultRepository } from '@/modules/rating/repositories/protocols/save-rating-result-repository';
+import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating/protocols/save-rating-result-repository';
 import { SaveRatingResultModel } from '../save-rating-result';
 import { RatingResultModel } from '@/modules/rating/models/rating-result';
 

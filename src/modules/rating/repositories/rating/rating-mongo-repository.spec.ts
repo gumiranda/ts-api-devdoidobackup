@@ -1,8 +1,8 @@
 import { RatingMongoRepository } from './rating-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection } from 'mongodb';
-import { AddRatingModel } from '../usecases/add-rating/add-rating';
-import { RatingModel } from '../models/rating';
+import { AddRatingModel } from '../../usecases/add-rating/add-rating';
+import { RatingModel } from '../../models/rating';
 let ratingCollection: Collection;
 const makeFakeRatings = (): RatingModel[] => {
   return [
@@ -70,6 +70,7 @@ describe('Rating Mongo Repository', () => {
     const { ops } = await ratingCollection.insertOne(makeFakeRating());
     const { _id } = ops[0];
     const rating = await sut.loadById(_id);
+    expect(rating).toBeTruthy();
     expect(rating._id).toEqual(_id);
   });
   test('Should return an empty list load success', async () => {

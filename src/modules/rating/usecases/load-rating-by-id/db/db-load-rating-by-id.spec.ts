@@ -1,6 +1,6 @@
 import MockDate from 'mockdate';
 import { RatingModel } from '../../../models/rating';
-import { LoadRatingByIdRepository } from '@/modules/rating/repositories/protocols/load-rating-by-id-repository';
+import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-by-id-repository';
 import { DbLoadRatingById } from './db-load-rating-by-id';
 type SutTypes = {
   sut: DbLoadRatingById;

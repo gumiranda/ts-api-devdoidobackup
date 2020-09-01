@@ -1,5 +1,5 @@
 import { LoadRating } from '../load-rating';
-import { LoadRatingRepository } from '../../../repositories/protocols/load-rating-repository';
+import { LoadRatingRepository } from '../../../repositories/rating/protocols/load-rating-repository';
 import { RatingModel } from '../../../models/rating';
 
 export class DbLoadRating implements LoadRating {
