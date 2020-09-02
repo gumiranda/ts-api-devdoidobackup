@@ -2,7 +2,7 @@ import { SaveRatingResult } from '../../usecases/save-rating-result/save-rating-
 import { HttpRequest } from '@/bin/protocols/http';
 import { forbidden, serverError, ok } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
-import { SaveRatingResultController } from './save-result-result-controller';
+import { SaveRatingResultController } from './save-rating-result-controller';
 import { RatingResultModel } from '../../models/rating-result';
 import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
 import { RatingModel } from '../../models/rating';

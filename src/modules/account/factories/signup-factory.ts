@@ -1,6 +1,6 @@
 import { Controller } from '@/bin/protocols/controller';
 import { SignUpController } from '../controllers/signup/signup-controller';
-import { makeDbAddAccount } from '@/bin/patterns/factories/usecases/add-account/db-add-account-factory';
+import { makeDbAddAccount } from '@/bin/patterns/factories/usecases/account/add-account/db-add-account-factory';
 import { makeLogControllerDecorator } from '@/bin/patterns/factories/decorators/log-controller-decorator-factory';
 import { makeValidationComposite } from '@/bin/patterns/factories/usecases/validation/validation-factory';
 
