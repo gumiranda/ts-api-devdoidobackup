@@ -7,5 +7,7 @@ export type RatingModel = {
 export type RatingStarsModel = {
   obs: string;
   stars: number;
+  count: number;
+  percent: number;
   ratingType: string;
 };

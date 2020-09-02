@@ -29,14 +29,28 @@ export const makeFakeRatings = (): RatingModel[] => {
       ratingFor: 'any_entity',
       _id: 'any_id',
       date: new Date(),
-      ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
+      ratings: [
+        {
+          ratingType: 'any_ratingtype',
+          count: 1,
+          percent: 50,
+          obs: 'any_rating',
+          stars: 3,
+        },
+      ],
     },
     {
       ratingFor: 'other_entity',
       _id: 'other_id',
       date: new Date(),
       ratings: [
-        { ratingType: 'other_ratingtype', obs: 'other_rating', stars: 3 },
+        {
+          ratingType: 'other_ratingtype',
+          count: 1,
+          percent: 50,
+          obs: 'any_rating',
+          stars: 3,
+        },
       ],
     },
   ];
@@ -61,25 +75,49 @@ export const makeFakeRating = (): RatingModel => ({
   ratingFor: 'any_entity',
   _id: 'any_id',
   date: new Date(),
-  ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
+  ratings: [
+    {
+      ratingType: 'any_ratingtype',
+      count: 1,
+      percent: 50,
+      obs: 'any_rating',
+      stars: 3,
+    },
+  ],
 });
 export const makeFakeRatingWithIdFake = (): RatingModel => ({
   ratingFor: 'any_entity',
   _id: '5f4d46d97568f749c8f5a8e9',
   date: new Date(),
-  ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
+  ratings: [
+    {
+      ratingType: 'any_ratingtype',
+      count: 1,
+      percent: 50,
+      obs: 'any_rating',
+      stars: 3,
+    },
+  ],
 });
 export const makeFakeAddRating = (): Omit<RatingModel, '_id'> => ({
   ratingFor: 'any_entity',
   date: new Date(),
-  ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
+  ratings: [
+    {
+      ratingType: 'any_ratingtype',
+      count: 1,
+      percent: 50,
+      obs: 'any_rating',
+      stars: 3,
+    },
+  ],
 });
 export const makeFakeRatingResult = (): RatingResultModel => ({
   ratingId: 'any_rating_id',
   _id: 'any_id',
   accountId: 'any_account_id',
   date: new Date(),
-  result: 'result',
+  obs: 'any_rating',
 });
 
 export const makeFakeRatingResultData = (): Omit<RatingResultModel, '_id'> =>
@@ -107,7 +145,7 @@ export const makeFakeAddRatingResult = (
 ): Omit<RatingResultModel, '_id'> => ({
   ratingId,
   accountId,
-  result: 'result',
+  obs: 'any_rating',
   date: new Date(),
 });
 export const makeAddRatingRepository = (): AddRatingRepository => {

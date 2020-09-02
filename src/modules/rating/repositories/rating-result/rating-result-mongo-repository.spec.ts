@@ -8,6 +8,8 @@ import {
   makeFakeAddRatingResult,
   makeFakeAddRating,
 } from '@/bin/test/mock-rating';
+import { ObjectId } from 'mongodb';
+
 let ratingCollection: Collection;
 let ratingResultCollection: Collection;
 let accountCollection: Collection;
@@ -21,9 +23,9 @@ const makeRatingResult = async (
   accountId: string,
 ): Promise<RatingResultModel> => {
   const { ops } = await ratingResultCollection.insertOne({
-    ratingId,
-    accountId,
-    result: 'result',
+    accountId: new ObjectId(accountId),
+    ratingId: new ObjectId(ratingId),
+    obs: 'any_rating',
     date: new Date(),
   });
   return ops[0];
@@ -58,17 +60,8 @@ describe('RatingResult Mongo Repository', () => {
   const makeSut = (): RatingResultMongoRepository => {
     return new RatingResultMongoRepository();
   };
-  test('Should update result of rating ', async () => {
-    const rating: any = await makeRating();
-    const account: any = await makeAccount();
-    const sut = makeSut();
-    const ratingToSave = await makeFakeAddRatingResult(rating._id, account._id);
-    const ratingResult = await sut.save(ratingToSave);
-    expect(ratingResult).toBeTruthy();
-    expect(ratingResult._id).toBeTruthy();
-    expect(ratingResult.result).toBe('result');
-  });
-  test('Should return an rating save if its not new', async () => {
+
+  test('Should return an rating save', async () => {
     const rating: any = await makeRating();
     const account: any = await makeAccount();
     const ratingResultInserted = await makeRatingResult(
@@ -79,7 +72,6 @@ describe('RatingResult Mongo Repository', () => {
     const ratingToSave = await makeFakeAddRatingResult(rating._id, account._id);
     const ratingResult = await sut.save(ratingToSave);
     expect(ratingResult).toBeTruthy();
-    expect(ratingResult._id).toEqual(ratingResultInserted._id);
-    expect(ratingResult.result).toBe('result');
+    expect(ratingResult.ratingId).toEqual(ratingResultInserted.ratingId);
   });
 });
