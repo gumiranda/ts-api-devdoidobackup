@@ -4,16 +4,12 @@ import { app } from '@/bin/configuration/app';
 import { Collection } from 'mongodb';
 import { sign } from 'jsonwebtoken';
 import variables from '@/bin/configuration/variables';
-import { AddRatingModel } from '../usecases/add-rating/add-rating';
+import { makeFakeAddRating } from '@/bin/test/mock-rating';
 let accountCollection: Collection;
 let ratingCollection: Collection;
-const makeFakeRating = (): AddRatingModel => ({
-  ratingFor: 'any_entity',
-  date: new Date(),
-  ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
-});
+
 const makeInsertRating = async (): Promise<string> => {
-  const res = await ratingCollection.insertOne(makeFakeRating());
+  const res = await ratingCollection.insertOne(makeFakeAddRating());
   const _id = res.ops[0]._id;
   return _id.toString();
 };

@@ -3,6 +3,8 @@ import { serverError, ok, unauthorized } from '@/bin/helpers/http-helper';
 import { LoginController } from './login-controller';
 import { Authentication } from '../../usecases/auth/authentication';
 import { Validation } from '@/bin/helpers/validators/validation';
+import { makeAuthentication } from '@/bin/test/mock-auth';
+import { makeValidation } from '@/bin/test/mock-validation';
 
 type SutTypes = {
   sut: LoginController;
@@ -16,22 +18,7 @@ const makeSut = (): SutTypes => {
   const sut = new LoginController(validatorStub, authenticationStub);
   return { sut, validatorStub, authenticationStub };
 };
-const makeAuthentication = (): Authentication => {
-  class AuthenticationStub implements Authentication {
-    async auth(email: string, password: string): Promise<string> {
-      return new Promise((resolve) => resolve('any_token'));
-    }
-  }
-  return new AuthenticationStub();
-};
-const makeValidation = (): Validation => {
-  class ValidationStub implements Validation {
-    validate(input: any): Error[] {
-      return null;
-    }
-  }
-  return new ValidationStub();
-};
+
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     password: 'any_password',

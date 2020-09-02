@@ -4,42 +4,16 @@ import { RatingResultModel } from '../../models/rating-result';
 import { RatingResultMongoRepository } from './rating-result-mongo-repository';
 import { RatingModel } from '../../models/rating';
 import { AccountModel } from '@/modules/account/models/account-model';
+import {
+  makeFakeAddRatingResult,
+  makeFakeAddRating,
+} from '@/bin/test/mock-rating';
 let ratingCollection: Collection;
 let ratingResultCollection: Collection;
 let accountCollection: Collection;
-const makeFakeRatingResults = (): RatingResultModel[] => {
-  return [
-    {
-      ratingId: 'any_id',
-      accountId: 'any_account',
-      result: 'result',
-      _id: 'any_id',
-      date: new Date(),
-    },
-    {
-      ratingId: 'other_id',
-      accountId: 'other_account',
-      result: 'result',
-      _id: 'other_id',
-      date: new Date(),
-    },
-  ];
-};
-const makeFakeRatingResult = (
-  ratingId: string,
-  accountId: string,
-): Omit<RatingResultModel, '_id'> => ({
-  ratingId,
-  accountId,
-  result: 'result',
-  date: new Date(),
-});
+
 const makeRating = async (): Promise<RatingModel> => {
-  const { ops } = await ratingCollection.insertOne({
-    ratingFor: 'any_entity',
-    date: new Date(),
-    ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
-  });
+  const { ops } = await ratingCollection.insertOne(makeFakeAddRating());
   return ops[0];
 };
 const makeRatingResult = async (
@@ -88,7 +62,7 @@ describe('RatingResult Mongo Repository', () => {
     const rating: any = await makeRating();
     const account: any = await makeAccount();
     const sut = makeSut();
-    const ratingToSave = await makeFakeRatingResult(rating._id, account._id);
+    const ratingToSave = await makeFakeAddRatingResult(rating._id, account._id);
     const ratingResult = await sut.save(ratingToSave);
     expect(ratingResult).toBeTruthy();
     expect(ratingResult._id).toBeTruthy();
@@ -102,7 +76,7 @@ describe('RatingResult Mongo Repository', () => {
       account._id,
     );
     const sut = makeSut();
-    const ratingToSave = await makeFakeRatingResult(rating._id, account._id);
+    const ratingToSave = await makeFakeAddRatingResult(rating._id, account._id);
     const ratingResult = await sut.save(ratingToSave);
     expect(ratingResult).toBeTruthy();
     expect(ratingResult._id).toEqual(ratingResultInserted._id);

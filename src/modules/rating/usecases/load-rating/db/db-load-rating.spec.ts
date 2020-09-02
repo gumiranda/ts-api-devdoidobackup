@@ -1,37 +1,15 @@
 import { DbLoadRating } from './db-load-rating';
 import MockDate from 'mockdate';
-import { RatingModel } from '../../../models/rating';
 import { LoadRatingRepository } from '../../../repositories/rating/protocols/load-rating-repository';
+import {
+  makeFakeRatings,
+  makeLoadRatingRepository,
+} from '@/bin/test/mock-rating';
 type SutTypes = {
   sut: DbLoadRating;
   loadRatingStub: LoadRatingRepository;
 };
-const makeFakeRating = (): RatingModel[] => {
-  return [
-    {
-      ratingFor: 'any_entity',
-      _id: 'any_id',
-      date: new Date(),
-      ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
-    },
-    {
-      ratingFor: 'other_entity',
-      _id: 'other_id',
-      date: new Date(),
-      ratings: [
-        { ratingType: 'other_ratingtype', obs: 'other_rating', stars: 3 },
-      ],
-    },
-  ];
-};
-const makeLoadRatingRepository = (): LoadRatingRepository => {
-  class LoadRatingRepositoryStub implements LoadRatingRepository {
-    loadAll(): Promise<RatingModel[]> {
-      return new Promise((resolve) => resolve(makeFakeRating()));
-    }
-  }
-  return new LoadRatingRepositoryStub();
-};
+
 const makeSut = (): SutTypes => {
   const loadRatingStub = makeLoadRatingRepository();
   const sut = new DbLoadRating(loadRatingStub);
@@ -56,7 +34,7 @@ describe('DbLoadRating', () => {
   test('should return a list of ratings on success', async () => {
     const { sut } = makeSut();
     const ratings = await sut.load();
-    expect(ratings).toEqual(makeFakeRating());
+    expect(ratings).toEqual(makeFakeRatings());
   });
   test('should throw if LoadRatingRepository throws', async () => {
     const { sut, loadRatingStub } = makeSut();

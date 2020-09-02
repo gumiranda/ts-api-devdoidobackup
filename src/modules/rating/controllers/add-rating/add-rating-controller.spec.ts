@@ -3,31 +3,15 @@ import { Validation } from '@/bin/helpers/validators/validation';
 import { AddRatingController } from './add-rating-controller';
 import { badRequest, serverError, noContent } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
-import {
-  AddRating,
-  AddRatingModel,
-} from '../../usecases/add-rating/add-rating';
+import { AddRating } from '../../usecases/add-rating/add-rating';
+import { makeAddRating } from '@/bin/test/mock-rating';
+import { makeValidation } from '@/bin/test/mock-validation';
 type SutTypes = {
   sut: AddRatingController;
   addRatingStub: AddRating;
   validatorStub: Validation;
 };
-const makeValidation = (): Validation => {
-  class ValidationStub implements Validation {
-    validate(input: any): Error[] {
-      return null;
-    }
-  }
-  return new ValidationStub();
-};
-const makeAddRating = (): AddRating => {
-  class AddRatingStub implements AddRating {
-    async add(data: AddRatingModel): Promise<void> {
-      return new Promise((resolve) => resolve());
-    }
-  }
-  return new AddRatingStub();
-};
+
 const makeSut = (): SutTypes => {
   const validatorStub = makeValidation();
   const addRatingStub = makeAddRating();

@@ -1,25 +1,16 @@
 import { DbAddRating } from './db-add-rating';
-import { AddRatingModel } from '../add-rating';
 import { AddRatingRepository } from '../../../repositories/rating/protocols/add-rating-repository';
 import MockDate from 'mockdate';
+import {
+  makeAddRatingRepository,
+  makeFakeRating,
+} from '@/bin/test/mock-rating';
 
 type SutTypes = {
   sut: DbAddRating;
   addRatingStub: AddRatingRepository;
 };
-const makeFakeRatingData = () => ({
-  ratingFor: 'any_entity',
-  date: new Date(),
-  ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
-});
-const makeAddRatingRepository = (): AddRatingRepository => {
-  class AddRatingRepositoryStub implements AddRatingRepository {
-    add(ratingData: AddRatingModel): Promise<void> {
-      return new Promise((resolve) => resolve());
-    }
-  }
-  return new AddRatingRepositoryStub();
-};
+
 const makeSut = (): SutTypes => {
   const addRatingStub = makeAddRatingRepository();
   const sut = new DbAddRating(addRatingStub);
@@ -37,14 +28,14 @@ describe('DbAddRating', () => {
   });
   test('should call AddRatingRepository with correct values', async () => {
     const { sut, addRatingStub } = makeSut();
-    const ratingData = makeFakeRatingData();
+    const ratingData = makeFakeRating();
     const addRatingSpy = jest.spyOn(addRatingStub, 'add');
     await sut.add(ratingData);
     expect(addRatingSpy).toHaveBeenCalledWith(ratingData);
   });
   test('should throw if AddRatingRepository throws', async () => {
     const { sut, addRatingStub } = makeSut();
-    const ratingData = makeFakeRatingData();
+    const ratingData = makeFakeRating();
     jest
       .spyOn(addRatingStub, 'add')
       .mockReturnValueOnce(

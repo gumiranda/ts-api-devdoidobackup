@@ -1,31 +1,17 @@
 import { DbSaveRatingResult } from './db-save-rating-result';
-import { SaveRatingResultModel } from '../save-rating-result';
-import { RatingResultModel } from '@/modules/rating/models/rating-result';
 import MockDate from 'mockdate';
 import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/save-rating-result-repository';
+import {
+  makeFakeRatingResult,
+  makeFakeRatingResultData,
+  makeSaveRatingResultRepository,
+} from '@/bin/test/mock-rating';
 
 type SutTypes = {
   sut: DbSaveRatingResult;
   saveRatingStub: SaveRatingResultRepository;
 };
-const makeFakeRatingResult = (): RatingResultModel => ({
-  accountId: 'any_account_id',
-  ratingId: 'any_rating_id',
-  result: 'any_result',
-  _id: 'any_id',
-  date: new Date(),
-});
-const makeFakeRatingResultData = (): Omit<RatingResultModel, '_id'> =>
-  Object.assign({}, makeFakeRatingResult(), { _id: 'any_id' });
 
-const makeSaveRatingResultRepository = (): SaveRatingResultRepository => {
-  class SaveRatingResultRepositoryStub implements SaveRatingResultRepository {
-    save(data: SaveRatingResultModel): Promise<RatingResultModel> {
-      return new Promise((resolve) => resolve(makeFakeRatingResult()));
-    }
-  }
-  return new SaveRatingResultRepositoryStub();
-};
 const makeSut = (): SutTypes => {
   const saveRatingStub = makeSaveRatingResultRepository();
   const sut = new DbSaveRatingResult(saveRatingStub);

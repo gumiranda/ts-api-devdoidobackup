@@ -1,9 +1,9 @@
 import { Controller } from '../../protocols/controller';
 import { HttpRequest, HttpResponse } from '../../protocols/http';
-import { AccountModel } from '@/modules/account/models/account-model';
 import { serverError, ok } from '../../helpers/http-helper';
 import { LogControllerDecorator } from './log-controller-decorator';
 import { LogErrorRepository } from '../../protocols/repositories/log/log-error-repository';
+import { makeFakeAccount } from '@/bin/test/mock-account';
 
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
@@ -30,13 +30,6 @@ const makeFakeRequest = (): HttpRequest => ({
     password: 'any_password',
     passwordConfirmation: 'any_password',
   },
-});
-
-const makeFakeAccount = (): AccountModel => ({
-  _id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email@mail.com',
-  password: 'valid_password',
 });
 
 const makeFakeServerError = (): HttpResponse => {

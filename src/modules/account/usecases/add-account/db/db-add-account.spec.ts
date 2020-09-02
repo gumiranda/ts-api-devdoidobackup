@@ -1,37 +1,14 @@
 import { DbAddAccount } from './db-add-account';
 import { Encrypter } from '@/bin/protocols/crypto/encrypter';
-import { AccountModel } from '../../../models/account-model';
-import { AddAccountModel } from '../add-account';
 import { AddAccountRepository } from '../../../repositories/protocols/add-account-repository';
 import { LoadAccountByEmailRepository } from '../../../repositories/protocols/load-account-by-email-repository';
-
-const makeEncrypter = (): Encrypter => {
-  class EncrypterStub implements Encrypter {
-    async encrypt(value: string): Promise<string> {
-      return new Promise((resolve) => resolve('hashed_password'));
-    }
-  }
-  return new EncrypterStub();
-};
-const makeFakeAccount = (): AccountModel => ({
-  _id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email@mail.com',
-  password: 'hashed_password',
-});
-const makeFakeAccountData = (): AddAccountModel => ({
-  name: 'valid_name',
-  email: 'valid_email@mail.com',
-  password: 'valid_password',
-});
-const makeAddAccountRepository = (): AddAccountRepository => {
-  class AddAccountRepositoryStub implements AddAccountRepository {
-    async add(accountData: AddAccountModel): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
-    }
-  }
-  return new AddAccountRepositoryStub();
-};
+import {
+  makeAddAccountRepository,
+  makeLoadAccountByEmailRepository,
+  makeFakeAccountData,
+  makeFakeAccount,
+} from '@/bin/test/mock-account';
+import { makeEncrypter } from '@/bin/test/mock-crypto';
 
 type SutTypes = {
   sut: DbAddAccount;
@@ -40,15 +17,6 @@ type SutTypes = {
   addAccountRepositoryStub: AddAccountRepository;
 };
 
-const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub
-    implements LoadAccountByEmailRepository {
-    async loadByEmail(email: string): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(null));
-    }
-  }
-  return new LoadAccountByEmailRepositoryStub();
-};
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();
 

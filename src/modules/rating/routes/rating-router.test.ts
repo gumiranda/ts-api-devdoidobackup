@@ -4,7 +4,7 @@ import { app } from '@/bin/configuration/app';
 import { Collection } from 'mongodb';
 import { sign } from 'jsonwebtoken';
 import variables from '@/bin/configuration/variables';
-import { RatingModel } from '../models/rating';
+import { makeFakeRatings } from '@/bin/test/mock-rating';
 let accountCollection: Collection;
 let ratingCollection: Collection;
 const makeAccessToken = async (): Promise<string> => {
@@ -17,24 +17,7 @@ const makeAccessToken = async (): Promise<string> => {
   const _id = res.ops[0]._id;
   return sign({ _id }, variables.Security.secretKey);
 };
-const makeFakeRating = (): RatingModel[] => {
-  return [
-    {
-      ratingFor: 'any_entity',
-      _id: 'any_id',
-      date: new Date(),
-      ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
-    },
-    {
-      ratingFor: 'other_entity',
-      _id: 'other_id',
-      date: new Date(),
-      ratings: [
-        { ratingType: 'other_ratingtype', obs: 'other_rating', stars: 3 },
-      ],
-    },
-  ];
-};
+
 describe('POST /', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
@@ -82,7 +65,7 @@ describe('POST /', () => {
       await request(app).get('/api/rating').expect(403);
     });
     test('Should return 200 an rating with accessToken', async () => {
-      await ratingCollection.insertMany(makeFakeRating());
+      await ratingCollection.insertMany(makeFakeRatings());
       const accessToken = await makeAccessToken();
       await request(app)
         .get('/api/rating')

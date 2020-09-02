@@ -1,39 +1,18 @@
-import { AccountModel } from '@/modules/account/models/account-model';
-import { HttpRequest } from '../../../../protocols/http';
 import { DbLoadAccountByToken } from './db-load-account-by-token';
 import { TokenDecrypter } from '../../../../protocols/crypto/token-decrypter';
 import { LoadAccountByTokenRepository } from '@/modules/account/repositories/protocols/load-account-by-token-repository';
-const makeTokenDecrypter = (): TokenDecrypter => {
-  class TokenDecrypterStub implements TokenDecrypter {
-    async decrypt(value: string): Promise<string> {
-      return new Promise((resolve) => resolve('any_value'));
-    }
-  }
-  return new TokenDecrypterStub();
-};
-const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
-  class LoadAccountByTokenRepositoryStub
-    implements LoadAccountByTokenRepository {
-    async loadByToken(token: string, role?: string): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
-    }
-  }
-  return new LoadAccountByTokenRepositoryStub();
-};
+import {
+  makeLoadAccountByTokenRepository,
+  makeFakeAccount,
+} from '@/bin/test/mock-account';
+import { makeTokenDecrypter } from '@/bin/test/mock-crypto';
+
 type SutTypes = {
   sut: DbLoadAccountByToken;
   tokenDecrypterStub: TokenDecrypter;
   loadAccountByTokenRepositoryStub: LoadAccountByTokenRepository;
 };
-const makeFakeAccount = (): AccountModel => ({
-  _id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email@mail.com',
-  password: 'valid_password',
-});
-const makeFakeRequest = (): HttpRequest => ({
-  headers: { Authorization: 'Bearer any_token' },
-});
+
 const makeSut = (role?: string): SutTypes => {
   const tokenDecrypterStub = makeTokenDecrypter();
   const loadAccountByTokenRepositoryStub = makeLoadAccountByTokenRepository();

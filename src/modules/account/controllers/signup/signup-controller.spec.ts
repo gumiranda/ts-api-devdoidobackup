@@ -1,9 +1,5 @@
 import { SignUpController } from './signup-controller';
-import {
-  AddAccount,
-  AddAccountModel,
-} from '../../usecases/add-account/add-account';
-import { AccountModel } from '../../models/account-model';
+import { AddAccount } from '../../usecases/add-account/add-account';
 import { HttpRequest } from '@/bin/protocols/http';
 import {
   badRequest,
@@ -13,29 +9,9 @@ import {
 } from '@/bin/helpers/http-helper';
 import { MissingParamError, EmailInUseError, ServerError } from '@/bin/errors';
 import { Validation } from '@/bin/helpers/validators/validation';
+import { makeAddAccount, makeFakeAccount } from '@/bin/test/mock-account';
+import { makeValidation } from '@/bin/test/mock-validation';
 
-const makeAddAccount = (): AddAccount => {
-  class AddAccountStub implements AddAccount {
-    async add(account: AddAccountModel): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
-    }
-  }
-  return new AddAccountStub();
-};
-const makeValidation = (): Validation => {
-  class ValidationStub implements Validation {
-    validate(input: any): Error[] {
-      return null;
-    }
-  }
-  return new ValidationStub();
-};
-const makeFakeAccount = (): AccountModel => ({
-  _id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email@mail.com',
-  password: 'valid_password',
-});
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     name: 'any_name',

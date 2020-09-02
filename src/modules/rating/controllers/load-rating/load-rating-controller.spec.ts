@@ -1,49 +1,19 @@
-import { HttpRequest, HttpResponse } from '@/bin/protocols/http';
 import { LoadRatingController } from './load-rating-controller';
-import {
-  badRequest,
-  serverError,
-  noContent,
-  ok,
-} from '@/bin/helpers/http-helper';
+import { serverError, noContent, ok } from '@/bin/helpers/http-helper';
 import { LoadRating } from '../../usecases/load-rating/load-rating';
 import MockDate from 'mockdate';
-import { RatingModel } from '../../models/rating';
+import { makeFakeRatings, makeLoadRating } from '@/bin/test/mock-rating';
 type SutTypes = {
   sut: LoadRatingController;
   loadRatingStub: LoadRating;
 };
-const makeLoadRating = (): LoadRating => {
-  class LoadRatingStub implements LoadRating {
-    async load(): Promise<RatingModel[]> {
-      return new Promise((resolve) => resolve(makeFakeRating()));
-    }
-  }
-  return new LoadRatingStub();
-};
+
 const makeSut = (): SutTypes => {
   const loadRatingStub = makeLoadRating();
   const sut = new LoadRatingController(loadRatingStub);
   return { sut, loadRatingStub };
 };
-const makeFakeRating = (): RatingModel[] => {
-  return [
-    {
-      ratingFor: 'any_entity',
-      _id: 'any_id',
-      date: new Date(),
-      ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
-    },
-    {
-      ratingFor: 'other_entity',
-      _id: 'other_id',
-      date: new Date(),
-      ratings: [
-        { ratingType: 'other_ratingtype', obs: 'other_rating', stars: 3 },
-      ],
-    },
-  ];
-};
+
 describe('LoadRating Controller', () => {
   beforeAll(() => {
     MockDate.set(new Date());
@@ -60,7 +30,7 @@ describe('LoadRating Controller', () => {
   test('should return 200 on success', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle({});
-    expect(httpResponse).toEqual(ok(makeFakeRating()));
+    expect(httpResponse).toEqual(ok(makeFakeRatings()));
   });
   test('should return 204 if LoadRatings returns noContent', async () => {
     const { sut, loadRatingStub } = makeSut();

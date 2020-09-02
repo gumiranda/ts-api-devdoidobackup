@@ -15,5 +15,11 @@
     "sourceMap": true
   },
   "include": ["src"],
-  "exclude": ["coverage", "**/**.js", "**/*.spec.ts", "**/*.test.ts"]
+  "exclude": [
+    "coverage",
+    "**/test/**",
+    "**/**.js",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }

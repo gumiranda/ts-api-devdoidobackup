@@ -4,7 +4,7 @@ module.exports = {
   collectCoverage: true,
   setupFiles: ['dotenv/config'],
   roots: ['<rootDir>/src'],
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!**/test/**'],
   coverageDirectory: 'coverage',
   // coverageProvider: 'v8',
   // coverageReporters: ['text', 'lcov'],

@@ -1,32 +1,13 @@
 import { RatingMongoRepository } from './rating-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection } from 'mongodb';
-import { AddRatingModel } from '../../usecases/add-rating/add-rating';
-import { RatingModel } from '../../models/rating';
+import {
+  makeFakeRatings,
+  makeFakeRating,
+  makeFakeAddRating,
+} from '@/bin/test/mock-rating';
 let ratingCollection: Collection;
-const makeFakeRatings = (): RatingModel[] => {
-  return [
-    {
-      ratingFor: 'any_entity',
-      _id: 'any_id',
-      date: new Date(),
-      ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
-    },
-    {
-      ratingFor: 'other_entity',
-      _id: 'other_id',
-      date: new Date(),
-      ratings: [
-        { ratingType: 'other_ratingtype', obs: 'other_rating', stars: 3 },
-      ],
-    },
-  ];
-};
-const makeFakeRating = (): AddRatingModel => ({
-  ratingFor: 'any_entity',
-  date: new Date(),
-  ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
-});
+
 describe('Rating Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
@@ -46,14 +27,7 @@ describe('Rating Mongo Repository', () => {
   };
   test('Should return an rating add success', async () => {
     const sut = makeSut();
-    await sut.add({
-      ratingFor: 'any_entity',
-      date: new Date(),
-      ratings: [
-        { ratingType: 'any_type', obs: 'any_email@mail.com', stars: 3 },
-        { ratingType: 'any_type', obs: 'any_email@mail.com', stars: 4 },
-      ],
-    });
+    await sut.add(makeFakeRating());
     const rating = await ratingCollection.findOne({ ratingFor: 'any_entity' });
     expect(rating).toBeTruthy();
   });
@@ -67,7 +41,7 @@ describe('Rating Mongo Repository', () => {
   });
   test('Should return an rating by id load success', async () => {
     const sut = makeSut();
-    const { ops } = await ratingCollection.insertOne(makeFakeRating());
+    const { ops } = await ratingCollection.insertOne(makeFakeAddRating());
     const { _id } = ops[0];
     const rating = await sut.loadById(_id);
     expect(rating).toBeTruthy();

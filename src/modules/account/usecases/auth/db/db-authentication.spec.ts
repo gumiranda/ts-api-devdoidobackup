@@ -1,40 +1,10 @@
 import { DbAuthentication } from './db-authentication';
-import { AccountModel } from '../../../models/account-model';
 import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
 import { TokenGenerator } from '@/bin/protocols/crypto/token-generator';
 import { LoadAccountByEmailRepository } from '../../../repositories/protocols/load-account-by-email-repository';
+import { makeHashComparer, makeTokenGenerator } from '@/bin/test/mock-crypto';
+import { makeLoadAccountByEmailRepositoryNotNull } from '@/bin/test/mock-account';
 
-const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub
-    implements LoadAccountByEmailRepository {
-    async loadByEmail(email: string): Promise<AccountModel> {
-      const account = {
-        _id: 'any_id',
-        name: 'any_name',
-        email: 'any_email@email.com',
-        password: 'any_password',
-      };
-      return new Promise((resolve) => resolve(account));
-    }
-  }
-  return new LoadAccountByEmailRepositoryStub();
-};
-const makeHashComparer = (): HashComparer => {
-  class HashComparerStub implements HashComparer {
-    async compare(password: string, hashedPassword: string): Promise<boolean> {
-      return new Promise((resolve) => resolve(true));
-    }
-  }
-  return new HashComparerStub();
-};
-const makeTokenGenerator = (): TokenGenerator => {
-  class TokenGeneratorStub implements TokenGenerator {
-    async generate(id: string): Promise<string> {
-      return new Promise((resolve) => resolve('any_token'));
-    }
-  }
-  return new TokenGeneratorStub();
-};
 type SutTypes = {
   sut: DbAuthentication;
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
@@ -43,7 +13,7 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();
+  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryNotNull();
   const hashComparerStub = makeHashComparer();
   const tokenGeneratorStub = makeTokenGenerator();
   const sut = new DbAuthentication(

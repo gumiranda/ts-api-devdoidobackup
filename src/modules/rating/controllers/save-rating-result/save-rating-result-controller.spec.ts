@@ -5,44 +5,19 @@ import MockDate from 'mockdate';
 import { SaveRatingResultController } from './save-rating-result-controller';
 import { RatingResultModel } from '../../models/rating-result';
 import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
-import { RatingModel } from '../../models/rating';
 import { InvalidParamError } from '@/bin/errors';
+import {
+  makeLoadRatingById,
+  makeFakeRatingResult,
+  makeSaveRatingResult,
+} from '@/bin/test/mock-rating';
 
 type SutTypes = {
   sut: SaveRatingResultController;
   loadRatingByIdStub: LoadRatingById;
   saveRatingStub: SaveRatingResult;
 };
-const makeSaveRatingResult = (): SaveRatingResult => {
-  class SaveRatingResultStub implements SaveRatingResult {
-    save(data: RatingResultModel): Promise<RatingResultModel> {
-      return new Promise((resolve) => resolve(makeFakeRatingResult()));
-    }
-  }
-  return new SaveRatingResultStub();
-};
-const makeFakeRating = (): RatingModel => ({
-  ratingFor: 'any_entity',
-  _id: 'any_id',
-  date: new Date(),
-  ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
-});
-const makeFakeRatingResult = (): RatingResultModel => ({
-  ratingId: 'any_rating_id',
-  _id: 'any_id',
-  accountId: 'any_account_id',
-  date: new Date(),
-  result: 'result',
-});
 
-const makeLoadRatingById = (): LoadRatingById => {
-  class LoadRatingByIdStub implements LoadRatingById {
-    async loadById(_id: string): Promise<RatingModel> {
-      return new Promise((resolve) => resolve(makeFakeRating()));
-    }
-  }
-  return new LoadRatingByIdStub();
-};
 const makeSut = (): SutTypes => {
   const loadRatingByIdStub = makeLoadRatingById();
   const saveRatingStub = makeSaveRatingResult();
