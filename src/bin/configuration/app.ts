@@ -5,6 +5,7 @@ import helmet from 'helmet';
 //EXPRESS RATE LIMIT
 import rateLimit from 'express-rate-limit';
 import rateLimitStore from '@lykmapipo/rate-limit-mongoose';
+import setupSwagger from './swagger';
 const app = express();
 
 //rate limiter
@@ -16,6 +17,7 @@ app.use(helmet());
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+setupSwagger(app);
 setupMiddlewares(app, io);
 setupRoutes(app);
 export { app, server, io };

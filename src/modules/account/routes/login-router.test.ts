@@ -21,7 +21,7 @@ describe('Name of the group', () => {
   describe('POST /signup', () => {
     test('Should return 200 an account on success', async () => {
       await request(app)
-        .post('/api/account/signup')
+        .post('/api/signup')
         .send({
           name: 'tedsste',
           email: 'testetessaste@gmail.com',
@@ -41,7 +41,7 @@ describe('Name of the group', () => {
         password,
       });
       await request(app)
-        .post('/api/account/login')
+        .post('/api/login')
         .send({
           email: 'testando@gmail.com',
           password: '111123',
@@ -50,7 +50,7 @@ describe('Name of the group', () => {
     });
     test('Should return 401 on login', async () => {
       await request(app)
-        .post('/api/account/login')
+        .post('/api/login')
         .send({
           email: 'testando@gmail.com',
           password: '111123',

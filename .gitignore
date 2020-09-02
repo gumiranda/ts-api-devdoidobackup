@@ -6,3 +6,4 @@ coverage
 data
 !src/data
 .vscode
+/src/docs/modules
