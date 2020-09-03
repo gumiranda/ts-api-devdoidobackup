@@ -15,8 +15,8 @@ export class AddRatingController implements Controller {
       if (errors?.length > 0) {
         return badRequest(errors);
       }
-      const { ratingFor, ratings } = httpRequest.body;
-      await this.addRating.add({ ratingFor, ratings, date: new Date() });
+      const { ratingType, ratings } = httpRequest.body;
+      await this.addRating.add({ ratingType, ratings, date: new Date() });
       return noContent();
     } catch (error) {
       return serverError(error);

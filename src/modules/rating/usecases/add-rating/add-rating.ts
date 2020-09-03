@@ -2,9 +2,8 @@ import { RatingModel } from '../../models/rating';
 
 export type AddRatingModel = Omit<RatingModel, '_id'>;
 export type RatingStars = {
-  obs: string;
+  rating: string;
   stars: number;
-  ratingType: string;
 };
 
 export type AddRating = {

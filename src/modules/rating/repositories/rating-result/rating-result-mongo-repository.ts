@@ -2,11 +2,10 @@ import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { RatingResultModel } from '../../models/rating-result';
 import { SaveRatingResultRepository } from './protocols/save-rating-result-repository';
 import { ObjectId } from 'mongodb';
+import { SaveRatingResultParams } from '../../usecases/save-rating-result/save-rating-result';
 export class RatingResultMongoRepository implements SaveRatingResultRepository {
-  async save(
-    ratingData: Omit<RatingResultModel, '_id'>,
-  ): Promise<RatingResultModel> {
-    const { ratingId, accountId, obs, date } = ratingData;
+  async save(ratingData: SaveRatingResultParams): Promise<RatingResultModel> {
+    const { ratingId, accountId, rating, date } = ratingData;
     const ratingResultCollection = await MongoHelper.getCollection(
       'ratingResults',
     );
@@ -18,14 +17,14 @@ export class RatingResultMongoRepository implements SaveRatingResultRepository {
       },
       {
         $set: {
-          obs,
+          rating,
           date,
         },
       },
       { upsert: true },
     );
     const ratingResult = await this.loadByRatingId(ratingId);
-    return ratingResult;
+    return ratingResult ? ratingResult : value;
   }
   private async loadByRatingId(ratingId: string): Promise<RatingResultModel> {
     const ratingResultCollection = await MongoHelper.getCollection(
@@ -70,14 +69,14 @@ export class RatingResultMongoRepository implements SaveRatingResultRepository {
         $group: {
           _id: {
             ratingId: '$rating._id',
-            ratingFor: '$rating.ratingFor',
+            ratingType: '$rating.ratingType',
             date: '$rating.date',
             total: '$count',
-            obs: {
+            rating: {
               $filter: {
                 input: '$rating.ratings',
                 as: 'item',
-                cond: { $eq: ['$$item.obs', '$data.obs'] },
+                cond: { $eq: ['$$item.rating', '$data.rating'] },
               },
             },
           },
@@ -86,13 +85,13 @@ export class RatingResultMongoRepository implements SaveRatingResultRepository {
       },
       {
         $unwind: {
-          path: '$_id.obs',
+          path: '$_id.rating',
         },
       },
       {
         $addFields: {
-          '_id.obs.count': '$count',
-          '_id.obs.percent': {
+          '_id.rating.count': '$count',
+          '_id.rating.percent': {
             $multiply: [{ $divide: ['$count', '$_id.total'] }, 100],
           },
         },
@@ -101,11 +100,11 @@ export class RatingResultMongoRepository implements SaveRatingResultRepository {
         $group: {
           _id: {
             ratingId: '$_id.ratingId',
-            ratingFor: '$_id.ratingFor',
+            ratingType: '$_id.ratingType',
             date: '$_id.date',
           },
           ratings: {
-            $push: '$_id.obs',
+            $push: '$_id.rating',
           },
         },
       },
@@ -113,13 +112,13 @@ export class RatingResultMongoRepository implements SaveRatingResultRepository {
         $project: {
           _id: 0,
           ratingId: '$_id.ratingId',
-          ratingFor: '$_id.ratingFor',
+          ratingType: '$_id.ratingType',
           date: '$_id.date',
           ratings: '$ratings',
         },
       },
     ]);
     const ratingResult = await query.toArray();
-    return ratingResult[0];
+    return ratingResult?.length ? ratingResult[0] : null;
   }
 }

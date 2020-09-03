@@ -1,13 +1,10 @@
 export type RatingModel = {
   _id: string;
-  ratingFor: string;
+  ratingType: string;
   ratings: RatingStarsModel[];
   date: Date;
 };
 export type RatingStarsModel = {
-  obs: string;
+  rating: string;
   stars: number;
-  count: number;
-  percent: number;
-  ratingType: string;
 };

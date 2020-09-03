@@ -7,7 +7,7 @@ import {
 } from '@/modules/account/usecases/add-account/add-account';
 import { AddAccountRepository } from '@/modules/account/repositories/protocols/add-account-repository';
 import { LoadAccountByEmailRepository } from '@/modules/account/repositories/protocols/load-account-by-email-repository';
-
+import faker from 'faker';
 export const makeLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
     async load(accessToken: string, role?: string): Promise<AccountModel> {

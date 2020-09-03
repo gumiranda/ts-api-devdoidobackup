@@ -20,9 +20,9 @@ const makeSut = (): SutTypes => {
 };
 const makeFakeRequest = (): HttpRequest => ({
   body: {
-    ratingFor: 'any_entity',
+    ratingType: 'atendimento',
     date: new Date(),
-    ratings: [{ ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 }],
+    ratings: [{ rating: 'Bom', stars: 3 }],
   },
 });
 describe('AddRating Controller', () => {

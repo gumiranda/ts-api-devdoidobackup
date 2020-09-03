@@ -1,14 +1,9 @@
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection } from 'mongodb';
-import { RatingResultModel } from '../../models/rating-result';
 import { RatingResultMongoRepository } from './rating-result-mongo-repository';
 import { RatingModel } from '../../models/rating';
 import { AccountModel } from '@/modules/account/models/account-model';
-import {
-  makeFakeAddRatingResult,
-  makeFakeAddRating,
-} from '@/bin/test/mock-rating';
-import { ObjectId } from 'mongodb';
+import { makeFakeAddRating } from '@/bin/test/mock-rating';
 
 let ratingCollection: Collection;
 let ratingResultCollection: Collection;
@@ -18,18 +13,7 @@ const makeRating = async (): Promise<RatingModel> => {
   const { ops } = await ratingCollection.insertOne(makeFakeAddRating());
   return ops[0];
 };
-const makeRatingResult = async (
-  ratingId: string,
-  accountId: string,
-): Promise<RatingResultModel> => {
-  const { ops } = await ratingResultCollection.insertOne({
-    accountId: new ObjectId(accountId),
-    ratingId: new ObjectId(ratingId),
-    obs: 'any_rating',
-    date: new Date(),
-  });
-  return ops[0];
-};
+
 const makeAccount = async (): Promise<AccountModel> => {
   const { ops } = await accountCollection.insertOne({
     role: 'admin',
@@ -64,14 +48,17 @@ describe('RatingResult Mongo Repository', () => {
   test('Should return an rating save', async () => {
     const rating: any = await makeRating();
     const account: any = await makeAccount();
-    const ratingResultInserted = await makeRatingResult(
-      rating._id,
-      account._id,
-    );
     const sut = makeSut();
-    const ratingToSave = await makeFakeAddRatingResult(rating._id, account._id);
-    const ratingResult = await sut.save(ratingToSave);
+    const ratingResult = await sut.save({
+      ratingId: rating._id,
+      accountId: account._id,
+      rating: rating.ratings[0].rating,
+      date: new Date(),
+    });
     expect(ratingResult).toBeTruthy();
-    expect(ratingResult.ratingId).toEqual(ratingResultInserted.ratingId);
+    expect(ratingResult.ratingId).toEqual(rating._id);
+    expect(ratingResult.ratings[0].rating).toBe(rating.ratings[0].rating);
+    expect(ratingResult.ratings[0].count).toBe(1);
+    expect(ratingResult.ratings[0].percent).toBe(100);
   });
 });

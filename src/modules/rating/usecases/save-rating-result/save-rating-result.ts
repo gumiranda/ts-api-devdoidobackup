@@ -1,6 +1,11 @@
 import { RatingResultModel } from '../../models/rating-result';
 
-export type SaveRatingResultModel = Omit<RatingResultModel, '_id'>;
+export type SaveRatingResultParams = {
+  ratingId: string;
+  accountId: string;
+  rating: string;
+  date: Date;
+};
 export interface SaveRatingResult {
-  save(data: SaveRatingResultModel): Promise<SaveRatingResultModel>;
+  save(data: SaveRatingResultParams): Promise<RatingResultModel>;
 }

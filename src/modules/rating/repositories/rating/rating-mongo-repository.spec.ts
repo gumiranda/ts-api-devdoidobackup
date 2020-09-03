@@ -1,11 +1,7 @@
 import { RatingMongoRepository } from './rating-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection } from 'mongodb';
-import {
-  makeFakeRatings,
-  makeFakeRating,
-  makeFakeAddRating,
-} from '@/bin/test/mock-rating';
+import { makeFakeRatings, makeFakeAddRating } from '@/bin/test/mock-rating';
 let ratingCollection: Collection;
 
 describe('Rating Mongo Repository', () => {
@@ -27,8 +23,10 @@ describe('Rating Mongo Repository', () => {
   };
   test('Should return an rating add success', async () => {
     const sut = makeSut();
-    await sut.add(makeFakeRating());
-    const rating = await ratingCollection.findOne({ ratingFor: 'any_entity' });
+    await sut.add(makeFakeAddRating());
+    const rating = await ratingCollection.findOne({
+      ratingType: 'atendimento',
+    });
     expect(rating).toBeTruthy();
   });
   test('Should return an rating list load success', async () => {
@@ -36,8 +34,8 @@ describe('Rating Mongo Repository', () => {
     await ratingCollection.insertMany(makeFakeRatings());
     const ratings = await sut.loadAll();
     expect(ratings.length).toBe(2);
-    expect(ratings[0].ratingFor).toBe('any_entity');
-    expect(ratings[1].ratingFor).toBe('other_entity');
+    expect(ratings[0].ratingType).toBe('atendimento');
+    expect(ratings[1].ratingType).toBe('educação');
   });
   test('Should return an rating by id load success', async () => {
     const sut = makeSut();

@@ -14,16 +14,16 @@ export class SaveRatingResultController implements Controller {
     try {
       const { ratingId } = httpRequest.params;
       const { accountId } = httpRequest;
-      const { result } = httpRequest.body;
+      const { rating } = httpRequest.body;
 
-      const rating = await this.loadRatingById.loadById(ratingId);
-      if (!rating) {
+      const ratingLoaded = await this.loadRatingById.loadById(ratingId);
+      if (!ratingLoaded) {
         return forbidden(new InvalidParamError('ratingId'));
       }
       const ratingSaved = await this.saveRating.save({
         accountId,
         ratingId,
-        result,
+        rating,
         date: new Date(),
       });
       return ok(ratingSaved);

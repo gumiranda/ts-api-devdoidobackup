@@ -3,7 +3,6 @@ import { HttpRequest } from '@/bin/protocols/http';
 import { forbidden, serverError, ok } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
 import { SaveRatingResultController } from './save-rating-result-controller';
-import { RatingResultModel } from '../../models/rating-result';
 import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
 import { InvalidParamError } from '@/bin/errors';
 import {
@@ -32,7 +31,7 @@ const makeFakeRequest = (): HttpRequest => ({
     ratingId: 'any_rating_id',
   },
   body: {
-    result: 'result',
+    rating: 'Bom',
   },
   accountId: 'any_account_id',
 });
@@ -58,7 +57,7 @@ describe('SaveRatingResult Controller', () => {
     expect(saveRatingSpy).toHaveBeenCalledWith({
       ratingId: 'any_rating_id',
       accountId: 'any_account_id',
-      result: 'result',
+      rating: 'Bom',
       date: new Date(),
     });
   });
