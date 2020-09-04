@@ -1,8 +1,7 @@
 export const ratingDetailsSchema = {
   type: 'object',
   properties: {
-    ratingType: { type: 'string' },
-    obs: { type: 'string' },
+    rating: { type: 'string' },
     stars: { type: 'number' },
   },
 };

@@ -1,7 +1,7 @@
 export const addRatingParamsSchema = {
   type: 'object',
   properties: {
-    ratingFor: {
+    ratingType: {
       type: 'string',
     },
     ratings: {
@@ -9,5 +9,5 @@ export const addRatingParamsSchema = {
       items: { $ref: '#/schemas/ratingDetails' },
     },
   },
-  required: ['ratingFor', 'ratings'],
+  required: ['ratingType', 'ratings'],
 };

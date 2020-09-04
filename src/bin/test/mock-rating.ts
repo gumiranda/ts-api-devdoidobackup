@@ -14,6 +14,7 @@ import {
 import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-by-id-repository';
 import { AddRatingRepository } from '@/modules/rating/repositories/rating/protocols/add-rating-repository';
 import { LoadRatingRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-repository';
+import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
 
 export const makeAddRating = (): AddRating => {
   class AddRatingStub implements AddRating {
@@ -103,36 +104,34 @@ export const makeFakeAddRating = (): Omit<RatingModel, '_id'> => ({
 });
 export const makeFakeRatingResult = (): RatingResultModel => ({
   ratingId: 'any_rating_id',
-  _id: 'any_id',
-  ratingType: 'atendimento',
+  ratingType: 'any_ratingType',
   date: new Date(),
   ratings: [
     {
-      rating: 'Bom',
+      rating: 'any_rating',
       stars: 3,
-      count: 10,
+      count: 1,
       percent: 50,
     },
     {
-      rating: 'Otimo',
-      stars: 4,
+      rating: 'other_rating',
+      stars: 3,
       count: 10,
-      percent: 50,
+      percent: 80,
     },
   ],
 });
+export const makeFakeRatingResultData = (
+  ratingId: string,
+  accountId: string,
+  rating: string,
+): SaveRatingResultParams => ({
+  ratingId,
+  accountId,
+  rating,
+  date: new Date(),
+});
 
-export const makeFakeRatingResultData = (): Omit<RatingResultModel, '_id'> =>
-  Object.assign({}, makeFakeRatingResult(), { _id: 'any_id' });
-
-export const makeSaveRatingResultRepository = (): SaveRatingResultRepository => {
-  class SaveRatingResultRepositoryStub implements SaveRatingResultRepository {
-    save(data: SaveRatingResultParams): Promise<RatingResultModel> {
-      return new Promise((resolve) => resolve(makeFakeRatingResult()));
-    }
-  }
-  return new SaveRatingResultRepositoryStub();
-};
 export const makeLoadRatingByIdRepository = (): LoadRatingByIdRepository => {
   class LoadRatingByIdRepositoryStub implements LoadRatingByIdRepository {
     loadById(_id: string): Promise<RatingModel> {
@@ -179,4 +178,41 @@ export const makeSaveRatingResult = (): SaveRatingResult => {
     }
   }
   return new SaveRatingResultStub();
+};
+
+export const mockRatingResultModel = (): RatingResultModel => ({
+  ratingId: 'any_rating_id',
+  ratingType: 'any_ratingType',
+  ratings: [
+    {
+      rating: 'any_rating',
+      stars: 3,
+      count: 1,
+      percent: 50,
+    },
+    {
+      rating: 'other_rating',
+      stars: 3,
+      count: 10,
+      percent: 80,
+    },
+  ],
+  date: new Date(),
+});
+export const mockSaveRatingResultRepository = (): SaveRatingResultRepository => {
+  class SaveRatingResultRepositoryStub implements SaveRatingResultRepository {
+    async save(data: SaveRatingResultParams): Promise<void> {
+      return new Promise((resolve) => resolve());
+    }
+  }
+  return new SaveRatingResultRepositoryStub();
+};
+
+export const mockLoadRatingResultRepository = (): LoadRatingResultRepository => {
+  class LoadRatingResultRepositoryStub implements LoadRatingResultRepository {
+    async loadByRatingId(ratingId: string): Promise<RatingResultModel> {
+      return Promise.resolve(mockRatingResultModel());
+    }
+  }
+  return new LoadRatingResultRepositoryStub();
 };

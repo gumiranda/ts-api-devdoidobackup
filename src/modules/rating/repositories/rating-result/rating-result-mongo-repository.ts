@@ -3,14 +3,17 @@ import { RatingResultModel } from '../../models/rating-result';
 import { SaveRatingResultRepository } from './protocols/save-rating-result-repository';
 import { ObjectId } from 'mongodb';
 import { SaveRatingResultParams } from '../../usecases/save-rating-result/save-rating-result';
-export class RatingResultMongoRepository implements SaveRatingResultRepository {
-  async save(ratingData: SaveRatingResultParams): Promise<RatingResultModel> {
+import { QueryBuilder } from '@/bin/helpers/query-builder';
+import { LoadRatingResultRepository } from './protocols/load-rating-result-repository';
+export class RatingResultMongoRepository
+  implements SaveRatingResultRepository, LoadRatingResultRepository {
+  async save(ratingData: SaveRatingResultParams): Promise<void> {
     const { ratingId, accountId, rating, date } = ratingData;
     const ratingResultCollection = await MongoHelper.getCollection(
       'ratingResults',
     );
 
-    const { value } = await ratingResultCollection.findOneAndUpdate(
+    await ratingResultCollection.findOneAndUpdate(
       {
         ratingId: new ObjectId(ratingId),
         accountId: new ObjectId(accountId),
@@ -23,102 +26,172 @@ export class RatingResultMongoRepository implements SaveRatingResultRepository {
       },
       { upsert: true },
     );
-    const ratingResult = await this.loadByRatingId(ratingId);
-    return ratingResult ? ratingResult : value;
   }
-  private async loadByRatingId(ratingId: string): Promise<RatingResultModel> {
+  async loadByRatingId(ratingId: string): Promise<RatingResultModel> {
     const ratingResultCollection = await MongoHelper.getCollection(
       'ratingResults',
     );
-    const query = ratingResultCollection.aggregate([
-      {
-        $match: {
-          ratingId: new ObjectId(ratingId),
+    const query = new QueryBuilder()
+      .match({
+        ratingId: new ObjectId(ratingId),
+      })
+      .group({
+        _id: 0,
+        data: {
+          $push: '$$ROOT',
         },
-      },
-      {
-        $group: {
-          _id: 0,
-          data: {
-            $push: '$$ROOT',
-          },
-          count: {
-            $sum: 1,
-          },
+        total: {
+          $sum: 1,
         },
-      },
-      {
-        $unwind: {
-          path: '$data',
+      })
+      .unwind({
+        path: '$data',
+      })
+      .lookup({
+        from: 'ratings',
+        foreignField: '_id',
+        localField: 'data.ratingId',
+        as: 'rating',
+      })
+      .unwind({
+        path: '$rating',
+      })
+      .group({
+        _id: {
+          ratingId: '$rating._id',
+          ratingType: '$rating.ratingType',
+          date: '$rating.date',
+          total: '$total',
+          rating: '$data.rating',
+          ratings: '$rating.ratings',
         },
-      },
-      {
-        $lookup: {
-          from: 'ratings',
-          foreignField: '_id',
-          localField: 'data.ratingId',
-          as: 'rating',
+        count: {
+          $sum: 1,
         },
-      },
-      {
-        $unwind: {
-          path: '$rating',
-        },
-      },
-      {
-        $group: {
-          _id: {
-            ratingId: '$rating._id',
-            ratingType: '$rating.ratingType',
-            date: '$rating.date',
-            total: '$count',
-            rating: {
-              $filter: {
-                input: '$rating.ratings',
-                as: 'item',
-                cond: { $eq: ['$$item.rating', '$data.rating'] },
-              },
+      })
+      .project({
+        _id: 0,
+        ratingId: '$_id.ratingId',
+        ratingType: '$_id.ratingType',
+        date: '$_id.date',
+        ratings: {
+          $map: {
+            input: '$_id.ratings',
+            as: 'item',
+            in: {
+              $mergeObjects: [
+                '$$item',
+                {
+                  count: {
+                    $cond: {
+                      if: {
+                        $eq: ['$$item.rating', '$_id.rating'],
+                      },
+                      then: '$count',
+                      else: 0,
+                    },
+                  },
+                  percent: {
+                    $cond: {
+                      if: {
+                        $eq: ['$$item.rating', '$_id.rating'],
+                      },
+                      then: {
+                        $multiply: [
+                          {
+                            $divide: ['$count', '$_id.total'],
+                          },
+                          100,
+                        ],
+                      },
+                      else: 0,
+                    },
+                  },
+                },
+              ],
             },
           },
-          count: { $sum: 1 },
         },
-      },
-      {
-        $unwind: {
-          path: '$_id.rating',
+      })
+      .group({
+        _id: {
+          ratingId: '$ratingId',
+          ratingType: '$ratingType',
+          date: '$date',
         },
-      },
-      {
-        $addFields: {
-          '_id.rating.count': '$count',
-          '_id.rating.percent': {
-            $multiply: [{ $divide: ['$count', '$_id.total'] }, 100],
+        ratings: {
+          $push: '$ratings',
+        },
+      })
+      .project({
+        _id: 0,
+        ratingId: '$_id.ratingId',
+        ratingType: '$_id.ratingType',
+        date: '$_id.date',
+        ratings: {
+          $reduce: {
+            input: '$ratings',
+            initialValue: [],
+            in: {
+              $concatArrays: ['$$value', '$$this'],
+            },
           },
         },
-      },
-      {
-        $group: {
-          _id: {
-            ratingId: '$_id.ratingId',
-            ratingType: '$_id.ratingType',
-            date: '$_id.date',
-          },
-          ratings: {
-            $push: '$_id.rating',
-          },
+      })
+      .unwind({
+        path: '$ratings',
+      })
+      .group({
+        _id: {
+          ratingId: '$ratingId',
+          ratingType: '$ratingType',
+          date: '$date',
+          rating: '$ratings.rating',
+          stars: '$ratings.stars',
         },
-      },
-      {
-        $project: {
-          _id: 0,
-          ratingId: '$_id.ratingId',
-          ratingType: '$_id.ratingType',
-          date: '$_id.date',
-          ratings: '$ratings',
+        count: {
+          $sum: '$ratings.count',
         },
-      },
-    ]);
-    const ratingResult = await query.toArray();
+        percent: {
+          $sum: '$ratings.percent',
+        },
+      })
+      .project({
+        _id: 0,
+        ratingId: '$_id.ratingId',
+        ratingType: '$_id.ratingType',
+        date: '$_id.date',
+        rating: {
+          rating: '$_id.rating',
+          stars: '$_id.stars',
+          count: '$count',
+          percent: '$percent',
+        },
+      })
+      .sort({
+        'rating.count': -1,
+      })
+      .group({
+        _id: {
+          ratingId: '$ratingId',
+          ratingType: '$ratingType',
+          date: '$date',
+        },
+        ratings: {
+          $push: '$rating',
+        },
+      })
+      .project({
+        _id: 0,
+        ratingId: '$_id.ratingId',
+        ratingType: '$_id.ratingType',
+        date: '$_id.date',
+        ratings: '$ratings',
+      })
+      .build();
+    const ratingResult = await ratingResultCollection
+      .aggregate(query)
+      .toArray();
     return ratingResult?.length ? ratingResult[0] : null;
   }
 }

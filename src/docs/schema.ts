@@ -9,6 +9,7 @@ import {
   ratingResultSchema,
   ratingDetailsSchema,
   addRatingParamsSchema,
+  ratingResultRatingSchema,
 } from './schemas';
 
 export default {
@@ -22,4 +23,5 @@ export default {
   ratings: ratingsSchema,
   ratingResult: ratingResultSchema,
   ratingDetails: ratingDetailsSchema,
+  ratingResultRating: ratingResultRatingSchema,
 };

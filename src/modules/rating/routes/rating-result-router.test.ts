@@ -43,7 +43,7 @@ describe('PUT /:ratingId/results', () => {
     await request(app)
       .put('/api/ratingResult/any_id/results')
       .send({
-        result: 'result2',
+        ratingType: 'atendimento',
       })
       .expect(403);
   });
@@ -53,7 +53,7 @@ describe('PUT /:ratingId/results', () => {
     await request(app)
       .put(`/api/ratingResult/${ratingId}/results`)
       .send({
-        result: 'result2',
+        ratingType: 'atendimento',
       })
       .set('Authorization', 'Bearer ' + accessToken)
       .expect(200);

@@ -4,20 +4,25 @@ import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating
 import {
   makeFakeRatingResult,
   makeFakeRatingResultData,
-  makeSaveRatingResultRepository,
+  mockSaveRatingResultRepository,
+  mockLoadRatingResultRepository,
 } from '@/bin/test/mock-rating';
+import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
 
 type SutTypes = {
   sut: DbSaveRatingResult;
   saveRatingStub: SaveRatingResultRepository;
+  loadRatingStub: LoadRatingResultRepository;
 };
 
 const makeSut = (): SutTypes => {
-  const saveRatingStub = makeSaveRatingResultRepository();
-  const sut = new DbSaveRatingResult(saveRatingStub);
+  const saveRatingStub = mockSaveRatingResultRepository();
+  const loadRatingStub = mockLoadRatingResultRepository();
+  const sut = new DbSaveRatingResult(saveRatingStub, loadRatingStub);
   return {
     sut,
     saveRatingStub,
+    loadRatingStub,
   };
 };
 describe('DbSaveRatingResult', () => {
@@ -29,14 +34,22 @@ describe('DbSaveRatingResult', () => {
   });
   test('should call SaveRatingResultRepository with correct values', async () => {
     const { sut, saveRatingStub } = makeSut();
-    const data = makeFakeRatingResult();
+    const data = makeFakeRatingResultData(
+      'any_rating_id',
+      'any_account_id',
+      'Bom',
+    );
     const saveRatingSpy = jest.spyOn(saveRatingStub, 'save');
     await sut.save(data);
     expect(saveRatingSpy).toHaveBeenCalledWith(data);
   });
   test('should throw if SaveRatingResultRepository throws', async () => {
     const { sut, saveRatingStub } = makeSut();
-    const data = makeFakeRatingResult();
+    const data = makeFakeRatingResultData(
+      'any_rating_id',
+      'any_account_id',
+      'Bom',
+    );
     jest
       .spyOn(saveRatingStub, 'save')
       .mockReturnValueOnce(
@@ -47,7 +60,9 @@ describe('DbSaveRatingResult', () => {
   });
   test('should return rating on success', async () => {
     const { sut } = makeSut();
-    const ratings = await sut.save(makeFakeRatingResultData());
+    const ratings = await sut.save(
+      makeFakeRatingResultData('any_rating_id', 'any_account_id', 'any_rating'),
+    );
     expect(ratings).toEqual(makeFakeRatingResult());
   });
 });

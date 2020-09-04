@@ -7,5 +7,6 @@ export * from './rating-schema';
 export * from './ratings-schema';
 export * from './rating-result-schema';
 export * from './save-rating-params-schema';
+export * from './rating-result-rating-schema';
 export * from './api-key-auth-schema';
 export * from './add-rating-params-schema';

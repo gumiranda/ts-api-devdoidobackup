@@ -1,12 +1,21 @@
-import { SaveRatingResult, SaveRatingResultModel } from '../save-rating-result';
-import { RatingResultModel } from '@/modules/rating/models/rating-result';
 import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/save-rating-result-repository';
+import {
+  SaveRatingResult,
+  SaveRatingResultParams,
+} from '../save-rating-result';
+import { RatingResultModel } from '@/modules/rating/models/rating-result';
+import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
 
 export class DbSaveRatingResult implements SaveRatingResult {
   constructor(
     private readonly saveRatingRepository: SaveRatingResultRepository,
+    private readonly loadRatingResultRepository: LoadRatingResultRepository,
   ) {}
-  async save(data: SaveRatingResultModel): Promise<RatingResultModel> {
-    return await this.saveRatingRepository.save(data);
+  async save(data: SaveRatingResultParams): Promise<RatingResultModel> {
+    await this.saveRatingRepository.save(data);
+    const ratingResult = await this.loadRatingResultRepository.loadByRatingId(
+      data.ratingId,
+    );
+    return ratingResult;
   }
 }
