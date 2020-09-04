@@ -15,9 +15,13 @@ export class SaveRatingResultController implements Controller {
       const { ratingId } = httpRequest.params;
       const { accountId } = httpRequest;
       const { rating } = httpRequest.body;
-
       const ratingLoaded = await this.loadRatingById.loadById(ratingId);
-      if (!ratingLoaded) {
+      if (ratingLoaded) {
+        const ratings = ratingLoaded.ratings.map((a) => a.rating);
+        if (!ratings.includes(rating)) {
+          return forbidden(new InvalidParamError('rating'));
+        }
+      } else {
         return forbidden(new InvalidParamError('ratingId'));
       }
       const ratingSaved = await this.saveRating.save({
