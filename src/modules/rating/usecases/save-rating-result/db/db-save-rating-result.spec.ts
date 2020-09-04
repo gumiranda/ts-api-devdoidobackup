@@ -4,8 +4,8 @@ import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating
 
 import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
 import {
-  makeFakeRatingResultData,
   makeFakeRatingResult,
+  makeFakeRatingResultSave,
 } from '@/modules/rating/models/mocks/mock-rating-result';
 import {
   mockSaveRatingResultRepository,
@@ -37,22 +37,14 @@ describe('DbSaveRatingResult', () => {
   });
   test('should call SaveRatingResultRepository with correct values', async () => {
     const { sut, saveRatingStub } = makeSut();
-    const data = makeFakeRatingResultData(
-      'any_rating_id',
-      'any_account_id',
-      'Bom',
-    );
+    const data = makeFakeRatingResultSave();
     const saveRatingSpy = jest.spyOn(saveRatingStub, 'save');
     await sut.save(data);
     expect(saveRatingSpy).toHaveBeenCalledWith(data);
   });
   test('should throw if SaveRatingResultRepository throws', async () => {
     const { sut, saveRatingStub } = makeSut();
-    const data = makeFakeRatingResultData(
-      'any_rating_id',
-      'any_account_id',
-      'Bom',
-    );
+    const data = makeFakeRatingResultSave();
     jest
       .spyOn(saveRatingStub, 'save')
       .mockReturnValueOnce(
@@ -63,9 +55,7 @@ describe('DbSaveRatingResult', () => {
   });
   test('should return rating on success', async () => {
     const { sut } = makeSut();
-    const ratings = await sut.save(
-      makeFakeRatingResultData('any_rating_id', 'any_account_id', 'any_rating'),
-    );
+    const ratings = await sut.save(makeFakeRatingResultSave());
     expect(ratings).toEqual(makeFakeRatingResult());
   });
 });

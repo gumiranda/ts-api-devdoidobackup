@@ -21,7 +21,7 @@ export const makeFakeRatingResult = (): RatingResultModel => ({
   ],
 });
 
-export const makeFakeRatingResultData = (
+const makeFakeRatingResultData = (
   ratingId: string,
   accountId: string,
   rating: string,
@@ -31,3 +31,6 @@ export const makeFakeRatingResultData = (
   rating,
   date: new Date(),
 });
+export const makeFakeRatingResultSave = (): SaveRatingResultParams => {
+  return makeFakeRatingResultData('any_rating_id', 'any_account_id', 'Bom');
+};
