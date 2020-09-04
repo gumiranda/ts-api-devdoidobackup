@@ -2,8 +2,8 @@ import { forbidden, ok, serverError } from '../../helpers/http-helper';
 import { AccessDeniedError } from '../../errors';
 import { AuthMiddleware } from './auth-middleware';
 import { LoadAccountByToken } from '../protocols/usecases/load-account-by-token';
-import { makeLoadAccountByToken } from '@/bin/test/mock-account';
 import { makeFakeRequestHeader } from '@/bin/test/mock-auth';
+import { makeLoadAccountByToken } from '@/modules/account/usecases/mocks/mock-account';
 
 type SutTypes = {
   sut: AuthMiddleware;

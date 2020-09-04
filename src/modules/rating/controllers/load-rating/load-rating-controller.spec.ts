@@ -2,7 +2,8 @@ import { LoadRatingController } from './load-rating-controller';
 import { serverError, noContent, ok } from '@/bin/helpers/http-helper';
 import { LoadRating } from '../../usecases/load-rating/load-rating';
 import MockDate from 'mockdate';
-import { makeFakeRatings, makeLoadRating } from '@/bin/test/mock-rating';
+import { makeFakeRatings } from '../../models/mocks/mock-rating';
+import { makeLoadRating } from '../../usecases/mocks/mock-rating';
 type SutTypes = {
   sut: LoadRatingController;
   loadRatingStub: LoadRating;

@@ -2,12 +2,15 @@ import MockDate from 'mockdate';
 import { DbSaveRatingResult } from '../../save-rating-result/db/db-save-rating-result';
 import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/save-rating-result-repository';
 import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
+
+import {
+  makeFakeRatingResultData,
+  makeFakeRatingResult,
+} from '@/modules/rating/models/mocks/mock-rating-result';
 import {
   mockSaveRatingResultRepository,
   mockLoadRatingResultRepository,
-  makeFakeRatingResultData,
-  mockRatingResultModel,
-} from '@/bin/test/mock-rating';
+} from '@/modules/rating/repositories/mocks/mock-rating-result';
 
 type SutTypes = {
   sut: DbSaveRatingResult;
@@ -96,6 +99,6 @@ describe('DbSaveRatingResult Usecase', () => {
     const ratingResult = await sut.save(
       makeFakeRatingResultData('any_rating_id', 'any_account_id', 'Bom'),
     );
-    expect(ratingResult).toEqual(mockRatingResultModel());
+    expect(ratingResult).toEqual(makeFakeRatingResult());
   });
 });

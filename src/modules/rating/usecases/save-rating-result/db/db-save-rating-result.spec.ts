@@ -1,13 +1,16 @@
 import { DbSaveRatingResult } from './db-save-rating-result';
 import MockDate from 'mockdate';
 import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/save-rating-result-repository';
+
+import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
 import {
-  makeFakeRatingResult,
   makeFakeRatingResultData,
+  makeFakeRatingResult,
+} from '@/modules/rating/models/mocks/mock-rating-result';
+import {
   mockSaveRatingResultRepository,
   mockLoadRatingResultRepository,
-} from '@/bin/test/mock-rating';
-import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
+} from '@/modules/rating/repositories/mocks/mock-rating-result';
 
 type SutTypes = {
   sut: DbSaveRatingResult;

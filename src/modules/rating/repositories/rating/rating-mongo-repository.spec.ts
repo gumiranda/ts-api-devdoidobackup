@@ -1,7 +1,10 @@
 import { RatingMongoRepository } from './rating-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection } from 'mongodb';
-import { makeFakeRatings, makeFakeAddRating } from '@/bin/test/mock-rating';
+import {
+  makeFakeAddRating,
+  makeFakeRatings,
+} from '../../models/mocks/mock-rating';
 let ratingCollection: Collection;
 
 describe('Rating Mongo Repository', () => {

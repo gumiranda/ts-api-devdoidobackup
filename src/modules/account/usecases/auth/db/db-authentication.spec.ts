@@ -3,7 +3,7 @@ import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
 import { TokenGenerator } from '@/bin/protocols/crypto/token-generator';
 import { LoadAccountByEmailRepository } from '../../../repositories/protocols/load-account-by-email-repository';
 import { makeHashComparer, makeTokenGenerator } from '@/bin/test/mock-crypto';
-import { makeLoadAccountByEmailRepositoryNotNull } from '@/bin/test/mock-account';
+import { makeLoadAccountByEmailRepositoryNotNull } from '@/modules/account/repositories/mocks/mock-account-repository';
 
 type SutTypes = {
   sut: DbAuthentication;

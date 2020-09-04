@@ -3,7 +3,7 @@ import { HttpRequest, HttpResponse } from '../../protocols/http';
 import { serverError, ok } from '../../helpers/http-helper';
 import { LogControllerDecorator } from './log-controller-decorator';
 import { LogErrorRepository } from '../../protocols/repositories/log/log-error-repository';
-import { makeFakeAccount } from '@/bin/test/mock-account';
+import { makeFakeAccount } from '@/modules/account/models/mocks/mock-account';
 
 const makeController = (): Controller => {
   class ControllerStub implements Controller {

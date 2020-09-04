@@ -1,11 +1,9 @@
 import { DbLoadAccountByToken } from './db-load-account-by-token';
 import { TokenDecrypter } from '../../../../protocols/crypto/token-decrypter';
 import { LoadAccountByTokenRepository } from '@/modules/account/repositories/protocols/load-account-by-token-repository';
-import {
-  makeLoadAccountByTokenRepository,
-  makeFakeAccount,
-} from '@/bin/test/mock-account';
 import { makeTokenDecrypter } from '@/bin/test/mock-crypto';
+import { makeLoadAccountByTokenRepository } from '@/modules/account/repositories/mocks/mock-account-repository';
+import { makeFakeAccount } from '@/modules/account/models/mocks/mock-account';
 
 type SutTypes = {
   sut: DbLoadAccountByToken;

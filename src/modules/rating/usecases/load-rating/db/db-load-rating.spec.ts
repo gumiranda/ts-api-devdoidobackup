@@ -1,10 +1,9 @@
 import { DbLoadRating } from './db-load-rating';
 import MockDate from 'mockdate';
 import { LoadRatingRepository } from '../../../repositories/rating/protocols/load-rating-repository';
-import {
-  makeFakeRatings,
-  makeLoadRatingRepository,
-} from '@/bin/test/mock-rating';
+import { makeFakeRatings } from '@/modules/rating/models/mocks/mock-rating';
+import { makeLoadRatingRepository } from '@/modules/rating/repositories/mocks/mock-rating';
+
 type SutTypes = {
   sut: DbLoadRating;
   loadRatingStub: LoadRatingRepository;

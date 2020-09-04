@@ -4,8 +4,8 @@ import { AddRatingController } from './add-rating-controller';
 import { badRequest, serverError, noContent } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
 import { AddRating } from '../../usecases/add-rating/add-rating';
-import { makeAddRating } from '@/bin/test/mock-rating';
 import { makeValidation } from '@/bin/test/mock-validation';
+import { makeAddRating } from '../../usecases/mocks/mock-rating';
 type SutTypes = {
   sut: AddRatingController;
   addRatingStub: AddRating;

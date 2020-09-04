@@ -1,10 +1,8 @@
 import { DbAddRating } from './db-add-rating';
 import { AddRatingRepository } from '../../../repositories/rating/protocols/add-rating-repository';
 import MockDate from 'mockdate';
-import {
-  makeAddRatingRepository,
-  makeFakeRating,
-} from '@/bin/test/mock-rating';
+import { makeFakeRating } from '@/modules/rating/models/mocks/mock-rating';
+import { makeAddRatingRepository } from '@/modules/rating/repositories/mocks/mock-rating';
 
 type SutTypes = {
   sut: DbAddRating;

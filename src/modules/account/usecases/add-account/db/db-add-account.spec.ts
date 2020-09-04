@@ -2,13 +2,15 @@ import { DbAddAccount } from './db-add-account';
 import { Encrypter } from '@/bin/protocols/crypto/encrypter';
 import { AddAccountRepository } from '../../../repositories/protocols/add-account-repository';
 import { LoadAccountByEmailRepository } from '../../../repositories/protocols/load-account-by-email-repository';
+import { makeEncrypter } from '@/bin/test/mock-crypto';
 import {
-  makeAddAccountRepository,
   makeLoadAccountByEmailRepository,
+  makeAddAccountRepository,
+} from '@/modules/account/repositories/mocks/mock-account-repository';
+import {
   makeFakeAccountData,
   makeFakeAccount,
-} from '@/bin/test/mock-account';
-import { makeEncrypter } from '@/bin/test/mock-crypto';
+} from '@/modules/account/models/mocks/mock-account';
 
 type SutTypes = {
   sut: DbAddAccount;

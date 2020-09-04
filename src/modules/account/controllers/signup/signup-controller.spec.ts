@@ -9,8 +9,9 @@ import {
 } from '@/bin/helpers/http-helper';
 import { MissingParamError, EmailInUseError, ServerError } from '@/bin/errors';
 import { Validation } from '@/bin/helpers/validators/validation';
-import { makeAddAccount, makeFakeAccount } from '@/bin/test/mock-account';
 import { makeValidation } from '@/bin/test/mock-validation';
+import { makeAddAccount } from '../../usecases/mocks/mock-account';
+import { makeFakeAccount } from '../../models/mocks/mock-account';
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {

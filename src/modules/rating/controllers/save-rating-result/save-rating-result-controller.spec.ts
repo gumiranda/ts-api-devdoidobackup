@@ -5,11 +5,9 @@ import MockDate from 'mockdate';
 import { SaveRatingResultController } from './save-rating-result-controller';
 import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
 import { InvalidParamError } from '@/bin/errors';
-import {
-  makeLoadRatingById,
-  makeFakeRatingResult,
-  makeSaveRatingResult,
-} from '@/bin/test/mock-rating';
+import { makeSaveRatingResult } from '../../usecases/save-rating-result/mock-rating-result';
+import { makeFakeRatingResult } from '../../models/mocks/mock-rating-result';
+import { makeLoadRatingById } from '../../usecases/mocks/mock-rating';
 
 type SutTypes = {
   sut: SaveRatingResultController;
