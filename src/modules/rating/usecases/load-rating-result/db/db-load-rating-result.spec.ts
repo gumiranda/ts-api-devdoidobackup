@@ -1,74 +1,39 @@
-import MockDate from 'mockdate';
-import { DbSaveRatingResult } from '../../save-rating-result/db/db-save-rating-result';
-import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/save-rating-result-repository';
+import { DbLoadRatingResult } from './db-load-rating-result';
 import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
-
-import {
-  makeFakeRatingResult,
-  makeFakeRatingResultSave,
-} from '@/modules/rating/models/mocks/mock-rating-result';
-import {
-  mockSaveRatingResultRepository,
-  mockLoadRatingResultRepository,
-} from '@/modules/rating/repositories/mocks/mock-rating-result';
+import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-by-id-repository';
+import { mockLoadRatingResultRepository } from '@/modules/rating/repositories/mocks/mock-rating-result';
+import { makeFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-result';
+import { makeLoadRatingByIdRepository } from '@/modules/rating/repositories/mocks/mock-rating';
 
 type SutTypes = {
-  sut: DbSaveRatingResult;
-  saveRatingResultRepositoryStub: SaveRatingResultRepository;
+  sut: DbLoadRatingResult;
   loadRatingResultRepositoryStub: LoadRatingResultRepository;
+  loadRatingByIdRepositoryStub: LoadRatingByIdRepository;
 };
 
 const makeSut = (): SutTypes => {
-  const saveRatingResultRepositoryStub = mockSaveRatingResultRepository();
   const loadRatingResultRepositoryStub = mockLoadRatingResultRepository();
-  const sut = new DbSaveRatingResult(
-    saveRatingResultRepositoryStub,
+  const loadRatingByIdRepositoryStub = makeLoadRatingByIdRepository();
+  const sut = new DbLoadRatingResult(
     loadRatingResultRepositoryStub,
+    loadRatingByIdRepositoryStub,
   );
   return {
     sut,
-    saveRatingResultRepositoryStub,
     loadRatingResultRepositoryStub,
+    loadRatingByIdRepositoryStub,
   };
 };
 
-describe('DbSaveRatingResult Usecase', () => {
-  beforeAll(() => {
-    MockDate.set(new Date());
-  });
-
-  afterAll(() => {
-    MockDate.reset();
-  });
-
-  test('Should call SaveRatingResultRepository with correct values', async () => {
-    const { sut, saveRatingResultRepositoryStub } = makeSut();
-    const saveSpy = jest.spyOn(saveRatingResultRepositoryStub, 'save');
-    const ratingResultData = makeFakeRatingResultSave();
-    await sut.save(ratingResultData);
-    expect(saveSpy).toHaveBeenCalledWith(ratingResultData);
-  });
-
-  test('Should throw if SaveRatingResultRepository throws', async () => {
-    const { sut, saveRatingResultRepositoryStub } = makeSut();
-    jest
-      .spyOn(saveRatingResultRepositoryStub, 'save')
-      .mockImplementationOnce(() => {
-        throw new Error();
-      });
-    const promise = sut.save(makeFakeRatingResultSave());
-    await expect(promise).rejects.toThrow();
-  });
-
-  test('Should call LoadRatingResultRepository with correct values', async () => {
+describe('DbLoadRatingResult UseCase', () => {
+  test('Should call LoadRatingResultRepository', async () => {
     const { sut, loadRatingResultRepositoryStub } = makeSut();
     const loadByRatingIdSpy = jest.spyOn(
       loadRatingResultRepositoryStub,
       'loadByRatingId',
     );
-    const ratingResultData = makeFakeRatingResultSave();
-    await sut.save(ratingResultData);
-    expect(loadByRatingIdSpy).toHaveBeenCalledWith(ratingResultData.ratingId);
+    await sut.load('any_rating_id');
+    expect(loadByRatingIdSpy).toHaveBeenCalledWith('any_rating_id');
   });
 
   test('Should throw if LoadRatingResultRepository throws', async () => {
@@ -78,13 +43,27 @@ describe('DbSaveRatingResult Usecase', () => {
       .mockImplementationOnce(() => {
         throw new Error();
       });
-    const promise = sut.save(makeFakeRatingResultSave());
+    const promise = sut.load('any_rating_id');
     await expect(promise).rejects.toThrow();
   });
 
-  test('Should return RatingResult on success', async () => {
+  test('Should call LoadRatingByIdRepository if LoadRatingResultRepository returns null', async () => {
+    const {
+      sut,
+      loadRatingResultRepositoryStub,
+      loadRatingByIdRepositoryStub,
+    } = makeSut();
+    const loadByIdSpy = jest.spyOn(loadRatingByIdRepositoryStub, 'loadById');
+    jest
+      .spyOn(loadRatingResultRepositoryStub, 'loadByRatingId')
+      .mockReturnValueOnce(Promise.resolve(null));
+    await sut.load('any_rating_id');
+    expect(loadByIdSpy).toHaveBeenCalledWith('any_rating_id');
+  });
+
+  test('Should return ratingResultModel on success', async () => {
     const { sut } = makeSut();
-    const ratingResult = await sut.save(makeFakeRatingResultSave());
+    const ratingResult = await sut.load('any_rating_id');
     expect(ratingResult).toEqual(makeFakeRatingResult());
   });
 });
