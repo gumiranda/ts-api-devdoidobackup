@@ -4,9 +4,8 @@ import { RatingResultMongoRepository } from '@/modules/rating/repositories/ratin
 
 export const makeDbSaveRatingResult = (): SaveRatingResult => {
   const ratingResultMongoRepository = new RatingResultMongoRepository();
-  const loadratingResultMongoRepository = new RatingResultMongoRepository();
   return new DbSaveRatingResult(
     ratingResultMongoRepository,
-    loadratingResultMongoRepository,
+    ratingResultMongoRepository,
   );
 };

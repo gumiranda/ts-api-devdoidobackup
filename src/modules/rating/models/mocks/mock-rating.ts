@@ -43,6 +43,10 @@ export const makeFakeRatingWithIdFake = (): RatingModel => ({
   date: new Date(),
   ratings: [
     {
+      rating: 'any_rating',
+      stars: 3,
+    },
+    {
       rating: 'Bom',
       stars: 3,
     },

@@ -10,11 +10,24 @@ export class DbLoadRatingResult implements LoadRatingResult {
   ) {}
 
   async load(ratingId: string): Promise<RatingResultModel> {
-    const ratingResult = await this.loadRatingResultRepository.loadByRatingId(
+    let ratingResult = await this.loadRatingResultRepository.loadByRatingId(
       ratingId,
     );
     if (!ratingResult) {
-      await this.loadRatingByIdRepository.loadById(ratingId);
+      const {
+        _id,
+        ratingType,
+        date,
+        ratings,
+      } = await this.loadRatingByIdRepository.loadById(ratingId);
+      ratingResult = {
+        ratingId: _id,
+        ratingType,
+        date,
+        ratings: ratings.map((rating) =>
+          Object.assign({}, rating, { count: 0, percent: 0 }),
+        ),
+      };
     }
     return ratingResult;
   }

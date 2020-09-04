@@ -2,21 +2,21 @@ import { RatingResultModel } from '../rating-result';
 import { SaveRatingResultParams } from '../../usecases/save-rating-result/save-rating-result';
 
 export const makeFakeRatingResult = (): RatingResultModel => ({
-  ratingId: 'any_rating_id',
-  ratingType: 'any_ratingType',
+  ratingId: '5f4d46d97568f749c8f5a8e9',
+  ratingType: 'atendimento',
   date: new Date(),
   ratings: [
     {
       rating: 'any_rating',
       stars: 3,
-      count: 1,
-      percent: 50,
+      count: 0,
+      percent: 0,
     },
     {
-      rating: 'other_rating',
+      rating: 'Bom',
       stars: 3,
-      count: 10,
-      percent: 80,
+      count: 0,
+      percent: 0,
     },
   ],
 });
