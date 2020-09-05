@@ -5,7 +5,7 @@ import { mockLoadRatingResultRepository } from '@/modules/rating/repositories/mo
 import { mockFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-result';
 import { mockLoadRatingByIdRepository } from '@/modules/rating/repositories/mocks/mock-rating';
 import MockDate from 'mockdate';
-
+import faker from 'faker';
 type SutTypes = {
   sut: DbLoadRatingResult;
   loadRatingResultRepositoryStub: LoadRatingResultRepository;
@@ -25,8 +25,11 @@ const makeSut = (): SutTypes => {
     loadRatingByIdRepositoryStub,
   };
 };
-
+let ratingId: string;
 describe('DbLoadRatingResult UseCase', () => {
+  beforeEach(() => {
+    ratingId = faker.random.uuid();
+  });
   beforeAll(() => {
     MockDate.set(new Date());
   });
@@ -35,12 +38,8 @@ describe('DbLoadRatingResult UseCase', () => {
   });
   test('Should call LoadRatingResultRepository', async () => {
     const { sut, loadRatingResultRepositoryStub } = makeSut();
-    const loadByRatingIdSpy = jest.spyOn(
-      loadRatingResultRepositoryStub,
-      'loadByRatingId',
-    );
-    await sut.load('any_rating_id');
-    expect(loadByRatingIdSpy).toHaveBeenCalledWith('any_rating_id');
+    await sut.load(ratingId);
+    expect(loadRatingResultRepositoryStub.ratingId).toBe(ratingId);
   });
 
   test('Should throw if LoadRatingResultRepository throws', async () => {
@@ -50,7 +49,7 @@ describe('DbLoadRatingResult UseCase', () => {
       .mockImplementationOnce(() => {
         throw new Error();
       });
-    const promise = sut.load('any_rating_id');
+    const promise = sut.load(ratingId);
     await expect(promise).rejects.toThrow();
   });
 
@@ -60,25 +59,34 @@ describe('DbLoadRatingResult UseCase', () => {
       loadRatingResultRepositoryStub,
       loadRatingByIdRepositoryStub,
     } = makeSut();
-    const loadByIdSpy = jest.spyOn(loadRatingByIdRepositoryStub, 'loadById');
-    jest
-      .spyOn(loadRatingResultRepositoryStub, 'loadByRatingId')
-      .mockReturnValueOnce(Promise.resolve(null));
-    await sut.load('any_rating_id');
-    expect(loadByIdSpy).toHaveBeenCalledWith('any_rating_id');
+    loadRatingResultRepositoryStub.ratingResultModel = null;
+    await sut.load(ratingId);
+    expect(loadRatingByIdRepositoryStub._id).toBe(ratingId);
   });
   test('Should call LoadRatingByIdRepository with all ratings with count 0 if LoadRatingResultRepository returns null', async () => {
-    const { sut, loadRatingResultRepositoryStub } = makeSut();
-    jest
-      .spyOn(loadRatingResultRepositoryStub, 'loadByRatingId')
-      .mockReturnValueOnce(Promise.resolve(null));
-    const ratingResult = await sut.load('any_rating_id');
-    expect(ratingResult).toEqual(mockFakeRatingResult());
+    const {
+      sut,
+      loadRatingResultRepositoryStub,
+      loadRatingByIdRepositoryStub,
+    } = makeSut();
+    loadRatingResultRepositoryStub.ratingResultModel = null;
+    const ratingResult = await sut.load(ratingId);
+    const { ratingModel } = loadRatingByIdRepositoryStub;
+    expect(ratingResult).toEqual({
+      ratingId: ratingModel._id,
+      ratingType: ratingModel.ratingType,
+      date: ratingModel.date,
+      ratings: ratingModel.ratings.map((rating) =>
+        Object.assign({}, rating, { count: 0, percent: 0 }),
+      ),
+    });
   });
 
   test('Should return ratingResultModel on success', async () => {
-    const { sut } = makeSut();
-    const ratingResult = await sut.load('any_rating_id');
-    expect(ratingResult).toEqual(mockFakeRatingResult());
+    const { sut, loadRatingResultRepositoryStub } = makeSut();
+    const ratingResult = await sut.load(ratingId);
+    expect(ratingResult).toEqual(
+      loadRatingResultRepositoryStub.ratingResultModel,
+    );
   });
 });
