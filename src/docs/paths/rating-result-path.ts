@@ -24,6 +24,21 @@ export const ratingResultPath = {
       },
     },
   },
+  get: {
+    security: [{ apiKeyAuth: [] }],
+    tags: ['Rating'],
+    summary: 'Endpoint que consulta resultado de avaliação',
+    parameters: [
+      {
+        in: 'path',
+        name: 'ratingId',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+      },
+    ],
+  },
   responses: {
     200: {
       description: 'Sucesso',

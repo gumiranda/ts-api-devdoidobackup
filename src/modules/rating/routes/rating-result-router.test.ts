@@ -60,7 +60,7 @@ describe('/ratingResult', () => {
     });
   });
   describe('GET /:ratingId/results', () => {
-    test('Should return 403 an rating result without accessToken', async () => {
+    test('Should return 403 an load rating result without accessToken', async () => {
       await request(app)
         .get('/api/ratingResult/any_id/results')
         .send({
@@ -68,14 +68,11 @@ describe('/ratingResult', () => {
         })
         .expect(403);
     });
-    test('Should return 200 an rating result with accessToken', async () => {
+    test('Should return 200 an load rating result with accessToken', async () => {
       const accessToken = await makeAccessToken();
       const ratingId = await makeInsertRating();
       await request(app)
         .get(`/api/ratingResult/${ratingId}/results`)
-        .send({
-          rating: 'Bom',
-        })
         .set('Authorization', 'Bearer ' + accessToken)
         .expect(200);
     });
