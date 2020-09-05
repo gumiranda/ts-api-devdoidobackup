@@ -2,8 +2,8 @@ import { DbAuthentication } from './db-authentication';
 import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
 import { TokenGenerator } from '@/bin/protocols/crypto/token-generator';
 import { LoadAccountByEmailRepository } from '../../../repositories/protocols/load-account-by-email-repository';
-import { makeHashComparer, makeTokenGenerator } from '@/bin/test/mock-crypto';
-import { makeLoadAccountByEmailRepositoryNotNull } from '@/modules/account/repositories/mocks/mock-account-repository';
+import { mockHashComparer, mockTokenGenerator } from '@/bin/test/mock-crypto';
+import { mockLoadAccountByEmailRepositoryNotNull } from '@/modules/account/repositories/mocks/mock-account-repository';
 
 type SutTypes = {
   sut: DbAuthentication;
@@ -13,9 +13,9 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryNotNull();
-  const hashComparerStub = makeHashComparer();
-  const tokenGeneratorStub = makeTokenGenerator();
+  const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepositoryNotNull();
+  const hashComparerStub = mockHashComparer();
+  const tokenGeneratorStub = mockTokenGenerator();
   const sut = new DbAuthentication(
     loadAccountByEmailRepositoryStub,
     hashComparerStub,

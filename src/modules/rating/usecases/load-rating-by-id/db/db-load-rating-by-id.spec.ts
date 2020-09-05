@@ -1,14 +1,14 @@
 import MockDate from 'mockdate';
 import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-by-id-repository';
 import { DbLoadRatingById } from './db-load-rating-by-id';
-import { makeFakeRatingWithIdFake } from '@/modules/rating/models/mocks/mock-rating';
-import { makeLoadRatingByIdRepository } from '@/modules/rating/repositories/mocks/mock-rating';
+import { mockFakeRatingWithIdFake } from '@/modules/rating/models/mocks/mock-rating';
+import { mockLoadRatingByIdRepository } from '@/modules/rating/repositories/mocks/mock-rating';
 type SutTypes = {
   sut: DbLoadRatingById;
   loadRatingStub: LoadRatingByIdRepository;
 };
 const makeSut = (): SutTypes => {
-  const loadRatingStub = makeLoadRatingByIdRepository();
+  const loadRatingStub = mockLoadRatingByIdRepository();
   const sut = new DbLoadRatingById(loadRatingStub);
   return {
     sut,
@@ -31,7 +31,7 @@ describe('DbLoadRatingById', () => {
   test('should return rating on success', async () => {
     const { sut } = makeSut();
     const ratings = await sut.loadById('5f4d46d97568f749c8f5a8e9');
-    expect(ratings).toEqual(makeFakeRatingWithIdFake());
+    expect(ratings).toEqual(mockFakeRatingWithIdFake());
   });
   test('should throw if LoadRatingByIdRepository throws', async () => {
     const { sut, loadRatingStub } = makeSut();

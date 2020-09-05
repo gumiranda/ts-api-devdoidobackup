@@ -3,17 +3,17 @@ import { AddAccountModel } from '../../usecases/add-account/add-account';
 import { AccountModel } from '../../models/account-model';
 import { LoadAccountByEmailRepository } from '../protocols/load-account-by-email-repository';
 import { LoadAccountByTokenRepository } from '../protocols/load-account-by-token-repository';
-import { makeFakeAccount } from '../../models/mocks/mock-account';
+import { mockFakeAccount } from '../../models/mocks/mock-account';
 
-export const makeAddAccountRepository = (): AddAccountRepository => {
+export const mockAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
     async add(accountData: AddAccountModel): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
+      return new Promise((resolve) => resolve(mockFakeAccount()));
     }
   }
   return new AddAccountRepositoryStub();
 };
-export const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
+export const mockLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub
     implements LoadAccountByEmailRepository {
     async loadByEmail(email: string): Promise<AccountModel> {
@@ -22,7 +22,7 @@ export const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository
   }
   return new LoadAccountByEmailRepositoryStub();
 };
-export const makeLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRepository => {
+export const mockLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub
     implements LoadAccountByEmailRepository {
     async loadByEmail(email: string): Promise<AccountModel> {
@@ -37,11 +37,11 @@ export const makeLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRep
   }
   return new LoadAccountByEmailRepositoryStub();
 };
-export const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
+export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub
     implements LoadAccountByTokenRepository {
     async loadByToken(token: string, role?: string): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
+      return new Promise((resolve) => resolve(mockFakeAccount()));
     }
   }
   return new LoadAccountByTokenRepositoryStub();

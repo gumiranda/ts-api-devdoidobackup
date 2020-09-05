@@ -1,6 +1,6 @@
 import { Validation } from '../helpers/validators/validation';
 
-export const makeValidation = (): Validation => {
+export const mockValidation = (): Validation => {
   class ValidationStub implements Validation {
     validate(input: any): Error[] {
       return null;

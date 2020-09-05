@@ -2,8 +2,8 @@ import { RatingMongoRepository } from './rating-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection } from 'mongodb';
 import {
-  makeFakeAddRating,
-  makeFakeRatings,
+  mockFakeAddRating,
+  mockFakeRatings,
 } from '../../models/mocks/mock-rating';
 let ratingCollection: Collection;
 
@@ -26,7 +26,7 @@ describe('Rating Mongo Repository', () => {
   };
   test('Should return an rating add success', async () => {
     const sut = makeSut();
-    await sut.add(makeFakeAddRating());
+    await sut.add(mockFakeAddRating());
     const rating = await ratingCollection.findOne({
       ratingType: 'atendimento',
     });
@@ -34,7 +34,7 @@ describe('Rating Mongo Repository', () => {
   });
   test('Should return an rating list load success', async () => {
     const sut = makeSut();
-    await ratingCollection.insertMany(makeFakeRatings());
+    await ratingCollection.insertMany(mockFakeRatings());
     const ratings = await sut.loadAll();
     expect(ratings.length).toBe(2);
     expect(ratings[0].ratingType).toBe('atendimento');
@@ -42,7 +42,7 @@ describe('Rating Mongo Repository', () => {
   });
   test('Should return an rating by id load success', async () => {
     const sut = makeSut();
-    const { ops } = await ratingCollection.insertOne(makeFakeAddRating());
+    const { ops } = await ratingCollection.insertOne(mockFakeAddRating());
     const { _id } = ops[0];
     const rating = await sut.loadById(_id);
     expect(rating).toBeTruthy();

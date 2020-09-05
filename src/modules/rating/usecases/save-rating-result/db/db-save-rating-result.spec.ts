@@ -7,8 +7,8 @@ import {
   mockLoadRatingResultRepository,
 } from '@/modules/rating/repositories/mocks/mock-rating-result';
 import {
-  makeFakeRatingResultSave,
-  makeFakeRatingResult,
+  mockFakeRatingResultSave,
+  mockFakeRatingResult,
 } from '@/modules/rating/models/mocks/mock-rating-result';
 
 type SutTypes = {
@@ -43,7 +43,7 @@ describe('DbSaveRatingResult Usecase', () => {
   test('Should call SaveRatingResultRepository with correct values', async () => {
     const { sut, saveRatingResultRepositoryStub } = makeSut();
     const saveSpy = jest.spyOn(saveRatingResultRepositoryStub, 'save');
-    const ratingResultData = makeFakeRatingResultSave();
+    const ratingResultData = mockFakeRatingResultSave();
     await sut.save(ratingResultData);
     expect(saveSpy).toHaveBeenCalledWith(ratingResultData);
   });
@@ -55,7 +55,7 @@ describe('DbSaveRatingResult Usecase', () => {
       .mockImplementationOnce(() => {
         throw new Error();
       });
-    const promise = sut.save(makeFakeRatingResultSave());
+    const promise = sut.save(mockFakeRatingResultSave());
     await expect(promise).rejects.toThrow();
   });
 
@@ -65,7 +65,7 @@ describe('DbSaveRatingResult Usecase', () => {
       loadRatingResultRepositoryStub,
       'loadByRatingId',
     );
-    const ratingResultData = makeFakeRatingResultSave();
+    const ratingResultData = mockFakeRatingResultSave();
     await sut.save(ratingResultData);
     expect(loadByRatingIdSpy).toHaveBeenCalledWith(ratingResultData.ratingId);
   });
@@ -77,13 +77,13 @@ describe('DbSaveRatingResult Usecase', () => {
       .mockImplementationOnce(() => {
         throw new Error();
       });
-    const promise = sut.save(makeFakeRatingResultSave());
+    const promise = sut.save(mockFakeRatingResultSave());
     await expect(promise).rejects.toThrow();
   });
 
   test('Should return RatingResult on success', async () => {
     const { sut } = makeSut();
-    const ratingResult = await sut.save(makeFakeRatingResultSave());
-    expect(ratingResult).toEqual(makeFakeRatingResult());
+    const ratingResult = await sut.save(mockFakeRatingResultSave());
+    expect(ratingResult).toEqual(mockFakeRatingResult());
   });
 });

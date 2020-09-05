@@ -4,13 +4,13 @@ import { RatingResultMongoRepository } from './rating-result-mongo-repository';
 import { RatingModel } from '../../models/rating';
 import { AccountModel } from '@/modules/account/models/account-model';
 import { ObjectId } from 'mongodb';
-import { makeFakeAddRating } from '../../models/mocks/mock-rating';
+import { mockFakeAddRating } from '../../models/mocks/mock-rating';
 let ratingCollection: Collection;
 let ratingResultCollection: Collection;
 let accountCollection: Collection;
 
 const makeRating = async (): Promise<RatingModel> => {
-  const { ops } = await ratingCollection.insertOne(makeFakeAddRating());
+  const { ops } = await ratingCollection.insertOne(mockFakeAddRating());
   return ops[0];
 };
 

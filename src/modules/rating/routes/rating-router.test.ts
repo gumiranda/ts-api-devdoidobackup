@@ -4,7 +4,7 @@ import { app } from '@/bin/configuration/app';
 import { Collection } from 'mongodb';
 import { sign } from 'jsonwebtoken';
 import variables from '@/bin/configuration/variables';
-import { makeFakeRatings } from '../models/mocks/mock-rating';
+import { mockFakeRatings } from '../models/mocks/mock-rating';
 let accountCollection: Collection;
 let ratingCollection: Collection;
 const makeAccessToken = async (): Promise<string> => {
@@ -65,7 +65,7 @@ describe('POST /', () => {
       await request(app).get('/api/rating').expect(403);
     });
     test('Should return 200 an rating with accessToken', async () => {
-      await ratingCollection.insertMany(makeFakeRatings());
+      await ratingCollection.insertMany(mockFakeRatings());
       const accessToken = await makeAccessToken();
       await request(app)
         .get('/api/rating')

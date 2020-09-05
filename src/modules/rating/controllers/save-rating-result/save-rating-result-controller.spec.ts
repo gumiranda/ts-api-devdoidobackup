@@ -5,9 +5,9 @@ import MockDate from 'mockdate';
 import { SaveRatingResultController } from './save-rating-result-controller';
 import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
 import { InvalidParamError } from '@/bin/errors';
-import { makeSaveRatingResult } from '../../usecases/save-rating-result/mock-rating-result';
-import { makeFakeRatingResult } from '../../models/mocks/mock-rating-result';
-import { makeLoadRatingById } from '../../usecases/mocks/mock-rating';
+import { mockFakeRatingResult } from '../../models/mocks/mock-rating-result';
+import { mockLoadRatingById } from '../../usecases/mocks/mock-rating';
+import { makeSaveRatingResult } from '../../usecases/mocks/mock-rating-result';
 
 type SutTypes = {
   sut: SaveRatingResultController;
@@ -16,7 +16,7 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const loadRatingByIdStub = makeLoadRatingById();
+  const loadRatingByIdStub = mockLoadRatingById();
   const saveRatingStub = makeSaveRatingResult();
   const sut = new SaveRatingResultController(
     loadRatingByIdStub,
@@ -94,6 +94,6 @@ describe('SaveRatingResult Controller', () => {
     const { sut } = makeSut();
     const httpRequest = makeFakeRequest();
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse).toEqual(ok(makeFakeRatingResult()));
+    expect(httpResponse).toEqual(ok(mockFakeRatingResult()));
   });
 });

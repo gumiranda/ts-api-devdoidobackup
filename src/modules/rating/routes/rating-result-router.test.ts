@@ -4,12 +4,12 @@ import { app } from '@/bin/configuration/app';
 import { Collection } from 'mongodb';
 import { sign } from 'jsonwebtoken';
 import variables from '@/bin/configuration/variables';
-import { makeFakeAddRating } from '../models/mocks/mock-rating';
+import { mockFakeAddRating } from '../models/mocks/mock-rating';
 let accountCollection: Collection;
 let ratingCollection: Collection;
 
 const makeInsertRating = async (): Promise<string> => {
-  const res = await ratingCollection.insertOne(makeFakeAddRating());
+  const res = await ratingCollection.insertOne(mockFakeAddRating());
   const _id = res.ops[0]._id;
   return _id.toString();
 };

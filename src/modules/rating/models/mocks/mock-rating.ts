@@ -1,6 +1,6 @@
 import { RatingModel } from '../rating';
 
-export const makeFakeRatings = (): RatingModel[] => {
+export const mockFakeRatings = (): RatingModel[] => {
   return [
     {
       ratingType: 'atendimento',
@@ -26,7 +26,7 @@ export const makeFakeRatings = (): RatingModel[] => {
     },
   ];
 };
-export const makeFakeRating = (): RatingModel => ({
+export const mockFakeRating = (): RatingModel => ({
   ratingType: 'any_entity',
   _id: 'any_id',
   date: new Date(),
@@ -37,7 +37,7 @@ export const makeFakeRating = (): RatingModel => ({
     },
   ],
 });
-export const makeFakeRatingWithIdFake = (): RatingModel => ({
+export const mockFakeRatingWithIdFake = (): RatingModel => ({
   _id: '5f4d46d97568f749c8f5a8e9',
   ratingType: 'atendimento',
   date: new Date(),
@@ -52,7 +52,7 @@ export const makeFakeRatingWithIdFake = (): RatingModel => ({
     },
   ],
 });
-export const makeFakeAddRating = (): Omit<RatingModel, '_id'> => ({
+export const mockFakeAddRating = (): Omit<RatingModel, '_id'> => ({
   ratingType: 'atendimento',
   date: new Date(),
   ratings: [

@@ -3,7 +3,7 @@ import { Encrypter } from '../protocols/crypto/encrypter';
 import { HashComparer } from '../protocols/crypto/hash-comparer';
 import { TokenGenerator } from '../protocols/crypto/token-generator';
 
-export const makeTokenDecrypter = (): TokenDecrypter => {
+export const mockTokenDecrypter = (): TokenDecrypter => {
   class TokenDecrypterStub implements TokenDecrypter {
     async decrypt(value: string): Promise<string> {
       return new Promise((resolve) => resolve('any_value'));
@@ -11,7 +11,7 @@ export const makeTokenDecrypter = (): TokenDecrypter => {
   }
   return new TokenDecrypterStub();
 };
-export const makeEncrypter = (): Encrypter => {
+export const mockEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
     async encrypt(value: string): Promise<string> {
       return new Promise((resolve) => resolve('hashed_password'));
@@ -19,7 +19,7 @@ export const makeEncrypter = (): Encrypter => {
   }
   return new EncrypterStub();
 };
-export const makeHashComparer = (): HashComparer => {
+export const mockHashComparer = (): HashComparer => {
   class HashComparerStub implements HashComparer {
     async compare(password: string, hashedPassword: string): Promise<boolean> {
       return new Promise((resolve) => resolve(true));
@@ -27,7 +27,7 @@ export const makeHashComparer = (): HashComparer => {
   }
   return new HashComparerStub();
 };
-export const makeTokenGenerator = (): TokenGenerator => {
+export const mockTokenGenerator = (): TokenGenerator => {
   class TokenGeneratorStub implements TokenGenerator {
     async generate(id: string): Promise<string> {
       return new Promise((resolve) => resolve('any_token'));

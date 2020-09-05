@@ -1,10 +1,10 @@
 import { HttpRequest } from '../protocols/http';
 import { Authentication } from '@/modules/account/usecases/auth/authentication';
 
-export const makeFakeRequestHeader = (): HttpRequest => ({
+export const mockFakeRequestHeader = (): HttpRequest => ({
   headers: { authorization: 'Bearer any_token' },
 });
-export const makeAuthentication = (): Authentication => {
+export const mockAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
     async auth(email: string, password: string): Promise<string> {
       return new Promise((resolve) => resolve('any_token'));

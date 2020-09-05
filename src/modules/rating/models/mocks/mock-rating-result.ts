@@ -1,7 +1,7 @@
 import { RatingResultModel } from '../rating-result';
 import { SaveRatingResultParams } from '../../usecases/save-rating-result/save-rating-result';
 
-export const makeFakeRatingResult = (): RatingResultModel => ({
+export const mockFakeRatingResult = (): RatingResultModel => ({
   ratingId: '5f4d46d97568f749c8f5a8e9',
   ratingType: 'atendimento',
   date: new Date(),
@@ -21,7 +21,7 @@ export const makeFakeRatingResult = (): RatingResultModel => ({
   ],
 });
 
-const makeFakeRatingResultData = (
+const mockFakeRatingResultData = (
   ratingId: string,
   accountId: string,
   rating: string,
@@ -31,6 +31,6 @@ const makeFakeRatingResultData = (
   rating,
   date: new Date(),
 });
-export const makeFakeRatingResultSave = (): SaveRatingResultParams => {
-  return makeFakeRatingResultData('any_rating_id', 'any_account_id', 'Bom');
+export const mockFakeRatingResultSave = (): SaveRatingResultParams => {
+  return mockFakeRatingResultData('any_rating_id', 'any_account_id', 'Bom');
 };

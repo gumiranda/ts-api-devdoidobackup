@@ -2,7 +2,7 @@ import { SaveRatingResultRepository } from '../rating-result/protocols/save-rati
 import { SaveRatingResultParams } from '../../usecases/save-rating-result/save-rating-result';
 import { LoadRatingResultRepository } from '../rating-result/protocols/load-rating-result-repository';
 import { RatingResultModel } from '../../models/rating-result';
-import { makeFakeRatingResult } from '../../models/mocks/mock-rating-result';
+import { mockFakeRatingResult } from '../../models/mocks/mock-rating-result';
 
 export const mockSaveRatingResultRepository = (): SaveRatingResultRepository => {
   class SaveRatingResultRepositoryStub implements SaveRatingResultRepository {
@@ -16,7 +16,7 @@ export const mockSaveRatingResultRepository = (): SaveRatingResultRepository => 
 export const mockLoadRatingResultRepository = (): LoadRatingResultRepository => {
   class LoadRatingResultRepositoryStub implements LoadRatingResultRepository {
     async loadByRatingId(ratingId: string): Promise<RatingResultModel> {
-      return Promise.resolve(makeFakeRatingResult());
+      return Promise.resolve(mockFakeRatingResult());
     }
   }
   return new LoadRatingResultRepositoryStub();

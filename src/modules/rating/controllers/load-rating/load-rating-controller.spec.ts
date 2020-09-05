@@ -2,15 +2,15 @@ import { LoadRatingController } from './load-rating-controller';
 import { serverError, noContent, ok } from '@/bin/helpers/http-helper';
 import { LoadRating } from '../../usecases/load-rating/load-rating';
 import MockDate from 'mockdate';
-import { makeFakeRatings } from '../../models/mocks/mock-rating';
-import { makeLoadRating } from '../../usecases/mocks/mock-rating';
+import { mockFakeRatings } from '../../models/mocks/mock-rating';
+import { mockLoadRating } from '../../usecases/mocks/mock-rating';
 type SutTypes = {
   sut: LoadRatingController;
   loadRatingStub: LoadRating;
 };
 
 const makeSut = (): SutTypes => {
-  const loadRatingStub = makeLoadRating();
+  const loadRatingStub = mockLoadRating();
   const sut = new LoadRatingController(loadRatingStub);
   return { sut, loadRatingStub };
 };
@@ -31,7 +31,7 @@ describe('LoadRating Controller', () => {
   test('should return 200 on success', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle({});
-    expect(httpResponse).toEqual(ok(makeFakeRatings()));
+    expect(httpResponse).toEqual(ok(mockFakeRatings()));
   });
   test('should return 204 if LoadRatings returns noContent', async () => {
     const { sut, loadRatingStub } = makeSut();

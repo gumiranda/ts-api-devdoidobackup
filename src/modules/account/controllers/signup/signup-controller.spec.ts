@@ -9,9 +9,9 @@ import {
 } from '@/bin/helpers/http-helper';
 import { MissingParamError, EmailInUseError, ServerError } from '@/bin/errors';
 import { Validation } from '@/bin/helpers/validators/validation';
-import { makeValidation } from '@/bin/test/mock-validation';
-import { makeAddAccount } from '../../usecases/mocks/mock-account';
-import { makeFakeAccount } from '../../models/mocks/mock-account';
+import { mockValidation } from '@/bin/test/mock-validation';
+import { mockAddAccount } from '../../usecases/mocks/mock-account';
+import { mockFakeAccount } from '../../models/mocks/mock-account';
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -29,8 +29,8 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const addAccountStub = makeAddAccount();
-  const validationStub = makeValidation();
+  const addAccountStub = mockAddAccount();
+  const validationStub = mockValidation();
   const sut = new SignUpController(addAccountStub, validationStub);
   return {
     sut,
@@ -80,7 +80,7 @@ describe('SignUp Controller', () => {
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(ok(makeFakeAccount()));
+    expect(httpResponse).toEqual(ok(mockFakeAccount()));
   });
   test('Should return 400 if validation returns an error', async () => {
     const { sut, validationStub } = makeSut();

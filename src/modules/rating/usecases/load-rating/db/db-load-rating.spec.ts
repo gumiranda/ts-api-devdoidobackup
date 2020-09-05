@@ -1,8 +1,8 @@
 import { DbLoadRating } from './db-load-rating';
 import MockDate from 'mockdate';
 import { LoadRatingRepository } from '../../../repositories/rating/protocols/load-rating-repository';
-import { makeFakeRatings } from '@/modules/rating/models/mocks/mock-rating';
-import { makeLoadRatingRepository } from '@/modules/rating/repositories/mocks/mock-rating';
+import { mockFakeRatings } from '@/modules/rating/models/mocks/mock-rating';
+import { mockLoadRatingRepository } from '@/modules/rating/repositories/mocks/mock-rating';
 
 type SutTypes = {
   sut: DbLoadRating;
@@ -10,7 +10,7 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const loadRatingStub = makeLoadRatingRepository();
+  const loadRatingStub = mockLoadRatingRepository();
   const sut = new DbLoadRating(loadRatingStub);
   return {
     sut,
@@ -33,7 +33,7 @@ describe('DbLoadRating', () => {
   test('should return a list of ratings on success', async () => {
     const { sut } = makeSut();
     const ratings = await sut.load();
-    expect(ratings).toEqual(makeFakeRatings());
+    expect(ratings).toEqual(mockFakeRatings());
   });
   test('should throw if LoadRatingRepository throws', async () => {
     const { sut, loadRatingStub } = makeSut();

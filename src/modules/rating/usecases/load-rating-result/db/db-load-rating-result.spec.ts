@@ -2,8 +2,8 @@ import { DbLoadRatingResult } from './db-load-rating-result';
 import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
 import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-by-id-repository';
 import { mockLoadRatingResultRepository } from '@/modules/rating/repositories/mocks/mock-rating-result';
-import { makeFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-result';
-import { makeLoadRatingByIdRepository } from '@/modules/rating/repositories/mocks/mock-rating';
+import { mockFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-result';
+import { mockLoadRatingByIdRepository } from '@/modules/rating/repositories/mocks/mock-rating';
 import MockDate from 'mockdate';
 
 type SutTypes = {
@@ -14,7 +14,7 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const loadRatingResultRepositoryStub = mockLoadRatingResultRepository();
-  const loadRatingByIdRepositoryStub = makeLoadRatingByIdRepository();
+  const loadRatingByIdRepositoryStub = mockLoadRatingByIdRepository();
   const sut = new DbLoadRatingResult(
     loadRatingResultRepositoryStub,
     loadRatingByIdRepositoryStub,
@@ -73,12 +73,12 @@ describe('DbLoadRatingResult UseCase', () => {
       .spyOn(loadRatingResultRepositoryStub, 'loadByRatingId')
       .mockReturnValueOnce(Promise.resolve(null));
     const ratingResult = await sut.load('any_rating_id');
-    expect(ratingResult).toEqual(makeFakeRatingResult());
+    expect(ratingResult).toEqual(mockFakeRatingResult());
   });
 
   test('Should return ratingResultModel on success', async () => {
     const { sut } = makeSut();
     const ratingResult = await sut.load('any_rating_id');
-    expect(ratingResult).toEqual(makeFakeRatingResult());
+    expect(ratingResult).toEqual(mockFakeRatingResult());
   });
 });

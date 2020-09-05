@@ -3,8 +3,8 @@ import { serverError, ok, unauthorized } from '@/bin/helpers/http-helper';
 import { LoginController } from './login-controller';
 import { Authentication } from '../../usecases/auth/authentication';
 import { Validation } from '@/bin/helpers/validators/validation';
-import { makeAuthentication } from '@/bin/test/mock-auth';
-import { makeValidation } from '@/bin/test/mock-validation';
+import { mockAuthentication } from '@/bin/test/mock-auth';
+import { mockValidation } from '@/bin/test/mock-validation';
 
 type SutTypes = {
   sut: LoginController;
@@ -13,8 +13,8 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const validatorStub = makeValidation();
-  const authenticationStub = makeAuthentication();
+  const validatorStub = mockValidation();
+  const authenticationStub = mockAuthentication();
   const sut = new LoginController(validatorStub, authenticationStub);
   return { sut, validatorStub, authenticationStub };
 };

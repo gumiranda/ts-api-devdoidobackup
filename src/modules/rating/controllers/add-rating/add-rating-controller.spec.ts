@@ -4,8 +4,8 @@ import { AddRatingController } from './add-rating-controller';
 import { badRequest, serverError, noContent } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
 import { AddRating } from '../../usecases/add-rating/add-rating';
-import { makeValidation } from '@/bin/test/mock-validation';
-import { makeAddRating } from '../../usecases/mocks/mock-rating';
+import { mockValidation } from '@/bin/test/mock-validation';
+import { mockAddRating } from '../../usecases/mocks/mock-rating';
 type SutTypes = {
   sut: AddRatingController;
   addRatingStub: AddRating;
@@ -13,8 +13,8 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const validatorStub = makeValidation();
-  const addRatingStub = makeAddRating();
+  const validatorStub = mockValidation();
+  const addRatingStub = mockAddRating();
   const sut = new AddRatingController(validatorStub, addRatingStub);
   return { sut, validatorStub, addRatingStub };
 };
