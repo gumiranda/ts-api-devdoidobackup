@@ -1,9 +1,9 @@
 export const saveRatingParamsSchema = {
   type: 'object',
   properties: {
-    result: {
+    rating: {
       type: 'string',
     },
   },
-  required: ['result'],
+  required: ['rating'],
 };

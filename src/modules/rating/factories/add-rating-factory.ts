@@ -5,7 +5,7 @@ import { mockValidationComposite } from '@/bin/patterns/factories/usecases/valid
 import { makeDbAddRating } from '@/bin/patterns/factories/usecases/rating/add-rating/db-add-rating-factory';
 
 export const makeAddRatingController = (): Controller => {
-  const requiredFields = ['ratingFor', 'ratings'];
+  const requiredFields = ['ratingType', 'ratings'];
   const addRatingController = new AddRatingController(
     mockValidationComposite(requiredFields),
     makeDbAddRating(),

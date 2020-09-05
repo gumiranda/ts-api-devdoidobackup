@@ -7,6 +7,8 @@ import { ObjectId } from 'mongodb';
 import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
 export class RatingMongoRepository
   implements AddRatingRepository, LoadRatingRepository, LoadRatingById {
+  ratingModel: RatingModel;
+  _id: string;
   async loadById(_id: string): Promise<RatingModel> {
     const ratingCollection = await MongoHelper.getCollection('ratings');
     const rating: RatingModel = await ratingCollection.findOne({

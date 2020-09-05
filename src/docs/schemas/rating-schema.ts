@@ -7,7 +7,7 @@ export const ratingSchema = {
     date: {
       type: 'string',
     },
-    ratingFor: {
+    ratingType: {
       type: 'string',
     },
     ratings: {

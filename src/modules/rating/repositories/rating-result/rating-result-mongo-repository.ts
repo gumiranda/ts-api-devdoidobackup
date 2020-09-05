@@ -7,6 +7,8 @@ import { QueryBuilder } from '@/bin/helpers/query-builder';
 import { LoadRatingResultRepository } from './protocols/load-rating-result-repository';
 export class RatingResultMongoRepository
   implements SaveRatingResultRepository, LoadRatingResultRepository {
+  ratingResultModel: RatingResultModel;
+  ratingId: string;
   async save(ratingData: SaveRatingResultParams): Promise<void> {
     const { ratingId, accountId, rating, date } = ratingData;
     const ratingResultCollection = await MongoHelper.getCollection(
