@@ -12,6 +12,9 @@ export class AccountMongoRepository
     AddAccountRepository,
     LoadAccountByEmailRepository,
     LoadAccountByTokenRepository {
+  accountModel: AccountModel;
+  role: string;
+  token: string;
   async loadByToken(token: string, role: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const decoded: any = await jwt.verify(token, variables.Security.secretKey);

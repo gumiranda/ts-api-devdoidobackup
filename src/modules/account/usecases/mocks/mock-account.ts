@@ -6,7 +6,11 @@ import { AddAccount, AddAccountModel } from '../add-account/add-account';
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
     accountModel = mockFakeAccount();
+    accessToken: string;
+    role: string;
     async load(accessToken: string, role?: string): Promise<AccountModel> {
+      this.accessToken = accessToken;
+      this.role = role;
       return new Promise((resolve) => resolve(this.accountModel));
     }
   }

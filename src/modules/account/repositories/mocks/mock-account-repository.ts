@@ -49,8 +49,12 @@ export const mockLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRep
 export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub
     implements LoadAccountByTokenRepository {
+    role: string;
+    token: string;
     accountModel = mockFakeAccount();
     async loadByToken(token: string, role?: string): Promise<AccountModel> {
+      this.token = token;
+      this.role = role;
       return new Promise((resolve) => resolve(this.accountModel));
     }
   }

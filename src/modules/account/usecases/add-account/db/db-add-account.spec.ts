@@ -43,7 +43,7 @@ describe('DbAddAccount Usecase', () => {
     const addAccount = mockFakeAccountData();
     await sut.add(addAccount);
     expect(encryptSpy).toHaveBeenCalledWith(addAccount.password);
-    expect(encrypterStub.value).toBe(addAccount.password);
+    expect(encrypterStub.plaintext).toBe(addAccount.password);
   });
 
   test('Should throw if Encrypter throws', async () => {

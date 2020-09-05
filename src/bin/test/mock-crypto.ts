@@ -17,9 +17,9 @@ export const mockTokenDecrypter = (): TokenDecrypter => {
 export const mockEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
     hashedPassword = faker.random.uuid();
-    value: string;
-    async encrypt(value: string): Promise<string> {
-      this.value = value;
+    plaintext: string;
+    async encrypt(plaintext: string): Promise<string> {
+      this.plaintext = plaintext;
       return new Promise((resolve) => resolve(this.hashedPassword));
     }
   }
