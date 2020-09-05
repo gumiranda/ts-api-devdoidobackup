@@ -6,9 +6,12 @@ import { LoadAccountByTokenRepository } from '../protocols/load-account-by-token
 import { mockFakeAccount } from '../../models/mocks/mock-account';
 
 export const mockAddAccountRepository = (): AddAccountRepository => {
+  //  accountModel = mockFakeAccount();
   class AddAccountRepositoryStub implements AddAccountRepository {
+    accountModel = mockFakeAccount();
     async add(accountData: AddAccountModel): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(mockFakeAccount()));
+      //  this.accountModel = { _id: this.accountModel._id, ...accountData };
+      return new Promise((resolve) => resolve(this.accountModel));
     }
   }
   return new AddAccountRepositoryStub();
@@ -25,14 +28,20 @@ export const mockLoadAccountByEmailRepository = (): LoadAccountByEmailRepository
 export const mockLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub
     implements LoadAccountByEmailRepository {
+    accountModel = {
+      _id: 'any_id',
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: 'any_password',
+    };
     async loadByEmail(email: string): Promise<AccountModel> {
-      const account = {
+      this.accountModel = {
         _id: 'any_id',
         name: 'any_name',
-        email: 'any_email@email.com',
+        email,
         password: 'any_password',
       };
-      return new Promise((resolve) => resolve(account));
+      return new Promise((resolve) => resolve(this.accountModel));
     }
   }
   return new LoadAccountByEmailRepositoryStub();
@@ -40,8 +49,9 @@ export const mockLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRep
 export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub
     implements LoadAccountByTokenRepository {
+    accountModel = mockFakeAccount();
     async loadByToken(token: string, role?: string): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(mockFakeAccount()));
+      return new Promise((resolve) => resolve(this.accountModel));
     }
   }
   return new LoadAccountByTokenRepositoryStub();

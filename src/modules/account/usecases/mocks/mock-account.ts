@@ -5,8 +5,9 @@ import { AddAccount, AddAccountModel } from '../add-account/add-account';
 
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
+    accountModel = mockFakeAccount();
     async load(accessToken: string, role?: string): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(mockFakeAccount()));
+      return new Promise((resolve) => resolve(this.accountModel));
     }
   }
   return new LoadAccountByTokenStub();
@@ -14,8 +15,10 @@ export const mockLoadAccountByToken = (): LoadAccountByToken => {
 
 export const mockAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
+    accountModel = mockFakeAccount();
     async add(account: AddAccountModel): Promise<AccountModel> {
-      return new Promise((resolve) => resolve(mockFakeAccount()));
+      //this.accountModel = { _id: this.accountModel._id, ...account };
+      return new Promise((resolve) => resolve(this.accountModel));
     }
   }
   return new AddAccountStub();

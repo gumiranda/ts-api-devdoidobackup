@@ -8,16 +8,20 @@ import {
 
 export const mockLoadRatingResult = (): LoadRatingResult => {
   class LoadRatingResultStub implements LoadRatingResult {
+    ratingId: string;
+    ratingModel = mockFakeRatingResult();
     async load(ratingId: string): Promise<RatingResultModel> {
-      return new Promise((resolve) => resolve(mockFakeRatingResult()));
+      this.ratingId = ratingId;
+      return new Promise((resolve) => resolve(this.ratingModel));
     }
   }
   return new LoadRatingResultStub();
 };
 export const makeSaveRatingResult = (): SaveRatingResult => {
   class SaveRatingResultStub implements SaveRatingResult {
+    ratingModel = mockFakeRatingResult();
     async save(ratingData: SaveRatingResultParams): Promise<RatingResultModel> {
-      return new Promise((resolve) => resolve(mockFakeRatingResult()));
+      return new Promise((resolve) => resolve(this.ratingModel));
     }
   }
   return new SaveRatingResultStub();

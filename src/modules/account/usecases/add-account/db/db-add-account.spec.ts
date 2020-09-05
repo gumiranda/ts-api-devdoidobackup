@@ -21,7 +21,6 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepository();
-
   const encrypterStub = mockEncrypter();
   const addAccountRepositoryStub = mockAddAccountRepository();
   const sut = new DbAddAccount(
@@ -41,8 +40,10 @@ describe('DbAddAccount Usecase', () => {
   test('Should call Encrypter with correct password', async () => {
     const { sut, encrypterStub } = makeSut();
     const encryptSpy = jest.spyOn(encrypterStub, 'encrypt');
-    await sut.add(mockFakeAccountData());
-    expect(encryptSpy).toHaveBeenCalledWith('valid_password');
+    const addAccount = mockFakeAccountData();
+    await sut.add(addAccount);
+    expect(encryptSpy).toHaveBeenCalledWith(addAccount.password);
+    expect(encrypterStub.value).toBe(addAccount.password);
   });
 
   test('Should throw if Encrypter throws', async () => {
@@ -57,13 +58,13 @@ describe('DbAddAccount Usecase', () => {
   });
 
   test('Should call AddAccountRepository with correct values', async () => {
-    const { sut, addAccountRepositoryStub } = makeSut();
+    const { sut, addAccountRepositoryStub, encrypterStub } = makeSut();
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add');
     await sut.add(mockFakeAccountData());
     expect(addSpy).toHaveBeenCalledWith({
       name: 'valid_name',
       email: 'valid_email@mail.com',
-      password: 'hashed_password',
+      password: encrypterStub.hashedPassword,
     });
   });
 

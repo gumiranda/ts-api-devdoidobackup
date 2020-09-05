@@ -95,8 +95,8 @@ describe('DbAuthentication UseCase', () => {
     await expect(promise).rejects.toThrow();
   });
   test('Should call TokenGenerator with success ', async () => {
-    const { sut } = makeSut();
+    const { sut, tokenGeneratorStub } = makeSut();
     const accessToken = await sut.auth('any_email@any.com', 'valid_password');
-    expect(accessToken).toBe('any_token');
+    expect(accessToken).toBe(tokenGeneratorStub.ciphertext);
   });
 });

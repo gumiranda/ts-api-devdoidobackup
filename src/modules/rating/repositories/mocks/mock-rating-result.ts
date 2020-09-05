@@ -6,7 +6,9 @@ import { mockFakeRatingResult } from '../../models/mocks/mock-rating-result';
 
 export const mockSaveRatingResultRepository = (): SaveRatingResultRepository => {
   class SaveRatingResultRepositoryStub implements SaveRatingResultRepository {
+    ratingResultModel: SaveRatingResultParams;
     async save(data: SaveRatingResultParams): Promise<void> {
+      this.ratingResultModel = data;
       return new Promise((resolve) => resolve());
     }
   }
@@ -15,8 +17,11 @@ export const mockSaveRatingResultRepository = (): SaveRatingResultRepository => 
 
 export const mockLoadRatingResultRepository = (): LoadRatingResultRepository => {
   class LoadRatingResultRepositoryStub implements LoadRatingResultRepository {
+    ratingId: string;
+    ratingResultModel = mockFakeRatingResult();
     async loadByRatingId(ratingId: string): Promise<RatingResultModel> {
-      return Promise.resolve(mockFakeRatingResult());
+      this.ratingId = ratingId;
+      return Promise.resolve(this.ratingResultModel);
     }
   }
   return new LoadRatingResultRepositoryStub();

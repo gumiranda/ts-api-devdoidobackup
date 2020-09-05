@@ -8,6 +8,7 @@ export class BcryptAdapter implements Encrypter, HashComparer {
   constructor(salt: number) {
     this.salt = salt;
   }
+  hashedPassword: string;
   async compare(password: string, hashedPassword: string): Promise<boolean> {
     const isValid = await bcrypt.compare(password, hashedPassword);
     return isValid;

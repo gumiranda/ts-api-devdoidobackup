@@ -10,8 +10,11 @@ import { LoadRatingRepository } from '../rating/protocols/load-rating-repository
 
 export const mockLoadRatingByIdRepository = (): LoadRatingByIdRepository => {
   class LoadRatingByIdRepositoryStub implements LoadRatingByIdRepository {
+    _id: string;
+    ratingModel = mockFakeRatingWithIdFake();
     loadById(_id: string): Promise<RatingModel> {
-      return new Promise((resolve) => resolve(mockFakeRatingWithIdFake()));
+      this._id = _id;
+      return new Promise((resolve) => resolve(this.ratingModel));
     }
   }
   return new LoadRatingByIdRepositoryStub();
@@ -27,8 +30,11 @@ export const mockAddRatingRepository = (): AddRatingRepository => {
 };
 export const mockLoadRatingRepository = (): LoadRatingRepository => {
   class LoadRatingRepositoryStub implements LoadRatingRepository {
+    callsCount = 0;
+    ratingModels = mockFakeRatings();
     loadAll(): Promise<RatingModel[]> {
-      return new Promise((resolve) => resolve(mockFakeRatings()));
+      this.callsCount++;
+      return new Promise((resolve) => resolve(this.ratingModels));
     }
   }
   return new LoadRatingRepositoryStub();
