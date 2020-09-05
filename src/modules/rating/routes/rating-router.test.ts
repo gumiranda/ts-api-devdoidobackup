@@ -38,10 +38,8 @@ describe('POST /', () => {
     await request(app)
       .post('/api/rating')
       .send({
-        ratingFor: 'any_entity',
-        ratings: [
-          { ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 },
-        ],
+        ratingType: 'atendimento',
+        ratings: [{ stars: 2, rating: 'any_rating' }],
       })
       .expect(403);
   });
@@ -50,11 +48,8 @@ describe('POST /', () => {
     await request(app)
       .post('/api/rating')
       .send({
-        ratingFor: 'any_entity',
-        //date: new Date(),
-        ratings: [
-          { ratingType: 'any_ratingtype', obs: 'any_rating', stars: 3 },
-        ],
+        ratingType: 'atendimento',
+        ratings: [{ stars: 2, rating: 'any_rating' }],
       })
       .set('Authorization', 'Bearer ' + accessToken)
       .expect(204);
