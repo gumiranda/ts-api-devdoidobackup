@@ -5,6 +5,7 @@ import { RatingModel } from '../../models/rating';
 import { AccountModel } from '@/modules/account/models/account-model';
 import { ObjectId } from 'mongodb';
 import { mockFakeAddRating } from '../../models/mocks/mock-rating';
+import { MongoRepository } from '@/bin/base/mongo-repository';
 let ratingCollection: Collection;
 let ratingResultCollection: Collection;
 let accountCollection: Collection;
@@ -24,7 +25,8 @@ const makeAccount = async (): Promise<AccountModel> => {
   return ops[0];
 };
 const makeSut = (): RatingResultMongoRepository => {
-  return new RatingResultMongoRepository();
+  const mongoRepository = new MongoRepository('ratingResults');
+  return new RatingResultMongoRepository(mongoRepository);
 };
 describe('RatingResult Mongo Repository', () => {
   beforeAll(async () => {

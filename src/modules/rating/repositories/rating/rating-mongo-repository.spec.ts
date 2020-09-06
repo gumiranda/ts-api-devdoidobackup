@@ -5,6 +5,7 @@ import {
   mockFakeAddRating,
   mockFakeRatings,
 } from '../../models/mocks/mock-rating';
+import { MongoRepository } from '@/bin/base/mongo-repository';
 let ratingCollection: Collection;
 
 describe('Rating Mongo Repository', () => {
@@ -22,7 +23,8 @@ describe('Rating Mongo Repository', () => {
   });
 
   const makeSut = (): RatingMongoRepository => {
-    return new RatingMongoRepository();
+    const mongoRepository = new MongoRepository('ratings');
+    return new RatingMongoRepository(mongoRepository);
   };
   test('Should return an rating add success', async () => {
     const sut = makeSut();

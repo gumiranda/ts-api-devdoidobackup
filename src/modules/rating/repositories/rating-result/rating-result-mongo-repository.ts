@@ -5,17 +5,15 @@ import { ObjectId } from 'mongodb';
 import { SaveRatingResultParams } from '../../usecases/save-rating-result/save-rating-result';
 import { QueryBuilder } from '@/bin/helpers/query-builder';
 import { LoadRatingResultRepository } from './protocols/load-rating-result-repository';
+import { MongoRepository } from '@/bin/base/mongo-repository';
 export class RatingResultMongoRepository
   implements SaveRatingResultRepository, LoadRatingResultRepository {
   ratingResultModel: RatingResultModel;
   ratingId: string;
+  constructor(private readonly mongoRepository: MongoRepository) {}
   async save(ratingData: SaveRatingResultParams): Promise<void> {
     const { ratingId, accountId, rating, date } = ratingData;
-    const ratingResultCollection = await MongoHelper.getCollection(
-      'ratingResults',
-    );
-
-    await ratingResultCollection.findOneAndUpdate(
+    await this.mongoRepository.update(
       {
         ratingId: new ObjectId(ratingId),
         accountId: new ObjectId(accountId),
@@ -30,9 +28,6 @@ export class RatingResultMongoRepository
     );
   }
   async loadByRatingId(ratingId: string): Promise<RatingResultModel> {
-    const ratingResultCollection = await MongoHelper.getCollection(
-      'ratingResults',
-    );
     const query = new QueryBuilder()
       .match({
         ratingId: new ObjectId(ratingId),
@@ -191,9 +186,7 @@ export class RatingResultMongoRepository
         ratings: '$ratings',
       })
       .build();
-    const ratingResult = await ratingResultCollection
-      .aggregate(query)
-      .toArray();
+    const ratingResult = await this.mongoRepository.aggregate(query);
     return ratingResult?.length ? ratingResult[0] : null;
   }
 }

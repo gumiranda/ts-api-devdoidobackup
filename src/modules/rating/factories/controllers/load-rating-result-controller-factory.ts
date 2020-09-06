@@ -1,8 +1,8 @@
 import { Controller } from '@/bin/protocols/controller';
-import { LoadRatingResultController } from '../controllers/load-survey-result/load-rating-result.controller';
-import { makeDbLoadRatingById } from '@/bin/patterns/factories/usecases/rating/load-rating-by-id/db-load-rating-by-id-factory';
+import { LoadRatingResultController } from '../../controllers/load-survey-result/load-rating-result.controller';
+import { makeDbLoadRatingById } from '@/modules/rating/factories/usecases/load-rating-by-id/db-load-rating-by-id-factory';
 import { makeLogControllerDecorator } from '@/bin/patterns/factories/decorators/log-controller-decorator-factory';
-import { makeDbLoadRatingResult } from '@/bin/patterns/factories/usecases/rating/load-rating-result/db-load-rating-result-factory';
+import { makeDbLoadRatingResult } from '@/modules/rating/factories/usecases/load-rating-result/db-load-rating-result-factory';
 
 export const makeLoadRatingResultsController = (): Controller => {
   const loadRatingController = new LoadRatingResultController(

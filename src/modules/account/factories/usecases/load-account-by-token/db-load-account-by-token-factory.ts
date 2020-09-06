@@ -1,7 +1,7 @@
-import { LoadAccountByToken } from '../../../../../middlewares/protocols/usecases/load-account-by-token';
-import { DbLoadAccountByToken } from '../../../../../middlewares/protocols/usecases/db/db-load-account-by-token';
-import { JwtAdapter } from '../../../../../infra/criptography/jwt-adapter/jwt-adapter';
-import variables from '../../../../../configuration/variables';
+import { LoadAccountByToken } from '../../../../../bin/middlewares/protocols/usecases/load-account-by-token';
+import { DbLoadAccountByToken } from '../../../../../bin/middlewares/protocols/usecases/db/db-load-account-by-token';
+import { JwtAdapter } from '../../../../../bin/infra/criptography/jwt-adapter/jwt-adapter';
+import variables from '../../../../../bin/configuration/variables';
 import { AccountMongoRepository } from '@/modules/account/repositories/account-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { MongoRepository } from '@/bin/base/mongo-repository';

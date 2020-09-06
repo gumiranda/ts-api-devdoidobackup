@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { makeSignUpController } from '../factories/signup-factory';
+import { makeSignUpController } from '../factories/controllers/signup-factory-controller';
 import { adaptRoute } from '@/bin/configuration/adapters/express-route-adapter';
-import { makeLoginController } from '../factories/login-factory';
-import { makeLoadAccountByPageController } from '../factories/load-account-by-page-factory';
+import { makeLoginController } from '../factories/controllers/login-factory-controller';
+import { makeLoadAccountByPageController } from '../factories/controllers/load-account-by-page-factory-controller';
 import { auth } from '@/bin/middlewares/auth';
 const router = Router();
 router.post('/signup', adaptRoute(makeSignUpController()));

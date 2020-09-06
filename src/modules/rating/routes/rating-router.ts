@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { makeAddRatingController } from '../factories/add-rating-factory';
+import { makeAddRatingController } from '../factories/controllers/add-rating-factory-controller';
 import { adaptRoute } from '@/bin/configuration/adapters/express-route-adapter';
-import { makeLoadRatingsController } from '../factories/load-rating-factory';
+import { makeLoadRatingsController } from '../factories/controllers/load-rating-factory-controller';
 import { adminAuth } from '@/bin/middlewares/admin-auth';
 import { auth } from '@/bin/middlewares/auth';
 const router = Router();
