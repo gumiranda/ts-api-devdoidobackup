@@ -1,10 +1,10 @@
 import { HttpRequest } from '@/bin/protocols/http';
 import { serverError, ok, unauthorized } from '@/bin/helpers/http-helper';
-import { LoginController } from './login-controller';
-import { Authentication } from '../../usecases/auth/authentication';
+import { LoginController } from '@/modules/account/controllers/login/login-controller';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { mockAuthentication } from '@/bin/test/mock-auth';
 import { mockValidation } from '@/bin/test/mock-validation';
+import { Authentication } from '@/modules/account/usecases/auth/authentication';
 
 type SutTypes = {
   sut: LoginController;

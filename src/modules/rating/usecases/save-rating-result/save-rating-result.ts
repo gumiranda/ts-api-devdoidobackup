@@ -1,4 +1,4 @@
-import { RatingResultModel } from '../../models/rating-result';
+import { RatingResultModel } from '@/modules/rating/models/rating-result';
 
 export type SaveRatingResultParams = {
   ratingId: string;

@@ -1,5 +1,5 @@
 import { Controller } from '@/bin/protocols/controller';
-import { LoginController } from '../../controllers/login/login-controller';
+import { LoginController } from '@/modules/account/controllers/login/login-controller';
 import { makeDbAuthentication } from '@/bin/patterns/factories/usecases/authentication/db-authentication-factory';
 import { makeLogControllerDecorator } from '@/bin/patterns/factories/decorators/log-controller-decorator-factory';
 import { mockValidationComposite } from '@/bin/patterns/factories/usecases/validation/validation-factory';

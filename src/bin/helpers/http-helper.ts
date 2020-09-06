@@ -1,6 +1,6 @@
-import { HttpResponse } from '../protocols/http';
-import { ServerError } from '../errors';
-import { UnauthorizedError } from '../errors/unauthorized-error';
+import { HttpResponse } from '@/bin/protocols/http';
+import { ServerError } from '@/bin/errors';
+import { UnauthorizedError } from '@/bin/errors/unauthorized-error';
 
 export const badRequest = (error: any): HttpResponse => ({
   statusCode: 400,

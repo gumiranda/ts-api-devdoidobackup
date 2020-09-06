@@ -7,13 +7,13 @@ import {
 import MockDate from 'mockdate';
 import { LoadRatingResultController } from './load-rating-result.controller';
 import { HttpRequest } from '@/bin/protocols/http';
-import { mockLoadRatingById } from '../../usecases/mocks/mock-rating';
-import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
+import { mockLoadRatingById } from '@/modules/rating/usecases/mocks/mock-rating';
+import { LoadRatingById } from '@/modules/rating/usecases/load-rating-by-id/load-rating-by-id';
 import { InvalidParamError } from '@/bin/errors';
-import { LoadRatingResult } from '../../usecases/load-rating-result/load-rating-result';
-import { mockLoadRatingResult } from '../../usecases/mocks/mock-rating-result';
-import { mockFakeRatings } from '../../models/mocks/mock-rating';
-import { mockFakeRatingResult } from '../../models/mocks/mock-rating-result';
+import { LoadRatingResult } from '@/modules/rating/usecases/load-rating-result/load-rating-result';
+import { mockLoadRatingResult } from '@/modules/rating/usecases/mocks/mock-rating-result';
+import { mockFakeRatings } from '@/modules/rating/models/mocks/mock-rating';
+import { mockFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-result';
 const makeFakeRequest = (): HttpRequest => ({
   params: {
     ratingId: 'any_id',

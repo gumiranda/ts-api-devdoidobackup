@@ -1,9 +1,9 @@
-import { forbidden, ok, serverError } from '../../helpers/http-helper';
-import { AccessDeniedError } from '../../errors';
-import { AuthMiddleware } from './auth-middleware';
-import { LoadAccountByToken } from '../protocols/usecases/load-account-by-token';
+import { forbidden, ok, serverError } from '@/bin/helpers/http-helper';
+import { AccessDeniedError } from '@/bin/errors';
+import { AuthMiddleware } from '@/bin/middlewares/auth/auth-middleware';
 import { mockFakeRequestHeader } from '@/bin/test/mock-auth';
 import { mockLoadAccountByToken } from '@/modules/account/usecases/mocks/mock-account';
+import { LoadAccountByToken } from '@/modules/account/usecases/load-account-by-token/load-account-by-token';
 
 type SutTypes = {
   sut: AuthMiddleware;
@@ -45,7 +45,7 @@ describe('auth middleware', () => {
     const role = 'any_role';
     const { sut } = makeSut(role);
     const httpResponse = await sut.handle(mockFakeRequestHeader());
-    expect(httpResponse).toEqual(ok({ _id: 'valid_id' }));
+    expect(httpResponse).toEqual(ok({ accountId: 'valid_id' }));
   });
   test('should return 500 if LoadAccountByToken throws', async () => {
     const role = 'any_role';

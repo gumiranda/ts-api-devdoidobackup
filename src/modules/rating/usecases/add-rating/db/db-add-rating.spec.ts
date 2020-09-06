@@ -1,5 +1,5 @@
 import { DbAddRating } from './db-add-rating';
-import { AddRatingRepository } from '../../../repositories/rating/protocols/add-rating-repository';
+import { AddRatingRepository } from '@/modules/rating/repositories/rating/protocols/add-rating-repository';
 import MockDate from 'mockdate';
 import { mockFakeRating } from '@/modules/rating/models/mocks/mock-rating';
 import { mockAddRatingRepository } from '@/modules/rating/repositories/mocks/mock-rating';

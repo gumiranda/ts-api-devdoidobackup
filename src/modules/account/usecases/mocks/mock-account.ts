@@ -1,13 +1,18 @@
-import { LoadAccountByToken } from '@/bin/middlewares/protocols/usecases/load-account-by-token';
-import { AccountModel, AccountsPaginate } from '../../models/account-model';
+import { LoadAccountByToken } from '@/modules/account/usecases/load-account-by-token/load-account-by-token';
+import {
+  AccountModel,
+  AccountsPaginate,
+} from '@/modules/account/models/account-model';
 import {
   mockFakeAccount,
-  mockFakeAccountsPaginated,
   makeFakeArrayAccounts,
-} from '../../models/mocks/mock-account';
-import { AddAccount, AddAccountModel } from '../add-account/add-account';
-import { LoadAccountByPage } from '../load-account-by-page/load-account-by-page';
-import { LoadAccountByPageRepository } from '../../repositories/protocols/load-account-by-page-repository';
+} from '@/modules/account/models/mocks/mock-account';
+import {
+  AddAccount,
+  AddAccountModel,
+} from '@/modules/account/usecases/add-account/add-account';
+import { LoadAccountByPage } from '@/modules/account/usecases/load-account-by-page/load-account-by-page';
+import { LoadAccountByPageRepository } from '@/modules/account/repositories/protocols/load-account-by-page-repository';
 
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {

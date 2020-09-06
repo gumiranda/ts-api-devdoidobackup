@@ -1,5 +1,5 @@
 import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-by-id-repository';
-import { LoadRatingById } from '../load-rating-by-id';
+import { LoadRatingById } from '@/modules/rating/usecases/load-rating-by-id/load-rating-by-id';
 import { RatingModel } from '@/modules/rating/models/rating';
 
 export class DbLoadRatingById implements LoadRatingById {

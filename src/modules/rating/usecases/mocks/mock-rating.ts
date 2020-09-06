@@ -1,11 +1,14 @@
-import { AddRating, AddRatingModel } from '../add-rating/add-rating';
-import { LoadRating } from '../load-rating/load-rating';
-import { RatingModel } from '../../models/rating';
+import {
+  AddRating,
+  AddRatingModel,
+} from '@/modules/rating/usecases/add-rating/add-rating';
+import { LoadRating } from '@/modules/rating/usecases/load-rating/load-rating';
+import { RatingModel } from '@/modules/rating/models/rating';
 import {
   mockFakeRatings,
   mockFakeRating,
-} from '../../models/mocks/mock-rating';
-import { LoadRatingById } from '../load-rating-by-id/load-rating-by-id';
+} from '@/modules/rating/models/mocks/mock-rating';
+import { LoadRatingById } from '@/modules/rating/usecases/load-rating-by-id/load-rating-by-id';
 
 export const mockAddRating = (): AddRating => {
   class AddRatingStub implements AddRating {

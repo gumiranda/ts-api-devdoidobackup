@@ -1,5 +1,5 @@
-import { SignUpController } from './signup-controller';
-import { AddAccount } from '../../usecases/add-account/add-account';
+import { SignUpController } from '@/modules/account/controllers/signup/signup-controller';
+import { AddAccount } from '@/modules/account/usecases/add-account/add-account';
 import { HttpRequest } from '@/bin/protocols/http';
 import {
   badRequest,
@@ -10,8 +10,8 @@ import {
 import { MissingParamError, EmailInUseError, ServerError } from '@/bin/errors';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { mockValidation } from '@/bin/test/mock-validation';
-import { mockAddAccount } from '../../usecases/mocks/mock-account';
-import { mockFakeAccount } from '../../models/mocks/mock-account';
+import { mockAddAccount } from '@/modules/account/usecases/mocks/mock-account';
+import { mockFakeAccount } from '@/modules/account/models/mocks/mock-account';
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {

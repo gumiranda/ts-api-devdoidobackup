@@ -1,5 +1,5 @@
-import { Validation } from './validation';
-import { InvalidParamError } from '../../errors';
+import { Validation } from '@/bin/helpers/validators/validation';
+import { InvalidParamError } from '@/bin/errors';
 
 export class EmailValidation implements Validation {
   private readonly fieldName: string;

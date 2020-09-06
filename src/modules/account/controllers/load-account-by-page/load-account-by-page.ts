@@ -7,7 +7,7 @@ import {
   ok,
 } from '@/bin/helpers/http-helper';
 import { InvalidParamError } from '@/bin/errors';
-import { LoadAccountByPage } from '../../usecases/load-account-by-page/load-account-by-page';
+import { LoadAccountByPage } from '@/modules/account/usecases/load-account-by-page/load-account-by-page';
 
 export class LoadAccountByPageController implements Controller {
   constructor(private readonly loadAccountByPage: LoadAccountByPage) {}

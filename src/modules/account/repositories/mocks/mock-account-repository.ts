@@ -1,9 +1,9 @@
-import { AddAccountRepository } from '../protocols/add-account-repository';
-import { AddAccountModel } from '../../usecases/add-account/add-account';
-import { AccountModel } from '../../models/account-model';
-import { LoadAccountByEmailRepository } from '../protocols/load-account-by-email-repository';
-import { LoadAccountByTokenRepository } from '../protocols/load-account-by-token-repository';
-import { mockFakeAccount } from '../../models/mocks/mock-account';
+import { mockFakeAccount } from '@/modules/account/models/mocks/mock-account';
+import { AddAccountRepository } from '@/modules/account/repositories/protocols/add-account-repository';
+import { AddAccountModel } from '@/modules/account/usecases/add-account/add-account';
+import { AccountModel } from '@/modules/account/models/account-model';
+import { LoadAccountByEmailRepository } from '@/modules/account/repositories/protocols/load-account-by-email-repository';
+import { LoadAccountByTokenRepository } from '@/modules/account/repositories/protocols/load-account-by-token-repository';
 
 export const mockAddAccountRepository = (): AddAccountRepository => {
   //  accountModel = mockFakeAccount();

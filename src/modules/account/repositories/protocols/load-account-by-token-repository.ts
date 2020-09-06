@@ -1,4 +1,4 @@
-import { AccountModel } from '../../models/account-model';
+import { AccountModel } from '@/modules/account/models/account-model';
 
 export interface LoadAccountByTokenRepository {
   accountModel: AccountModel;

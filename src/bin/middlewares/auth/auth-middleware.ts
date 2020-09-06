@@ -1,8 +1,8 @@
-import { Middleware } from '../protocols/middleware';
-import { HttpRequest, HttpResponse } from '../../protocols/http';
-import { forbidden, ok, serverError } from '../../helpers/http-helper';
-import { AccessDeniedError } from '../../errors';
-import { LoadAccountByToken } from '../protocols/usecases/load-account-by-token';
+import { HttpRequest, HttpResponse } from '@/bin/protocols/http';
+import { forbidden, ok, serverError } from '@/bin/helpers/http-helper';
+import { AccessDeniedError } from '@/bin/errors';
+import { LoadAccountByToken } from '@/modules/account/usecases/load-account-by-token/load-account-by-token';
+import { Middleware } from '@/bin/middlewares/protocols/middleware';
 export class AuthMiddleware implements Middleware {
   constructor(
     private readonly loadAccountByToken: LoadAccountByToken,
@@ -19,7 +19,7 @@ export class AuthMiddleware implements Middleware {
             this.role,
           );
           if (account) {
-            return ok({ _id: account._id });
+            return ok({ accountId: account._id });
           }
         }
       }

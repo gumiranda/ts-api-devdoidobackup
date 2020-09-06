@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { makeSignUpController } from '../factories/controllers/signup-factory-controller';
+import { makeSignUpController } from '@/modules/account/factories/controllers/signup-factory-controller';
 import { adaptRoute } from '@/bin/configuration/adapters/express-route-adapter';
-import { makeLoginController } from '../factories/controllers/login-factory-controller';
-import { makeLoadAccountByPageController } from '../factories/controllers/load-account-by-page-factory-controller';
+import { makeLoginController } from '@/modules/account/factories/controllers/login-factory-controller';
+import { makeLoadAccountByPageController } from '@/modules/account/factories/controllers/load-account-by-page-factory-controller';
 import { auth } from '@/bin/middlewares/auth';
 const router = Router();
 router.post('/signup', adaptRoute(makeSignUpController()));
 router.post('/login', adaptRoute(makeLoginController()));
-router.get('/page/:page', auth, adaptRoute(makeLoadAccountByPageController()));
+router.get('/users/:page', auth, adaptRoute(makeLoadAccountByPageController()));
 export default router;

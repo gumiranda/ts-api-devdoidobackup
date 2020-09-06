@@ -1,8 +1,11 @@
-import { AddAccount, AddAccountModel } from '../add-account';
+import {
+  AddAccount,
+  AddAccountModel,
+} from '@/modules/account/usecases/add-account/add-account';
 import { Encrypter } from '@/bin/protocols/crypto/encrypter';
-import { AddAccountRepository } from '../../../repositories/protocols/add-account-repository';
-import { AccountModel } from '../../../models/account-model';
-import { LoadAccountByEmailRepository } from '../../../repositories/protocols/load-account-by-email-repository';
+import { AddAccountRepository } from '@/modules/account/repositories/protocols/add-account-repository';
+import { AccountModel } from '@/modules/account/models/account-model';
+import { LoadAccountByEmailRepository } from '@/modules/account/repositories/protocols/load-account-by-email-repository';
 
 export class DbAddAccount implements AddAccount {
   private readonly encrypter: Encrypter;

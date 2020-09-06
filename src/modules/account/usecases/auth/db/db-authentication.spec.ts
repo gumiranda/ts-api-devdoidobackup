@@ -1,7 +1,7 @@
-import { DbAuthentication } from './db-authentication';
+import { DbAuthentication } from '@/modules/account/usecases/auth/db/db-authentication';
 import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
 import { TokenGenerator } from '@/bin/protocols/crypto/token-generator';
-import { LoadAccountByEmailRepository } from '../../../repositories/protocols/load-account-by-email-repository';
+import { LoadAccountByEmailRepository } from '@/modules/account/repositories/protocols/load-account-by-email-repository';
 import { mockHashComparer, mockTokenGenerator } from '@/bin/test/mock-crypto';
 import { mockLoadAccountByEmailRepositoryNotNull } from '@/modules/account/repositories/mocks/mock-account-repository';
 

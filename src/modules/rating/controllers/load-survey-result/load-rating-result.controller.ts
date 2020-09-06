@@ -6,9 +6,9 @@ import {
   noContent,
   ok,
 } from '@/bin/helpers/http-helper';
-import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
+import { LoadRatingById } from '@/modules/rating/usecases/load-rating-by-id/load-rating-by-id';
 import { InvalidParamError } from '@/bin/errors';
-import { LoadRatingResult } from '../../usecases/load-rating-result/load-rating-result';
+import { LoadRatingResult } from '@/modules/rating/usecases/load-rating-result/load-rating-result';
 
 export class LoadRatingResultController implements Controller {
   constructor(

@@ -1,4 +1,4 @@
-import { HttpRequest } from '../protocols/http';
+import { HttpRequest } from '@/bin/protocols/http';
 import { Authentication } from '@/modules/account/usecases/auth/authentication';
 
 export const mockFakeRequestHeader = (): HttpRequest => ({

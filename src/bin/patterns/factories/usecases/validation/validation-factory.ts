@@ -1,8 +1,8 @@
-import { Validation } from '../../../../helpers/validators/validation';
-import { RequiredFieldValidation } from '../../../../helpers/validators/required-field-validation';
-import { CompareFieldsValidation } from '../../../../helpers/validators/compare-fields-validation';
-import { EmailValidation } from '../../../../helpers/validators/email-validation';
-import { ValidationComposite } from '../../../../helpers/validators/validation-composite';
+import { Validation } from '@/bin/helpers/validators/validation';
+import { RequiredFieldValidation } from '@/bin/helpers/validators/required-field-validation';
+import { CompareFieldsValidation } from '@/bin/helpers/validators/compare-fields-validation';
+import { EmailValidation } from '@/bin/helpers/validators/email-validation';
+import { ValidationComposite } from '@/bin/helpers/validators/validation-composite';
 
 export const mockValidationComposite = (
   requiredFields: Array<string>,

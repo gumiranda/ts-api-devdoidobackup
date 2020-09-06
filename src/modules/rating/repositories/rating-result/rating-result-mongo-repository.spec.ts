@@ -1,10 +1,10 @@
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection } from 'mongodb';
 import { RatingResultMongoRepository } from './rating-result-mongo-repository';
-import { RatingModel } from '../../models/rating';
+import { RatingModel } from '@/modules/rating/models/rating';
 import { AccountModel } from '@/modules/account/models/account-model';
 import { ObjectId } from 'mongodb';
-import { mockFakeAddRating } from '../../models/mocks/mock-rating';
+import { mockFakeAddRating } from '@/modules/rating/models/mocks/mock-rating';
 import { MongoRepository } from '@/bin/base/mongo-repository';
 let ratingCollection: Collection;
 let ratingResultCollection: Collection;

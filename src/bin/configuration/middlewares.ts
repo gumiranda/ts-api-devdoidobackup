@@ -1,5 +1,5 @@
 import { Express } from 'express';
-import { cors, contentType } from '../middlewares';
+import { cors, contentType } from '@/bin/middlewares';
 import bodyParser from 'body-parser';
 
 const connectedUsers = {};

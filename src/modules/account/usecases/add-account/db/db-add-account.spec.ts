@@ -1,7 +1,7 @@
-import { DbAddAccount } from './db-add-account';
+import { DbAddAccount } from '@/modules/account/usecases/add-account/db/db-add-account';
 import { Encrypter } from '@/bin/protocols/crypto/encrypter';
-import { AddAccountRepository } from '../../../repositories/protocols/add-account-repository';
-import { LoadAccountByEmailRepository } from '../../../repositories/protocols/load-account-by-email-repository';
+import { AddAccountRepository } from '@/modules/account/repositories/protocols/add-account-repository';
+import { LoadAccountByEmailRepository } from '@/modules/account/repositories/protocols/load-account-by-email-repository';
 import { mockEncrypter } from '@/bin/test/mock-crypto';
 import {
   mockLoadAccountByEmailRepository,

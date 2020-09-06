@@ -1,4 +1,4 @@
-import { LoadRatingResult } from '../load-rating-result';
+import { LoadRatingResult } from '@/modules/rating/usecases/load-rating-result/load-rating-result';
 import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
 import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-by-id-repository';
 import { RatingResultModel } from '@/modules/rating/models/rating-result';

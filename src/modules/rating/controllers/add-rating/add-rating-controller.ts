@@ -2,7 +2,7 @@ import { Controller } from '@/bin/protocols/controller';
 import { HttpRequest, HttpResponse } from '@/bin/protocols/http';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { badRequest, serverError, noContent } from '@/bin/helpers/http-helper';
-import { AddRating } from '../../usecases/add-rating/add-rating';
+import { AddRating } from '@/modules/rating/usecases/add-rating/add-rating';
 
 export class AddRatingController implements Controller {
   constructor(

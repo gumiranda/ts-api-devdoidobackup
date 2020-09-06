@@ -1,12 +1,12 @@
-import { LoadRatingByIdRepository } from '../rating/protocols/load-rating-by-id-repository';
-import { RatingModel } from '../../models/rating';
+import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-by-id-repository';
+import { RatingModel } from '@/modules/rating/models/rating';
 import {
   mockFakeRatingWithIdFake,
   mockFakeRatings,
-} from '../../models/mocks/mock-rating';
-import { AddRatingRepository } from '../rating/protocols/add-rating-repository';
-import { AddRatingModel } from '../../usecases/add-rating/add-rating';
-import { LoadRatingRepository } from '../rating/protocols/load-rating-repository';
+} from '@/modules/rating/models/mocks/mock-rating';
+import { AddRatingRepository } from '@/modules/rating/repositories/rating/protocols/add-rating-repository';
+import { AddRatingModel } from '@/modules/rating/usecases/add-rating/add-rating';
+import { LoadRatingRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-repository';
 
 export const mockLoadRatingByIdRepository = (): LoadRatingByIdRepository => {
   class LoadRatingByIdRepositoryStub implements LoadRatingByIdRepository {

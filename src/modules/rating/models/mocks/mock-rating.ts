@@ -1,4 +1,4 @@
-import { RatingModel } from '../rating';
+import { RatingModel } from '@/modules/rating/models/rating';
 
 export const mockFakeRatings = (): RatingModel[] => {
   return [

@@ -6,8 +6,8 @@ import {
   ok,
   unauthorized,
 } from '@/bin/helpers/http-helper';
-import { Authentication } from '../../usecases/auth/authentication';
 import { Validation } from '@/bin/helpers/validators/validation';
+import { Authentication } from '@/modules/account/usecases/auth/authentication';
 
 export class LoginController implements Controller {
   private readonly validation: Validation;

@@ -1,4 +1,4 @@
-import OneSignal from './onesignal';
+import OneSignal from '@/bin/helpers/onesignal';
 
 describe('OneSignal Helper', () => {
   test('Should call OneSignal sendNotification', async () => {

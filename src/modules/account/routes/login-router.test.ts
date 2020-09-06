@@ -3,7 +3,19 @@ import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { app } from '@/bin/configuration/app';
 import { Collection } from 'mongodb';
 import { hash } from 'bcrypt';
+import variables from '@/bin/configuration/variables';
+import { sign } from 'jsonwebtoken';
 let accountCollection: Collection;
+const makeAccessToken = async (role: string): Promise<string> => {
+  const res = await accountCollection.insertOne({
+    name: 'tedsste',
+    email: 'testando@gmail.com',
+    password: '222',
+    role,
+  });
+  const _id = res.ops[0]._id;
+  return sign({ _id }, variables.Security.secretKey);
+};
 describe('Name of the group', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
@@ -56,6 +68,51 @@ describe('Name of the group', () => {
           password: '111123',
         })
         .expect(401);
+    });
+  });
+  describe('GET /users/:page', () => {
+    test('Should return 200 an token on users', async () => {
+      const accessToken = await makeAccessToken('client');
+      const password = await hash('111123', 12);
+      await accountCollection.insertMany([
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+      ]);
+      await request(app)
+        .get('/api/users/1')
+        .set('authorization', 'Bearer ' + accessToken);
+      expect(200);
+    });
+    test('Should return 401 an token without role client on users', async () => {
+      const accessToken = await makeAccessToken('any_role');
+      const password = await hash('111123', 12);
+      await accountCollection.insertMany([
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+      ]);
+      await request(app)
+        .get('/api/users/1')
+        .set('authorization', 'Bearer ' + accessToken);
+      expect(401);
+    });
+    test('Should return 403 on users without token', async () => {
+      await request(app).get('/api/users/1').expect(403);
     });
   });
 });

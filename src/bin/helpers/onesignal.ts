@@ -1,5 +1,5 @@
 import axios from 'axios';
-import variables from '../configuration/variables';
+import variables from '@/bin/configuration/variables';
 
 const sendNotification = async (appId, name, text) => {
   try {

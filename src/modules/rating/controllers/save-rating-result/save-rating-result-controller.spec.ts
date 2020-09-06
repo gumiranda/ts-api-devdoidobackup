@@ -1,13 +1,13 @@
-import { SaveRatingResult } from '../../usecases/save-rating-result/save-rating-result';
+import { SaveRatingResult } from '@/modules/rating/usecases/save-rating-result/save-rating-result';
 import { HttpRequest } from '@/bin/protocols/http';
 import { forbidden, serverError, ok } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
 import { SaveRatingResultController } from './save-rating-result-controller';
-import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
+import { LoadRatingById } from '@/modules/rating/usecases/load-rating-by-id/load-rating-by-id';
 import { InvalidParamError } from '@/bin/errors';
-import { mockFakeRatingResult } from '../../models/mocks/mock-rating-result';
-import { mockLoadRatingById } from '../../usecases/mocks/mock-rating';
-import { makeSaveRatingResult } from '../../usecases/mocks/mock-rating-result';
+import { mockFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-result';
+import { mockLoadRatingById } from '@/modules/rating/usecases/mocks/mock-rating';
+import { makeSaveRatingResult } from '@/modules/rating/usecases/mocks/mock-rating-result';
 
 type SutTypes = {
   sut: SaveRatingResultController;

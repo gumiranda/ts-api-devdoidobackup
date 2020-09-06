@@ -1,5 +1,8 @@
-import { AddAccountModel } from '../../usecases/add-account/add-account';
-import { AccountModel, AccountsPaginate } from '../account-model';
+import { AddAccountModel } from '@/modules/account/usecases/add-account/add-account';
+import {
+  AccountModel,
+  AccountsPaginate,
+} from '@/modules/account/models/account-model';
 
 export const mockFakeAccountData = (): AddAccountModel => ({
   name: 'valid_name',

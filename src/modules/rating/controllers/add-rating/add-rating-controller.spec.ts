@@ -1,11 +1,11 @@
-import { HttpRequest, HttpResponse } from '@/bin/protocols/http';
+import { HttpRequest } from '@/bin/protocols/http';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { AddRatingController } from './add-rating-controller';
 import { badRequest, serverError, noContent } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
-import { AddRating } from '../../usecases/add-rating/add-rating';
+import { AddRating } from '@/modules/rating/usecases/add-rating/add-rating';
 import { mockValidation } from '@/bin/test/mock-validation';
-import { mockAddRating } from '../../usecases/mocks/mock-rating';
+import { mockAddRating } from '@/modules/rating/usecases/mocks/mock-rating';
 type SutTypes = {
   sut: AddRatingController;
   addRatingStub: AddRating;

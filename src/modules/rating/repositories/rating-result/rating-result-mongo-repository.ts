@@ -1,8 +1,7 @@
-import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
-import { RatingResultModel } from '../../models/rating-result';
+import { RatingResultModel } from '@/modules/rating/models/rating-result';
 import { SaveRatingResultRepository } from './protocols/save-rating-result-repository';
 import { ObjectId } from 'mongodb';
-import { SaveRatingResultParams } from '../../usecases/save-rating-result/save-rating-result';
+import { SaveRatingResultParams } from '@/modules/rating/usecases/save-rating-result/save-rating-result';
 import { QueryBuilder } from '@/bin/helpers/query-builder';
 import { LoadRatingResultRepository } from './protocols/load-rating-result-repository';
 import { MongoRepository } from '@/bin/base/mongo-repository';

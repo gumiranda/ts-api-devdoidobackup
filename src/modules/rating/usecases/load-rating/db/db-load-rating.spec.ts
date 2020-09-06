@@ -1,6 +1,6 @@
-import { DbLoadRating } from './db-load-rating';
+import { DbLoadRating } from '@/modules/rating/usecases/load-rating/db/db-load-rating';
 import MockDate from 'mockdate';
-import { LoadRatingRepository } from '../../../repositories/rating/protocols/load-rating-repository';
+import { LoadRatingRepository } from '@/modules/rating/repositories/rating/protocols/load-rating-repository';
 import { mockFakeRatings } from '@/modules/rating/models/mocks/mock-rating';
 import { mockLoadRatingRepository } from '@/modules/rating/repositories/mocks/mock-rating';
 

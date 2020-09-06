@@ -1,4 +1,4 @@
-import { RatingModel } from '../../models/rating';
+import { RatingModel } from '@/modules/rating/models/rating';
 
 export type AddRatingModel = Omit<RatingModel, '_id'>;
 export type RatingStars = {

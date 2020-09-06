@@ -7,7 +7,7 @@ import {
   noContent,
   ok,
 } from '@/bin/helpers/http-helper';
-import { LoadRating } from '../../usecases/load-rating/load-rating';
+import { LoadRating } from '@/modules/rating/usecases/load-rating/load-rating';
 
 export class LoadRatingController implements Controller {
   constructor(private readonly loadRating: LoadRating) {}

@@ -4,7 +4,7 @@ import { Collection } from 'mongodb';
 import {
   mockFakeAddRating,
   mockFakeRatings,
-} from '../../models/mocks/mock-rating';
+} from '@/modules/rating/models/mocks/mock-rating';
 import { MongoRepository } from '@/bin/base/mongo-repository';
 let ratingCollection: Collection;
 

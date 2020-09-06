@@ -1,8 +1,8 @@
-import { Controller } from '../../protocols/controller';
-import { HttpRequest, HttpResponse } from '../../protocols/http';
-import { serverError, ok } from '../../helpers/http-helper';
+import { Controller } from '@/bin/protocols/controller';
+import { HttpRequest, HttpResponse } from '@/bin/protocols/http';
+import { serverError, ok } from '@/bin/helpers/http-helper';
 import { LogControllerDecorator } from './log-controller-decorator';
-import { LogErrorRepository } from '../../protocols/repositories/log/log-error-repository';
+import { LogErrorRepository } from '@/bin/protocols/repositories/log/log-error-repository';
 import { mockFakeAccount } from '@/modules/account/models/mocks/mock-account';
 
 const makeController = (): Controller => {

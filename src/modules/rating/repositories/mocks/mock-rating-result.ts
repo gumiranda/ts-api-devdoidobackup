@@ -1,8 +1,8 @@
-import { SaveRatingResultRepository } from '../rating-result/protocols/save-rating-result-repository';
-import { SaveRatingResultParams } from '../../usecases/save-rating-result/save-rating-result';
-import { LoadRatingResultRepository } from '../rating-result/protocols/load-rating-result-repository';
-import { RatingResultModel } from '../../models/rating-result';
-import { mockFakeRatingResult } from '../../models/mocks/mock-rating-result';
+import { SaveRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/save-rating-result-repository';
+import { SaveRatingResultParams } from '@/modules/rating/usecases/save-rating-result/save-rating-result';
+import { LoadRatingResultRepository } from '@/modules/rating/repositories/rating-result/protocols/load-rating-result-repository';
+import { RatingResultModel } from '@/modules/rating/models/rating-result';
+import { mockFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-result';
 
 export const mockSaveRatingResultRepository = (): SaveRatingResultRepository => {
   class SaveRatingResultRepositoryStub implements SaveRatingResultRepository {

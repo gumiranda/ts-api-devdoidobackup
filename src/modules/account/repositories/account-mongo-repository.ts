@@ -1,7 +1,7 @@
 import { AddAccountRepository } from './protocols/add-account-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
-import { AddAccountModel } from '../usecases/add-account/add-account';
-import { AccountModel } from '../models/account-model';
+import { AddAccountModel } from '@/modules/account/usecases/add-account/add-account';
+import { AccountModel } from '@/modules/account/models/account-model';
 import { ObjectId } from 'mongodb';
 import { LoadAccountByEmailRepository } from './protocols/load-account-by-email-repository';
 import { LoadAccountByTokenRepository } from './protocols/load-account-by-token-repository';

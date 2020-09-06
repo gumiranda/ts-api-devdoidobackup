@@ -6,8 +6,8 @@ import variables from '@/bin/configuration/variables';
 import {
   mockFakeAccountData,
   makeFakeArrayAddAccounts,
-} from '../models/mocks/mock-account';
-import { AccountModel } from '../models/account-model';
+} from '@/modules/account/models/mocks/mock-account';
+import { AccountModel } from '@/modules/account/models/account-model';
 import { MongoRepository } from '@/bin/base/mongo-repository';
 let accountCollection: Collection;
 const makeAccount = async (): Promise<AccountModel> => {

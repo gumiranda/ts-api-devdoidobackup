@@ -1,8 +1,8 @@
 import { Controller } from '@/bin/protocols/controller';
 import { HttpRequest, HttpResponse } from '@/bin/protocols/http';
 import { serverError, forbidden, ok } from '@/bin/helpers/http-helper';
-import { SaveRatingResult } from '../../usecases/save-rating-result/save-rating-result';
-import { LoadRatingById } from '../../usecases/load-rating-by-id/load-rating-by-id';
+import { SaveRatingResult } from '@/modules/rating/usecases/save-rating-result/save-rating-result';
+import { LoadRatingById } from '@/modules/rating/usecases/load-rating-by-id/load-rating-by-id';
 import { InvalidParamError } from '@/bin/errors';
 
 export class SaveRatingResultController implements Controller {

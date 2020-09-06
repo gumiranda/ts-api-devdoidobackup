@@ -1,4 +1,4 @@
-import { Validation } from '../helpers/validators/validation';
+import { Validation } from '@/bin/helpers/validators/validation';
 
 export const mockValidation = (): Validation => {
   class ValidationStub implements Validation {

@@ -1,6 +1,6 @@
-import { TokenGenerator } from '../../../protocols/crypto/token-generator';
+import { TokenGenerator } from '@/bin/protocols/crypto/token-generator';
 import jwt from 'jsonwebtoken';
-import { TokenDecrypter } from '../../../protocols/crypto/token-decrypter';
+import { TokenDecrypter } from '@/bin/protocols/crypto/token-decrypter';
 export class JwtAdapter implements TokenGenerator, TokenDecrypter {
   private readonly secret: string;
   constructor(secret: string) {

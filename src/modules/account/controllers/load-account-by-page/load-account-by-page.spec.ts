@@ -1,16 +1,11 @@
-import {
-  serverError,
-  noContent,
-  ok,
-  forbidden,
-} from '@/bin/helpers/http-helper';
+import { serverError, ok, forbidden } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
 import { HttpRequest } from '@/bin/protocols/http';
 import { InvalidParamError } from '@/bin/errors';
-import { LoadAccountByPageController } from './load-account-by-page';
-import { LoadAccountByPage } from '../../usecases/load-account-by-page/load-account-by-page';
-import { mockLoadAccountByPage } from '../../usecases/mocks/mock-account';
-import { mockFakeAccountsPaginated } from '../../models/mocks/mock-account';
+import { LoadAccountByPageController } from '@/modules/account/controllers/load-account-by-page/load-account-by-page';
+import { LoadAccountByPage } from '@/modules/account/usecases/load-account-by-page/load-account-by-page';
+import { mockLoadAccountByPage } from '@/modules/account/usecases/mocks/mock-account';
+import { mockFakeAccountsPaginated } from '@/modules/account/models/mocks/mock-account';
 const makeFakeRequest = (): HttpRequest => ({
   params: {
     page: 1,
