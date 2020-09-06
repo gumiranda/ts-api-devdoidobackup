@@ -1,5 +1,5 @@
 import '../models/notification-model';
-import OneSignal from '@/bin/handlers/onesignal';
+import OneSignal from '@/bin/helpers/onesignal';
 import repository from '../repositories/notification-repository';
 import repositoryUser from '../../user/repositories/user-repository';
 

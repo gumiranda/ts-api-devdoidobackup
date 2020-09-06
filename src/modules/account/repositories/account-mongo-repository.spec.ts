@@ -3,7 +3,16 @@ import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection, ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken';
 import variables from '@/bin/configuration/variables';
+import {
+  mockFakeAccountData,
+  makeFakeArrayAddAccounts,
+} from '../models/mocks/mock-account';
+import { AccountModel } from '../models/account-model';
 let accountCollection: Collection;
+const makeAccount = async (): Promise<AccountModel> => {
+  const { ops } = await accountCollection.insertOne(mockFakeAccountData());
+  return ops[0];
+};
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
@@ -53,6 +62,28 @@ describe('Account Mongo Repository', () => {
     const account = await sut.loadByEmail('any_email@mail.com');
     expect(account).toBeFalsy();
   });
+  test('Should return an account loadByPage success', async () => {
+    const sut = makeSut();
+    await accountCollection.insertMany(makeFakeArrayAddAccounts());
+    const accountAdded = await makeAccount();
+    const accounts = await sut.loadByPage(1, accountAdded._id);
+    expect(accounts).toBeTruthy();
+    expect(accounts[0]).toBeTruthy();
+    expect(accounts[1]).toBeTruthy();
+    expect(accounts.length).toBe(10);
+  });
+  test('Should return an account countAccountsByPage success', async () => {
+    const sut = makeSut();
+    await accountCollection.insertMany(makeFakeArrayAddAccounts());
+    const accountAdded = await makeAccount();
+    const accountsCounts = await sut.countAccountsByPage(1, accountAdded._id);
+    expect(accountsCounts).toBe(15);
+  });
+  test('Should return null account if loadByEmail fails', async () => {
+    const sut = makeSut();
+    const account = await sut.loadByEmail('any_email@mail.com');
+    expect(account).toBeFalsy();
+  });
 
   test('Should return an account loadByToken success with role', async () => {
     const sut = makeSut();
@@ -60,12 +91,12 @@ describe('Account Mongo Repository', () => {
       name: 'any_name',
       email: 'any_email@mail.com',
       password: 'any_password',
-      role: 'any_role',
+      role: 'client',
     };
     const { ops } = await accountCollection.insertOne(userAdd);
     const { _id } = ops[0];
     const token = await jwt.sign({ _id }, variables.Security.secretKey);
-    const account = await sut.loadByToken(token, 'any_role');
+    const account = await sut.loadByToken(token, 'client');
     expect(account).toBeTruthy();
     expect(account._id).toBeTruthy();
     expect(account.name).toBe('any_name');
@@ -77,7 +108,7 @@ describe('Account Mongo Repository', () => {
       { _id: new ObjectId() },
       variables.Security.secretKey,
     );
-    const account = await sut.loadByToken(token, 'any_role');
+    const account = await sut.loadByToken(token, 'client');
     expect(account).toBeFalsy();
   });
 });

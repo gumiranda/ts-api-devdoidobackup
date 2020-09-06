@@ -1,4 +1,4 @@
-import OneSignal from '@/bin/handlers/onesignal';
+import OneSignal from '@/bin/helpers/onesignal';
 import repository from '../repositories/chat-repository';
 import repositoryUser from '../../user/repositories/user-repository';
 import ctrlBase from '@/bin/base/controller-base';

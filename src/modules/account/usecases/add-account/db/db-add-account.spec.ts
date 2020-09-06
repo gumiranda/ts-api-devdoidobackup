@@ -65,6 +65,7 @@ describe('DbAddAccount Usecase', () => {
       name: 'valid_name',
       email: 'valid_email@mail.com',
       password: encrypterStub.hashedPassword,
+      role: 'client',
     });
   });
 

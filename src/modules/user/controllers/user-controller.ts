@@ -4,7 +4,7 @@ import repository from '../repositories/user-repository';
 import validation from '@/bin/helpers/validators/validationContract';
 import ctrlBase from '@/bin/base/controller-base';
 import variables from '@/bin/configuration/variables';
-import OneSignal from '@/bin/handlers/onesignal';
+import OneSignal from '@/bin/helpers/onesignal';
 
 const _repo = new repository();
 
