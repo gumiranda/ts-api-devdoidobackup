@@ -8,6 +8,7 @@ import {
   makeFakeArrayAddAccounts,
 } from '../models/mocks/mock-account';
 import { AccountModel } from '../models/account-model';
+import { MongoRepository } from '@/bin/base/mongo-repository';
 let accountCollection: Collection;
 const makeAccount = async (): Promise<AccountModel> => {
   const { ops } = await accountCollection.insertOne(mockFakeAccountData());
@@ -28,7 +29,8 @@ describe('Account Mongo Repository', () => {
   });
 
   const makeSut = (): AccountMongoRepository => {
-    return new AccountMongoRepository();
+    const mongoRepository = new MongoRepository('accounts');
+    return new AccountMongoRepository(mongoRepository);
   };
 
   test('Should return an account add success', async () => {

@@ -1,5 +1,5 @@
 import '../models/transaction-model';
-import base from '@/bin/base/repository-base';
+import { MongoRepository } from '@/bin/base/mongo-repository';
 
 export default class transactionRepository {
   private readonly _base: base;

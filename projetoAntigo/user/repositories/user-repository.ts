@@ -1,6 +1,6 @@
 import '../models/user-model';
 import bcrypt from 'bcryptjs';
-import base from '@/bin/base/repository-base';
+import { MongoRepository } from '@/bin/base/mongo-repository';
 
 export default class userRepository {
   private readonly _base: base;

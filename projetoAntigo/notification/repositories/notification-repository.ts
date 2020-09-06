@@ -1,5 +1,5 @@
 import '../models/notification-model';
-import base from '@/bin/base/repository-base';
+import { MongoRepository } from '@/bin/base/mongo-repository';
 import { AddNotificationModel } from '../models/AddNotificationModel';
 export default class notificationRepository {
   public _base: base;
