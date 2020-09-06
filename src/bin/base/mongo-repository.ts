@@ -27,10 +27,11 @@ export class MongoRepository {
     const collection = await this.getCollection();
     return await collection.find(query).toArray();
   }
-  async getPaginate(page, query, sort, limit) {
+  async getPaginate(page, query, sort, limit, projection) {
     const collection = await this.getCollection();
     return await collection
       .find(query)
+      .project(projection)
       .skip((page - 1) * limit)
       .limit(limit)
       .sort(sort)

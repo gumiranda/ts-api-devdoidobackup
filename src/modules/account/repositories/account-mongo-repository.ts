@@ -15,6 +15,9 @@ export class AccountMongoRepository
     LoadAccountByEmailRepository,
     LoadAccountByPageRepository,
     LoadAccountByTokenRepository {
+  accountModel: AccountModel;
+  role: string;
+  token: string;
   constructor(private readonly mongoRepository: MongoRepository) {}
   async countAccountsByPage(page: number, accountId: string): Promise<number> {
     const accountsCount = await this.mongoRepository.getCount({
@@ -23,19 +26,19 @@ export class AccountMongoRepository
     });
     return accountsCount;
   }
-  async loadByPage(page: number, accountId: string): Promise<AccountModel[]> {
+  async loadByPage(
+    page: number,
+    accountId: string,
+  ): Promise<Omit<AccountModel, 'password'>[]> {
     const accounts = await this.mongoRepository.getPaginate(
       page,
       { role: 'client', _id: { $ne: new ObjectId(accountId) } },
       { date: -1 },
       10,
+      { password: 0 },
     );
-
     return accounts;
   }
-  accountModel: AccountModel;
-  role: string;
-  token: string;
   async loadByToken(token: string, role: string): Promise<AccountModel> {
     const decoded: any = await jwt.verify(token, variables.Security.secretKey);
     const { _id } = decoded;

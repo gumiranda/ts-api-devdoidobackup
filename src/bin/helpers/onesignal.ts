@@ -20,12 +20,7 @@ const sendNotification = async (appId, name, text) => {
         include_player_ids: [appId],
       },
     });
-    console.log(response.data);
-  } catch (erro) {
-    // When status code of HTTP response is not 2xx, HTTPError is thrown.
-    console.log(erro);
-    console.log(erro.body);
-  }
+  } catch (erro) {}
 };
 const addDevice = async (pushToken) => {
   try {

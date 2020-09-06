@@ -7,6 +7,6 @@ export type AccountModel = {
   pushToken?: string;
 };
 export type AccountsPaginate = {
-  accounts: AccountModel[];
+  accounts: Omit<AccountModel, 'password'>[];
   accountsCount: number;
 };
