@@ -21,9 +21,10 @@ describe('DbAddRating', () => {
   beforeAll(() => {
     MockDate.set(new Date());
   });
-  beforeAll(() => {
+  afterAll(() => {
     MockDate.reset();
   });
+
   test('should call AddRatingRepository with correct values', async () => {
     const { sut, addRatingStub } = makeSut();
     const ratingData = mockFakeRating();

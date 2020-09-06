@@ -37,8 +37,8 @@ export const mockFakeRating = (): RatingModel => ({
     },
   ],
 });
-export const mockFakeRatingWithIdFake = (): RatingModel => ({
-  _id: '5f4d46d97568f749c8f5a8e9',
+export const mockFakeRatingWithIdFake = (_id: string): RatingModel => ({
+  _id,
   ratingType: 'atendimento',
   date: new Date(),
   ratings: [

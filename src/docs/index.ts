@@ -23,6 +23,9 @@ export default {
     {
       name: 'Rating',
     },
+    {
+      name: 'User',
+    },
   ],
   paths,
   schemas,

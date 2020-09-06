@@ -11,9 +11,10 @@ import { LoadRatingRepository } from '@/modules/rating/repositories/rating/proto
 export const mockLoadRatingByIdRepository = (): LoadRatingByIdRepository => {
   class LoadRatingByIdRepositoryStub implements LoadRatingByIdRepository {
     _id: string;
-    ratingModel = mockFakeRatingWithIdFake();
+    ratingModel: RatingModel;
     loadById(_id: string): Promise<RatingModel> {
       this._id = _id;
+      this.ratingModel = mockFakeRatingWithIdFake(_id);
       return new Promise((resolve) => resolve(this.ratingModel));
     }
   }

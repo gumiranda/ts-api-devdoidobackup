@@ -3,6 +3,7 @@ import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/p
 import { DbLoadRatingById } from './db-load-rating-by-id';
 import { mockFakeRatingWithIdFake } from '@/modules/rating/models/mocks/mock-rating';
 import { mockLoadRatingByIdRepository } from '@/modules/rating/repositories/mocks/mock-rating';
+import faker from 'faker';
 type SutTypes = {
   sut: DbLoadRatingById;
   loadRatingStub: LoadRatingByIdRepository;
@@ -15,6 +16,7 @@ const makeSut = (): SutTypes => {
     loadRatingStub,
   };
 };
+let _id: string;
 describe('DbLoadRatingById', () => {
   beforeAll(() => {
     MockDate.set(new Date());
@@ -22,16 +24,19 @@ describe('DbLoadRatingById', () => {
   afterAll(() => {
     MockDate.reset();
   });
+  beforeEach(() => {
+    _id = faker.random.uuid();
+  });
   test('should call LoadRatingByIdRepository with correct values', async () => {
     const { sut, loadRatingStub } = makeSut();
     const loadRatingSpy = jest.spyOn(loadRatingStub, 'loadById');
-    await sut.loadById('5f4d46d97568f749c8f5a8e9');
-    expect(loadRatingSpy).toHaveBeenCalledWith('5f4d46d97568f749c8f5a8e9');
+    await sut.loadById(_id);
+    expect(loadRatingSpy).toHaveBeenCalledWith(_id);
   });
   test('should return rating on success', async () => {
-    const { sut } = makeSut();
-    const ratings = await sut.loadById('5f4d46d97568f749c8f5a8e9');
-    expect(ratings).toEqual(mockFakeRatingWithIdFake());
+    const { sut, loadRatingStub } = makeSut();
+    const ratings = await sut.loadById(_id);
+    expect(ratings).toEqual(loadRatingStub.ratingModel);
   });
   test('should throw if LoadRatingByIdRepository throws', async () => {
     const { sut, loadRatingStub } = makeSut();
@@ -40,7 +45,7 @@ describe('DbLoadRatingById', () => {
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error())),
       );
-    const promise = sut.loadById('5f4d46d97568f749c8f5a8e9');
+    const promise = sut.loadById(_id);
     await expect(promise).rejects.toThrow();
   });
 });
