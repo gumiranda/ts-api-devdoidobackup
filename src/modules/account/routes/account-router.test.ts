@@ -115,4 +115,63 @@ describe('Name of the group', () => {
       await request(app).get('/api/user/page/1').expect(403);
     });
   });
+  describe('PUT /user/completeRegister', () => {
+    test('Should return 200 an update on my user', async () => {
+      const accessToken = await makeAccessToken('client');
+      const password = await hash('111123', 12);
+      await accountCollection.insertMany([
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+      ]);
+      await request(app)
+        .put('/api/user/completeRegister')
+        .send({
+          cpf: 'any_cpf',
+          phone: 'any_phone',
+        })
+        .set('authorization', 'Bearer ' + accessToken);
+      expect(200);
+    });
+    test('Should return 401 an token without role client on users', async () => {
+      const accessToken = await makeAccessToken('any_role');
+      const password = await hash('111123', 12);
+      await accountCollection.insertMany([
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+      ]);
+      await request(app)
+        .put('/api/user/completeRegister')
+        .send({
+          cpf: 'any_cpf',
+          phone: 'any_phone',
+        })
+        .set('authorization', 'Bearer ' + accessToken);
+      expect(401);
+    });
+    test('Should return 403 on users without token', async () => {
+      await request(app)
+        .put('/api/user/completeRegister')
+        .send({
+          cpf: 'any_cpf',
+          phone: 'any_phone',
+        })
+        .expect(403);
+    });
+  });
 });

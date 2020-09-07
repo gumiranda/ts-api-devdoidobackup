@@ -2,10 +2,12 @@ import { LoadAccountByToken } from '@/modules/account/usecases/load-account-by-t
 import {
   AccountModel,
   AccountsPaginate,
+  UserData,
 } from '@/modules/account/models/account-model';
 import {
   mockFakeAccount,
   makeFakeArrayAccounts,
+  mockFakeAccountUpdated,
 } from '@/modules/account/models/mocks/mock-account';
 import {
   AddAccount,
@@ -13,6 +15,7 @@ import {
 } from '@/modules/account/usecases/add-account/add-account';
 import { LoadAccountByPage } from '@/modules/account/usecases/load-account-by-page/load-account-by-page';
 import { LoadAccountByPageRepository } from '@/modules/account/repositories/protocols/load-account-by-page-repository';
+import { UpdateAccount } from '../update-account/update-account';
 
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
@@ -58,6 +61,18 @@ export const mockAddAccount = (): AddAccount => {
     }
   }
   return new AddAccountStub();
+};
+export const mockUpdateAccount = (): UpdateAccount => {
+  class UpdateAccountStub implements UpdateAccount {
+    accountModel = mockFakeAccountUpdated();
+    async updateAccount(
+      account: UserData,
+      accountId: string,
+    ): Promise<Omit<AccountModel, 'password'>> {
+      return new Promise((resolve) => resolve(this.accountModel));
+    }
+  }
+  return new UpdateAccountStub();
 };
 export const mockLoadAccountByPage = (): LoadAccountByPage => {
   class LoadAccountByPageStub implements LoadAccountByPage {

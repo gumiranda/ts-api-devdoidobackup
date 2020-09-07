@@ -1,16 +1,19 @@
-import { mockFakeAccount } from '@/modules/account/models/mocks/mock-account';
+import {
+  mockFakeAccount,
+  mockFakeAccountUpdated,
+} from '@/modules/account/models/mocks/mock-account';
 import { AddAccountRepository } from '@/modules/account/repositories/protocols/add-account-repository';
 import { AddAccountModel } from '@/modules/account/usecases/add-account/add-account';
-import { AccountModel } from '@/modules/account/models/account-model';
+import { AccountModel, UserData } from '@/modules/account/models/account-model';
 import { LoadAccountByEmailRepository } from '@/modules/account/repositories/protocols/load-account-by-email-repository';
 import { LoadAccountByTokenRepository } from '@/modules/account/repositories/protocols/load-account-by-token-repository';
 import { addDay } from '@/bin/utils/date-fns';
+import { UpdateAccountRepository } from '../protocols/update-account-repository';
 export const mockAddAccountRepository = (): AddAccountRepository => {
   //  accountModel = mockFakeAccount();
   class AddAccountRepositoryStub implements AddAccountRepository {
     accountModel = mockFakeAccount();
     async add(accountData: AddAccountModel): Promise<AccountModel> {
-      //  this.accountModel = { _id: this.accountModel._id, ...accountData };
       return new Promise((resolve) => resolve(this.accountModel));
     }
   }
@@ -61,4 +64,17 @@ export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository
     }
   }
   return new LoadAccountByTokenRepositoryStub();
+};
+export const mockUpdateAccountRepository = (): UpdateAccountRepository => {
+  //  accountModel = mockFakeAccount();
+  class UpdateAccountRepositoryStub implements UpdateAccountRepository {
+    async updateOne(
+      userData: UserData,
+      accountId: string,
+    ): Promise<Omit<AccountModel, 'password'>> {
+      return new Promise((resolve) => resolve(this.accountModel));
+    }
+    accountModel = mockFakeAccountUpdated();
+  }
+  return new UpdateAccountRepositoryStub();
 };
