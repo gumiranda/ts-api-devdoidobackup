@@ -7,9 +7,9 @@ import {
 } from './paths';
 
 export default {
-  '/login': loginPath,
-  '/users/{page}': userPath,
-  '/signup': signupPath,
+  '/user/authenticate': loginPath,
+  '/user/page/{page}': userPath,
+  '/register': signupPath,
   '/rating': ratingPath,
   '/ratingResult/{ratingId}/results': ratingResultPath,
 };

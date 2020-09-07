@@ -5,7 +5,7 @@ import { makeLoginController } from '@/modules/account/factories/controllers/log
 import { makeLoadAccountByPageController } from '@/modules/account/factories/controllers/load-account-by-page-factory-controller';
 import { auth } from '@/bin/middlewares/auth';
 const router = Router();
-router.post('/signup', adaptRoute(makeSignUpController()));
-router.post('/login', adaptRoute(makeLoginController()));
-router.get('/users/:page', auth, adaptRoute(makeLoadAccountByPageController()));
+router.post('/register', adaptRoute(makeSignUpController()));
+router.post('/authenticate', adaptRoute(makeLoginController()));
+router.get('/page/:page', auth, adaptRoute(makeLoadAccountByPageController()));
 export default router;

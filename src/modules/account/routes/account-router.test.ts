@@ -33,7 +33,7 @@ describe('Name of the group', () => {
   describe('POST /signup', () => {
     test('Should return 200 an account on success', async () => {
       await request(app)
-        .post('/api/signup')
+        .post('/api/user/register')
         .send({
           name: 'tedsste',
           email: 'testetessaste@gmail.com',
@@ -44,7 +44,7 @@ describe('Name of the group', () => {
     });
   });
 
-  describe('POST /login', () => {
+  describe('POST /user/authenticate', () => {
     test('Should return 200 an token on login', async () => {
       const password = await hash('111123', 12);
       await accountCollection.insertOne({
@@ -53,7 +53,7 @@ describe('Name of the group', () => {
         password,
       });
       await request(app)
-        .post('/api/login')
+        .post('/api/user/authenticate')
         .send({
           email: 'testando@gmail.com',
           password: '111123',
@@ -62,7 +62,7 @@ describe('Name of the group', () => {
     });
     test('Should return 401 on login', async () => {
       await request(app)
-        .post('/api/login')
+        .post('/api/user/authenticate')
         .send({
           email: 'testando@gmail.com',
           password: '111123',
@@ -70,7 +70,7 @@ describe('Name of the group', () => {
         .expect(401);
     });
   });
-  describe('GET /users/:page', () => {
+  describe('GET /user/page/:page', () => {
     test('Should return 200 an token on users', async () => {
       const accessToken = await makeAccessToken('client');
       const password = await hash('111123', 12);
@@ -87,7 +87,7 @@ describe('Name of the group', () => {
         },
       ]);
       await request(app)
-        .get('/api/users/1')
+        .get('/api/user/page/1')
         .set('authorization', 'Bearer ' + accessToken);
       expect(200);
     });
@@ -107,12 +107,12 @@ describe('Name of the group', () => {
         },
       ]);
       await request(app)
-        .get('/api/users/1')
+        .get('/api/user/page/1')
         .set('authorization', 'Bearer ' + accessToken);
       expect(401);
     });
     test('Should return 403 on users without token', async () => {
-      await request(app).get('/api/users/1').expect(403);
+      await request(app).get('/api/user/page/1').expect(403);
     });
   });
 });
