@@ -4,7 +4,7 @@ export const ratingSchema = {
     _id: {
       type: 'string',
     },
-    date: {
+    createdAt: {
       type: 'string',
     },
     ratingType: {

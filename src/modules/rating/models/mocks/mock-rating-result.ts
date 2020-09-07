@@ -4,7 +4,7 @@ import { SaveRatingResultParams } from '@/modules/rating/usecases/save-rating-re
 export const mockFakeRatingResult = (): RatingResultModel => ({
   ratingId: '5f4d46d97568f749c8f5a8e9',
   ratingType: 'atendimento',
-  date: new Date(),
+  createdAt: new Date(),
   ratings: [
     {
       rating: 'any_rating',
@@ -29,7 +29,7 @@ const mockFakeRatingResultData = (
   ratingId,
   accountId,
   rating,
-  date: new Date(),
+  createdAt: new Date(),
 });
 export const mockFakeRatingResultSave = (): SaveRatingResultParams => {
   return mockFakeRatingResultData('any_rating_id', 'any_account_id', 'Bom');

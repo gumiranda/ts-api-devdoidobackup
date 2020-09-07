@@ -33,7 +33,7 @@ export class AccountMongoRepository
     const accounts = await this.mongoRepository.getPaginate(
       page,
       { role: 'client', _id: { $ne: new ObjectId(accountId) } },
-      { date: -1 },
+      { createdAt: -1 },
       10,
       { password: 0 },
     );

@@ -3,12 +3,13 @@ import {
   AccountModel,
   AccountsPaginate,
 } from '@/modules/account/models/account-model';
-
+import { addDay } from '@/bin/utils/date-fns';
 export const mockFakeAccountData = (): AddAccountModel => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password',
   role: 'client',
+  payDay: addDay(new Date(), 7),
 });
 export const mockFakeAccount = (): AccountModel => ({
   _id: 'valid_id',
@@ -16,6 +17,7 @@ export const mockFakeAccount = (): AccountModel => ({
   email: 'valid_email@mail.com',
   password: 'valid_password',
   role: 'client',
+  payDay: addDay(new Date(), 7),
 });
 export const mockFakeAccountsPaginated = (): AccountsPaginate => ({
   accounts: makeFakeArrayAccounts().slice(0, 10),

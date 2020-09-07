@@ -56,7 +56,7 @@ describe('SaveRatingResult Controller', () => {
       ratingId: 'any_rating_id',
       accountId: 'any_account_id',
       rating: 'Bom',
-      date: new Date(),
+      createdAt: new Date(),
     });
   });
   test('should return 403 if LoadRatingById returns null', async () => {

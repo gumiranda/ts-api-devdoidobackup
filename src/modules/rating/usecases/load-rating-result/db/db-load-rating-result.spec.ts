@@ -75,7 +75,7 @@ describe('DbLoadRatingResult UseCase', () => {
     expect(ratingResult).toEqual({
       ratingId: ratingModel._id,
       ratingType: ratingModel.ratingType,
-      date: ratingModel.date,
+      createdAt: ratingModel.createdAt,
       ratings: ratingModel.ratings.map((rating) =>
         Object.assign({}, rating, { count: 0, percent: 0 }),
       ),

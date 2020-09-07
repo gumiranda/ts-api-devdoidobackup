@@ -2,7 +2,7 @@ export type RatingResultModel = {
   ratingId: string;
   ratingType: string;
   ratings: RatingResultStarsModel[];
-  date: Date;
+  createdAt: Date;
 };
 type RatingResultStarsModel = {
   rating: string;

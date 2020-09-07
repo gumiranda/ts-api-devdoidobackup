@@ -28,7 +28,7 @@ export class SaveRatingResultController implements Controller {
         accountId,
         ratingId,
         rating,
-        date: new Date(),
+        createdAt: new Date(),
       });
       return ok(ratingSaved);
     } catch (error) {

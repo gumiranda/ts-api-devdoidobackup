@@ -11,6 +11,8 @@ import {
   mockFakeAccountData,
   mockFakeAccount,
 } from '@/modules/account/models/mocks/mock-account';
+import MockDate from 'mockdate';
+import { addDay } from '@/bin/utils/date-fns';
 
 type SutTypes = {
   sut: DbAddAccount;
@@ -37,6 +39,13 @@ const makeSut = (): SutTypes => {
 };
 
 describe('DbAddAccount Usecase', () => {
+  beforeAll(async () => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(async () => {
+    MockDate.reset();
+  });
   test('Should call Encrypter with correct password', async () => {
     const { sut, encrypterStub } = makeSut();
     const encryptSpy = jest.spyOn(encrypterStub, 'encrypt');
@@ -66,6 +75,7 @@ describe('DbAddAccount Usecase', () => {
       email: 'valid_email@mail.com',
       password: encrypterStub.hashedPassword,
       role: 'client',
+      payDay: addDay(new Date(), 7),
     });
   });
 

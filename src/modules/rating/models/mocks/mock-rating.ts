@@ -5,7 +5,7 @@ export const mockFakeRatings = (): RatingModel[] => {
     {
       ratingType: 'atendimento',
       _id: 'any_id',
-      date: new Date(),
+      createdAt: new Date(),
       ratings: [
         {
           rating: 'Bom',
@@ -16,7 +16,7 @@ export const mockFakeRatings = (): RatingModel[] => {
     {
       ratingType: 'educação',
       _id: 'other_id',
-      date: new Date(),
+      createdAt: new Date(),
       ratings: [
         {
           rating: 'Bom',
@@ -29,7 +29,7 @@ export const mockFakeRatings = (): RatingModel[] => {
 export const mockFakeRating = (): RatingModel => ({
   ratingType: 'any_entity',
   _id: 'any_id',
-  date: new Date(),
+  createdAt: new Date(),
   ratings: [
     {
       rating: 'Bom',
@@ -40,7 +40,7 @@ export const mockFakeRating = (): RatingModel => ({
 export const mockFakeRatingWithIdFake = (_id: string): RatingModel => ({
   _id,
   ratingType: 'atendimento',
-  date: new Date(),
+  createdAt: new Date(),
   ratings: [
     {
       rating: 'any_rating',
@@ -54,7 +54,7 @@ export const mockFakeRatingWithIdFake = (_id: string): RatingModel => ({
 });
 export const mockFakeAddRating = (): Omit<RatingModel, '_id'> => ({
   ratingType: 'atendimento',
-  date: new Date(),
+  createdAt: new Date(),
   ratings: [
     {
       rating: 'Bom',

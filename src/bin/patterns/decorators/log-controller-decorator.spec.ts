@@ -4,7 +4,7 @@ import { serverError, ok } from '@/bin/helpers/http-helper';
 import { LogControllerDecorator } from './log-controller-decorator';
 import { LogErrorRepository } from '@/bin/protocols/repositories/log/log-error-repository';
 import { mockFakeAccount } from '@/modules/account/models/mocks/mock-account';
-
+import MockDate from 'mockdate';
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -59,6 +59,13 @@ const makeSut = (): SutTypes => {
 };
 
 describe('LogController Decorator', () => {
+  beforeAll(async () => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(async () => {
+    MockDate.reset();
+  });
   test('Should call controller handle', async () => {
     const { sut, controllerStub } = makeSut();
     const handleSpy = jest.spyOn(controllerStub, 'handle');

@@ -12,7 +12,7 @@ describe('OneSignal Helper', () => {
   });
   test('Should call OneSignal addDevice', async () => {
     const addDeviceSpy = jest.spyOn(OneSignal, 'addDevice');
-    await OneSignal.addDevice('any_pushtoken');
-    expect(addDeviceSpy).toHaveBeenCalledWith('any_pushtoken');
+    await OneSignal.addDevice('any_token');
+    expect(addDeviceSpy).toHaveBeenCalledWith('any_token');
   });
 });

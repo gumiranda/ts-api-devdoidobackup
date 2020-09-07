@@ -5,6 +5,7 @@ export type AccountModel = {
   password: string;
   role?: string;
   pushToken?: string;
+  payDay: string;
 };
 export type AccountsPaginate = {
   accounts: Omit<AccountModel, 'password'>[];

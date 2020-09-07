@@ -17,13 +17,13 @@ export class DbLoadRatingResult implements LoadRatingResult {
       const {
         _id,
         ratingType,
-        date,
+        createdAt,
         ratings,
       } = await this.loadRatingByIdRepository.loadById(ratingId);
       ratingResult = {
         ratingId: _id,
         ratingType,
-        date,
+        createdAt,
         ratings: ratings.map((rating) =>
           Object.assign({}, rating, { count: 0, percent: 0 }),
         ),

@@ -8,7 +8,7 @@ export const ratingResultSchema = {
     },
     accountId: { type: 'string' },
     ratingType: { type: 'string' },
-    date: { type: 'string' },
+    createdAt: { type: 'string' },
   },
-  required: ['ratingId', 'ratingType', 'ratings', 'date'],
+  required: ['ratingId', 'ratingType', 'ratings', 'createdAt'],
 };

@@ -11,7 +11,7 @@ export class RatingResultMongoRepository
   ratingId: string;
   constructor(private readonly mongoRepository: MongoRepository) {}
   async save(ratingData: SaveRatingResultParams): Promise<void> {
-    const { ratingId, accountId, rating, date } = ratingData;
+    const { ratingId, accountId, rating, createdAt } = ratingData;
     await this.mongoRepository.update(
       {
         ratingId: new ObjectId(ratingId),
@@ -20,7 +20,7 @@ export class RatingResultMongoRepository
       {
         $set: {
           rating,
-          date,
+          createdAt,
         },
       },
       { upsert: true },
@@ -56,7 +56,7 @@ export class RatingResultMongoRepository
         _id: {
           ratingId: '$rating._id',
           ratingType: '$rating.ratingType',
-          date: '$rating.date',
+          createdAt: '$rating.createdAt',
           total: '$total',
           rating: '$data.rating',
           ratings: '$rating.ratings',
@@ -69,7 +69,7 @@ export class RatingResultMongoRepository
         _id: 0,
         ratingId: '$_id.ratingId',
         ratingType: '$_id.ratingType',
-        date: '$_id.date',
+        createdAt: '$_id.createdAt',
         ratings: {
           $map: {
             input: '$_id.ratings',
@@ -113,7 +113,7 @@ export class RatingResultMongoRepository
         _id: {
           ratingId: '$ratingId',
           ratingType: '$ratingType',
-          date: '$date',
+          createdAt: '$createdAt',
         },
         ratings: {
           $push: '$ratings',
@@ -123,7 +123,7 @@ export class RatingResultMongoRepository
         _id: 0,
         ratingId: '$_id.ratingId',
         ratingType: '$_id.ratingType',
-        date: '$_id.date',
+        createdAt: '$_id.createdAt',
         ratings: {
           $reduce: {
             input: '$ratings',
@@ -141,7 +141,7 @@ export class RatingResultMongoRepository
         _id: {
           ratingId: '$ratingId',
           ratingType: '$ratingType',
-          date: '$date',
+          createdAt: '$createdAt',
           rating: '$ratings.rating',
           stars: '$ratings.stars',
         },
@@ -156,7 +156,7 @@ export class RatingResultMongoRepository
         _id: 0,
         ratingId: '$_id.ratingId',
         ratingType: '$_id.ratingType',
-        date: '$_id.date',
+        createdAt: '$_id.createdAt',
         rating: {
           rating: '$_id.rating',
           stars: '$_id.stars',
@@ -171,7 +171,7 @@ export class RatingResultMongoRepository
         _id: {
           ratingId: '$ratingId',
           ratingType: '$ratingType',
-          date: '$date',
+          createdAt: '$createdAt',
         },
         ratings: {
           $push: '$rating',
@@ -181,7 +181,7 @@ export class RatingResultMongoRepository
         _id: 0,
         ratingId: '$_id.ratingId',
         ratingType: '$_id.ratingType',
-        date: '$_id.date',
+        createdAt: '$_id.createdAt',
         ratings: '$ratings',
       })
       .build();

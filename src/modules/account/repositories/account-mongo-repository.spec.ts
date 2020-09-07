@@ -9,6 +9,8 @@ import {
 } from '@/modules/account/models/mocks/mock-account';
 import { AccountModel } from '@/modules/account/models/account-model';
 import { MongoRepository } from '@/bin/base/mongo-repository';
+import { addDay } from '@/bin/utils/date-fns';
+import MockDate from 'mockdate';
 let accountCollection: Collection;
 const makeAccount = async (): Promise<AccountModel> => {
   const { ops } = await accountCollection.insertOne(mockFakeAccountData());
@@ -17,9 +19,11 @@ const makeAccount = async (): Promise<AccountModel> => {
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
+    MockDate.set(new Date());
   });
 
   afterAll(async () => {
+    MockDate.reset();
     await MongoHelper.disconnect();
   });
 
@@ -39,6 +43,7 @@ describe('Account Mongo Repository', () => {
       name: 'any_name',
       email: 'any_email@mail.com',
       password: 'any_password',
+      payDay: addDay(new Date(), 7),
     });
     expect(account).toBeTruthy();
     expect(account._id).toBeTruthy();

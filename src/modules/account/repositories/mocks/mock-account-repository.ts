@@ -4,7 +4,7 @@ import { AddAccountModel } from '@/modules/account/usecases/add-account/add-acco
 import { AccountModel } from '@/modules/account/models/account-model';
 import { LoadAccountByEmailRepository } from '@/modules/account/repositories/protocols/load-account-by-email-repository';
 import { LoadAccountByTokenRepository } from '@/modules/account/repositories/protocols/load-account-by-token-repository';
-
+import { addDay } from '@/bin/utils/date-fns';
 export const mockAddAccountRepository = (): AddAccountRepository => {
   //  accountModel = mockFakeAccount();
   class AddAccountRepositoryStub implements AddAccountRepository {
@@ -33,6 +33,7 @@ export const mockLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRep
       name: 'any_name',
       email: 'any_email@email.com',
       password: 'any_password',
+      payDay: addDay(new Date(), 7),
     };
     async loadByEmail(email: string): Promise<AccountModel> {
       this.accountModel = {
@@ -40,6 +41,7 @@ export const mockLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRep
         name: 'any_name',
         email,
         password: 'any_password',
+        payDay: addDay(new Date(), 7),
       };
       return new Promise((resolve) => resolve(this.accountModel));
     }

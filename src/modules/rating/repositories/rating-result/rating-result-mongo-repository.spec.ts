@@ -55,7 +55,7 @@ describe('RatingResult Mongo Repository', () => {
       ratingId: rating._id,
       accountId: account._id,
       rating: rating.ratings[0].rating,
-      date: new Date(),
+      createdAt: new Date(),
     });
     const ratingResult = await ratingResultCollection.findOne({
       ratingId: rating._id,
@@ -71,14 +71,14 @@ describe('RatingResult Mongo Repository', () => {
       ratingId: new ObjectId(rating._id),
       accountId: new ObjectId(account._id),
       rating: rating.ratings[0].rating,
-      date: new Date(),
+      createdAt: new Date(),
     });
     const sut = makeSut();
     await sut.save({
       ratingId: rating._id,
       accountId: account._id,
       rating: rating.ratings[1].rating,
-      date: new Date(),
+      createdAt: new Date(),
     });
     const ratingResult = await ratingResultCollection
       .find({
@@ -98,25 +98,25 @@ describe('RatingResult Mongo Repository', () => {
           ratingId: new ObjectId(rating._id),
           accountId: new ObjectId(account._id),
           rating: rating.ratings[0].rating,
-          date: new Date(),
+          createdAt: new Date(),
         },
         {
           ratingId: new ObjectId(rating._id),
           accountId: new ObjectId(account._id),
           rating: rating.ratings[0].rating,
-          date: new Date(),
+          createdAt: new Date(),
         },
         {
           ratingId: new ObjectId(rating._id),
           accountId: new ObjectId(account._id),
           rating: rating.ratings[1].rating,
-          date: new Date(),
+          createdAt: new Date(),
         },
         {
           ratingId: new ObjectId(rating._id),
           accountId: new ObjectId(account._id),
           rating: rating.ratings[1].rating,
-          date: new Date(),
+          createdAt: new Date(),
         },
       ]);
       const sut = makeSut();

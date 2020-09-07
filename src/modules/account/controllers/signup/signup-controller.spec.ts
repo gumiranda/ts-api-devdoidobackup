@@ -12,7 +12,8 @@ import { Validation } from '@/bin/helpers/validators/validation';
 import { mockValidation } from '@/bin/test/mock-validation';
 import { mockAddAccount } from '@/modules/account/usecases/mocks/mock-account';
 import { mockFakeAccount } from '@/modules/account/models/mocks/mock-account';
-
+import MockDate from 'mockdate';
+import { addDay } from '@/bin/utils/date-fns';
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     name: 'any_name',
@@ -20,6 +21,8 @@ const makeFakeRequest = (): HttpRequest => ({
     password: 'any_password',
     passwordConfirmation: 'any_password',
     role: 'client',
+    pushToken: 'any_token',
+    payDay: addDay(new Date(), 7),
   },
 });
 type SutTypes = {
@@ -39,6 +42,13 @@ const makeSut = (): SutTypes => {
   };
 };
 describe('SignUp Controller', () => {
+  beforeAll(async () => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(async () => {
+    MockDate.reset();
+  });
   test('Should return 500 if Validator throws', async () => {
     const { sut, validationStub } = makeSut();
     jest.spyOn(validationStub, 'validate').mockImplementationOnce(() => {
@@ -67,6 +77,8 @@ describe('SignUp Controller', () => {
       email: 'any_email@mail.com',
       password: 'any_password',
       role: 'client',
+      pushToken: 'any_token',
+      payDay: addDay(new Date(), 7),
     });
   });
   test('Should call Validation with correct values', async () => {

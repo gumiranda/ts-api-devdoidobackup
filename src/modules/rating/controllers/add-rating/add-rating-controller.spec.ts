@@ -21,7 +21,7 @@ const makeSut = (): SutTypes => {
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     ratingType: 'atendimento',
-    date: new Date(),
+    createdAt: new Date(),
     ratings: [{ rating: 'Bom', stars: 3 }],
   },
 });
