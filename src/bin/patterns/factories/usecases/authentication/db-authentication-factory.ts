@@ -4,7 +4,7 @@ import { JwtAdapter } from '@/bin/infra/criptography/jwt-adapter/jwt-adapter';
 import variables from '@/bin/configuration/variables';
 import { AccountMongoRepository } from '@/modules/account/repositories/account-mongo-repository';
 import { Authentication } from '@/modules/account/usecases/auth/authentication';
-import { MongoRepository } from '@/bin/base/mongo-repository';
+import { MongoRepository } from '@/bin/repository/mongo-repository';
 
 export const makeDbAuthentication = (): Authentication => {
   const salt = 12;

@@ -15,9 +15,17 @@ export class MongoRepository {
     const result = await collection.insertOne(data);
     return result && result.ops[0];
   }
-  async update(query, data, options) {
+  async findOneAndUpdate(query, data, options): Promise<any> {
     const collection = await this.getCollection();
     return await collection.findOneAndUpdate(query, data, options);
+  }
+  async update(query, data, options): Promise<any> {
+    const collection = await this.getCollection();
+    return await collection.update(query, data, options);
+  }
+  async updateOne(query, data, options): Promise<any> {
+    const collection = await this.getCollection();
+    return await collection.updateOne(query, data, options);
   }
   async getOne(query) {
     const collection = await this.getCollection();

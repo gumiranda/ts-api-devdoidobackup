@@ -8,7 +8,7 @@ import {
   makeFakeArrayAddAccounts,
 } from '@/modules/account/models/mocks/mock-account';
 import { AccountModel } from '@/modules/account/models/account-model';
-import { MongoRepository } from '@/bin/base/mongo-repository';
+import { MongoRepository } from '@/bin/repository/mongo-repository';
 import { addDay } from '@/bin/utils/date-fns';
 import MockDate from 'mockdate';
 let accountCollection: Collection;
@@ -117,5 +117,30 @@ describe('Account Mongo Repository', () => {
     );
     const account = await sut.loadByToken(token, 'client');
     expect(account).toBeFalsy();
+  });
+  test('Should return an account updated success', async () => {
+    const account = await makeAccount();
+    const sut = makeSut();
+    const accountUpdated = await sut.updateOne(
+      {
+        cpf: 'any_cpf',
+        phone: 'any_phone',
+      },
+      account._id,
+    );
+    expect(accountUpdated).toBeTruthy();
+    expect(accountUpdated._id).toBeTruthy();
+    expect(accountUpdated.cpf).toBe('any_cpf');
+    expect(accountUpdated.phone).toBe('any_phone');
+  });
+  test('Should return an account updated password success', async () => {
+    const account = await makeAccount();
+    const sut = makeSut();
+    const accountUpdated = await sut.updatePassword(
+      'new_password',
+      account._id,
+    );
+    expect(accountUpdated).toBeTruthy();
+    expect(accountUpdated._id).toBeTruthy();
   });
 });

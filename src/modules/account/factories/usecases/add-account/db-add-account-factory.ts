@@ -2,7 +2,7 @@ import { BcryptAdapter } from '@/bin/infra/criptography/bcrypt-adapter/bcrypt-ad
 import { AccountMongoRepository } from '@/modules/account/repositories/account-mongo-repository';
 import { DbAddAccount } from '@/modules/account/usecases/add-account/db/db-add-account';
 import { AddAccount } from '@/modules/account/usecases/add-account/add-account';
-import { MongoRepository } from '@/bin/base/mongo-repository';
+import { MongoRepository } from '@/bin/repository/mongo-repository';
 export const makeDbAddAccount = (): AddAccount => {
   const salt = 12;
   const bcryptAdapter = new BcryptAdapter(salt);

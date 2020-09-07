@@ -37,7 +37,7 @@ const addDevice = async (pushToken) => {
       },
     });
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 export default {

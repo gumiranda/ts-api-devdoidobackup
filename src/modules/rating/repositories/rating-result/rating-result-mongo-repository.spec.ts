@@ -5,7 +5,7 @@ import { RatingModel } from '@/modules/rating/models/rating';
 import { AccountModel } from '@/modules/account/models/account-model';
 import { ObjectId } from 'mongodb';
 import { mockFakeAddRating } from '@/modules/rating/models/mocks/mock-rating';
-import { MongoRepository } from '@/bin/base/mongo-repository';
+import { MongoRepository } from '@/bin/repository/mongo-repository';
 import faker from 'faker';
 let ratingCollection: Collection;
 let ratingResultCollection: Collection;

@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb';
 import { SaveRatingResultParams } from '@/modules/rating/usecases/save-rating-result/save-rating-result';
 import { QueryBuilder } from '@/bin/helpers/query-builder';
 import { LoadRatingResultRepository } from './protocols/load-rating-result-repository';
-import { MongoRepository } from '@/bin/base/mongo-repository';
+import { MongoRepository } from '@/bin/repository/mongo-repository';
 export class RatingResultMongoRepository
   implements SaveRatingResultRepository, LoadRatingResultRepository {
   ratingResultModel: RatingResultModel;
@@ -12,7 +12,7 @@ export class RatingResultMongoRepository
   constructor(private readonly mongoRepository: MongoRepository) {}
   async save(ratingData: SaveRatingResultParams): Promise<void> {
     const { ratingId, accountId, rating, createdAt } = ratingData;
-    await this.mongoRepository.update(
+    await this.mongoRepository.findOneAndUpdate(
       {
         ratingId: new ObjectId(ratingId),
         accountId: new ObjectId(accountId),

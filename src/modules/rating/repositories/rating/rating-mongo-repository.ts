@@ -4,7 +4,7 @@ import { LoadRatingRepository } from './protocols/load-rating-repository';
 import { RatingModel } from '@/modules/rating/models/rating';
 import { ObjectId } from 'mongodb';
 import { LoadRatingById } from '@/modules/rating/usecases/load-rating-by-id/load-rating-by-id';
-import { MongoRepository } from '@/bin/base/mongo-repository';
+import { MongoRepository } from '@/bin/repository/mongo-repository';
 export class RatingMongoRepository
   implements AddRatingRepository, LoadRatingRepository, LoadRatingById {
   ratingModel: RatingModel;

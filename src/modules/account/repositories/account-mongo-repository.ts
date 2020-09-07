@@ -1,19 +1,23 @@
 import { AddAccountRepository } from './protocols/add-account-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { AddAccountModel } from '@/modules/account/usecases/add-account/add-account';
-import { AccountModel } from '@/modules/account/models/account-model';
+import { AccountModel, UserData } from '@/modules/account/models/account-model';
 import { ObjectId } from 'mongodb';
 import { LoadAccountByEmailRepository } from './protocols/load-account-by-email-repository';
 import { LoadAccountByTokenRepository } from './protocols/load-account-by-token-repository';
 import variables from '@/bin/configuration/variables';
 import jwt from 'jsonwebtoken';
 import { LoadAccountByPageRepository } from './protocols/load-account-by-page-repository';
-import { MongoRepository } from '@/bin/base/mongo-repository';
+import { MongoRepository } from '@/bin/repository/mongo-repository';
+import { UpdateAccountRepository } from './protocols/update-account-repository';
+import { UpdatePasswordRepository } from './protocols/update-password-repository';
 export class AccountMongoRepository
   implements
     AddAccountRepository,
     LoadAccountByEmailRepository,
     LoadAccountByPageRepository,
+    UpdatePasswordRepository,
+    UpdateAccountRepository,
     LoadAccountByTokenRepository {
   accountModel: AccountModel;
   role: string;
@@ -57,5 +61,42 @@ export class AccountMongoRepository
   async add(accountData: AddAccountModel): Promise<AccountModel> {
     const result = await this.mongoRepository.add(accountData);
     return result && MongoHelper.mapPassword(result);
+  }
+  async updateOne(
+    userData: UserData,
+    accountId: string,
+  ): Promise<Omit<AccountModel, 'password'>> {
+    const { cpf, phone } = userData;
+    await this.mongoRepository.updateOne(
+      {
+        _id: new ObjectId(accountId),
+      },
+      {
+        $set: {
+          cpf,
+          phone,
+        },
+      },
+      { upsert: true },
+    );
+    const result = await this.mongoRepository.getOne({ _id: accountId });
+    return result && MongoHelper.mapPassword(result);
+  }
+  async updatePassword(
+    newPassword: string,
+    accountId: string,
+  ): Promise<Omit<AccountModel, 'password'>> {
+    const userUpdated = await this.mongoRepository.findOneAndUpdate(
+      {
+        _id: new ObjectId(accountId),
+      },
+      {
+        $set: {
+          password: newPassword,
+        },
+      },
+      { upsert: true },
+    );
+    return userUpdated.value;
   }
 }

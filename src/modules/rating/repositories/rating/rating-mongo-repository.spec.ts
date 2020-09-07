@@ -5,7 +5,7 @@ import {
   mockFakeAddRating,
   mockFakeRatings,
 } from '@/modules/rating/models/mocks/mock-rating';
-import { MongoRepository } from '@/bin/base/mongo-repository';
+import { MongoRepository } from '@/bin/repository/mongo-repository';
 let ratingCollection: Collection;
 
 describe('Rating Mongo Repository', () => {
