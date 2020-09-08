@@ -1,6 +1,7 @@
 import {
   mockFakeAccount,
   mockFakeAccountUpdated,
+  makeFakeArrayAccounts,
 } from '@/modules/account/models/mocks/mock-account';
 import { AddAccountRepository } from '@/modules/account/repositories/protocols/add-account-repository';
 import { AddAccountModel } from '@/modules/account/usecases/add-account/add-account';
@@ -9,6 +10,9 @@ import { LoadAccountByEmailRepository } from '@/modules/account/repositories/pro
 import { LoadAccountByTokenRepository } from '@/modules/account/repositories/protocols/load-account-by-token-repository';
 import { addDay } from '@/bin/utils/date-fns';
 import { UpdateAccountRepository } from '../protocols/update-account-repository';
+import { LoadAccountByPageRepository } from '../protocols/load-account-by-page-repository';
+import { LoadAccountByIdRepository } from '../protocols/load-account-by-id-repository';
+import { UpdatePasswordRepository } from '../protocols/update-password-repository';
 export const mockAddAccountRepository = (): AddAccountRepository => {
   //  accountModel = mockFakeAccount();
   class AddAccountRepositoryStub implements AddAccountRepository {
@@ -77,4 +81,52 @@ export const mockUpdateAccountRepository = (): UpdateAccountRepository => {
     accountModel = mockFakeAccountUpdated();
   }
   return new UpdateAccountRepositoryStub();
+};
+export const mockUpdatePasswordRepository = (): UpdatePasswordRepository => {
+  //  accountModel = mockFakeAccount();
+  class UpdatePasswordRepositoryStub implements UpdatePasswordRepository {
+    async updatePassword(
+      newPassword: string,
+      accountId: string,
+    ): Promise<Omit<AccountModel, 'password'>> {
+      return new Promise((resolve) => resolve(this.accountModel));
+    }
+    accountModel = mockFakeAccountUpdated();
+  }
+  return new UpdatePasswordRepositoryStub();
+};
+export const mockLoadAccountByPageRepository = (): LoadAccountByPageRepository => {
+  class LoadAccountByPageStub implements LoadAccountByPageRepository {
+    accounts = makeFakeArrayAccounts();
+    page: number;
+    accountId: string;
+    async loadByPage(page: number, accountId: string): Promise<AccountModel[]> {
+      this.accountId = accountId;
+      this.page = page;
+      return new Promise((resolve) => resolve(this.accounts.slice(0, 10)));
+    }
+    async countAccountsByPage(
+      page: number,
+      accountId: string,
+    ): Promise<number> {
+      this.accountId = accountId;
+      this.page = page;
+      return new Promise((resolve) => resolve(this.accounts.length));
+    }
+  }
+  return new LoadAccountByPageStub();
+};
+export const mockLoadAccountByIdRepository = (): LoadAccountByIdRepository => {
+  class LoadAccountByIdStub implements LoadAccountByIdRepository {
+    accountModel = mockFakeAccount();
+    _id: string;
+    async loadById(_id: string): Promise<AccountModel> {
+      this._id = _id;
+      if (this.accountModel !== null) {
+        this.accountModel._id = _id;
+      }
+      return new Promise((resolve) => resolve(this.accountModel));
+    }
+  }
+  return new LoadAccountByIdStub();
 };

@@ -11,6 +11,7 @@ import { LoadAccountByPageRepository } from './protocols/load-account-by-page-re
 import { MongoRepository } from '@/bin/repository/mongo-repository';
 import { UpdateAccountRepository } from './protocols/update-account-repository';
 import { UpdatePasswordRepository } from './protocols/update-password-repository';
+import { LoadAccountByIdRepository } from './protocols/load-account-by-id-repository';
 export class AccountMongoRepository
   implements
     AddAccountRepository,
@@ -18,11 +19,17 @@ export class AccountMongoRepository
     LoadAccountByPageRepository,
     UpdatePasswordRepository,
     UpdateAccountRepository,
+    LoadAccountByIdRepository,
     LoadAccountByTokenRepository {
   accountModel: AccountModel;
   role: string;
   token: string;
   constructor(private readonly mongoRepository: MongoRepository) {}
+  _id: string;
+  async loadById(_id: string): Promise<AccountModel> {
+    const result = await this.mongoRepository.getById(_id);
+    return result;
+  }
   async countAccountsByPage(page: number, accountId: string): Promise<number> {
     const accountsCount = await this.mongoRepository.getCount({
       role: 'client',

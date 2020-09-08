@@ -1,5 +1,5 @@
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
-import { Collection } from 'mongodb';
+import { Collection, ObjectId } from 'mongodb';
 
 export class MongoRepository {
   public collectionName: string;
@@ -60,9 +60,9 @@ export class MongoRepository {
     const rest = await collection.findOneAndDelete({ _id });
     return rest.value;
   }
-  async getById(_id) {
+  async getById(id) {
     const collection = await this.getCollection();
-    return await collection.findOne({ _id });
+    return await collection.findOne({ _id: new ObjectId(id) });
   }
   async aggregate(query) {
     const collection = await this.getCollection();

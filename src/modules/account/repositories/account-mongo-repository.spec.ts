@@ -143,4 +143,12 @@ describe('Account Mongo Repository', () => {
     expect(accountUpdated).toBeTruthy();
     expect(accountUpdated._id).toBeTruthy();
   });
+  test('Should return an account loaded by id with success', async () => {
+    const account = await makeAccount();
+    const sut = makeSut();
+    const accountLoaded = await sut.loadById(account._id);
+    expect(accountLoaded).toBeTruthy();
+    expect(accountLoaded._id).toBeTruthy();
+    expect(accountLoaded._id).toEqual(account._id);
+  });
 });

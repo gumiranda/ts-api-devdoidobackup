@@ -20,14 +20,30 @@ export const mockFakeAccount = (): AccountModel => ({
   role: 'client',
   payDay: addDay(new Date(), 7),
 });
-export const mockFakeAccountUpdated = (): AccountModel => ({
+export const mockFakeAccountPassword = (): Omit<AccountModel, 'password'> => ({
   _id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
-  password: 'valid_password',
+  role: 'client',
+  payDay: addDay(new Date(), 7),
+});
+export const mockFakeAccountUpdated = (): Omit<AccountModel, 'password'> => ({
+  _id: 'valid_id',
+  name: 'valid_name',
+  email: 'valid_email@mail.com',
   role: 'client',
   cpf: 'any_cpf',
   phone: 'any_phone',
+  payDay: addDay(new Date(), 7),
+});
+export const mockFakeAccountPasswordUpdated = (): Omit<
+  AccountModel,
+  'password'
+> => ({
+  _id: 'valid_id',
+  name: 'valid_name',
+  email: 'valid_email@mail.com',
+  role: 'client',
   payDay: addDay(new Date(), 7),
 });
 export const mockFakeAccountsPaginated = (): AccountsPaginate => ({

@@ -8,6 +8,7 @@ import {
   mockFakeAccount,
   makeFakeArrayAccounts,
   mockFakeAccountUpdated,
+  mockFakeAccountPassword,
 } from '@/modules/account/models/mocks/mock-account';
 import {
   AddAccount,
@@ -16,6 +17,8 @@ import {
 import { LoadAccountByPage } from '@/modules/account/usecases/load-account-by-page/load-account-by-page';
 import { LoadAccountByPageRepository } from '@/modules/account/repositories/protocols/load-account-by-page-repository';
 import { UpdateAccount } from '../update-account/update-account';
+import { LoadAccountByIdRepository } from '../../repositories/protocols/load-account-by-id-repository';
+import { UpdatePassword } from '../update-password/update-password';
 
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
@@ -29,27 +32,6 @@ export const mockLoadAccountByToken = (): LoadAccountByToken => {
     }
   }
   return new LoadAccountByTokenStub();
-};
-export const mockLoadAccountByPageRepository = (): LoadAccountByPageRepository => {
-  class LoadAccountByPageStub implements LoadAccountByPageRepository {
-    accounts = makeFakeArrayAccounts();
-    page: number;
-    accountId: string;
-    async loadByPage(page: number, accountId: string): Promise<AccountModel[]> {
-      this.accountId = accountId;
-      this.page = page;
-      return new Promise((resolve) => resolve(this.accounts.slice(0, 10)));
-    }
-    async countAccountsByPage(
-      page: number,
-      accountId: string,
-    ): Promise<number> {
-      this.accountId = accountId;
-      this.page = page;
-      return new Promise((resolve) => resolve(this.accounts.length));
-    }
-  }
-  return new LoadAccountByPageStub();
 };
 
 export const mockAddAccount = (): AddAccount => {
@@ -73,6 +55,19 @@ export const mockUpdateAccount = (): UpdateAccount => {
     }
   }
   return new UpdateAccountStub();
+};
+export const mockUpdatePassword = (): UpdatePassword => {
+  class UpdatePasswordStub implements UpdatePassword {
+    accountModel = mockFakeAccountPassword();
+    async updatePassword(
+      newPassword: string,
+      oldPassword: string,
+      accountId: string,
+    ): Promise<Omit<AccountModel, 'password'>> {
+      return new Promise((resolve) => resolve(this.accountModel));
+    }
+  }
+  return new UpdatePasswordStub();
 };
 export const mockLoadAccountByPage = (): LoadAccountByPage => {
   class LoadAccountByPageStub implements LoadAccountByPage {

@@ -1,11 +1,11 @@
 import MockDate from 'mockdate';
 import { DbLoadAccountByPage } from '@/modules/account/usecases/load-account-by-page/db/db-load-account-by-page';
 import { LoadAccountByPageRepository } from '@/modules/account/repositories/protocols/load-account-by-page-repository';
-import { mockLoadAccountByPageRepository } from '@/modules/account/usecases/mocks/mock-account';
 import {
   makeFakeArrayAccounts,
   mockFakeAccountsPaginated,
 } from '@/modules/account/models/mocks/mock-account';
+import { mockLoadAccountByPageRepository } from '@/modules/account/repositories/mocks/mock-account-repository';
 type SutTypes = {
   sut: DbLoadAccountByPage;
   loadAccountStub: LoadAccountByPageRepository;
