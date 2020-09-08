@@ -13,6 +13,8 @@ import {
 } from './schemas';
 import { userSchema } from './schemas/user-schema';
 import { usersSchema } from './schemas/users-schema';
+import { updateUserParamsSchema } from './schemas/update-user-params-schema';
+import { updatePasswordParamsSchema } from './schemas/update-password-params-schema';
 
 export default {
   account: accountSchema,
@@ -28,4 +30,6 @@ export default {
   ratingResult: ratingResultSchema,
   ratingDetails: ratingDetailsSchema,
   ratingResultRating: ratingResultRatingSchema,
+  updateUserParams: updateUserParamsSchema,
+  updatePasswordParams: updatePasswordParamsSchema,
 };
