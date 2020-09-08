@@ -6,11 +6,14 @@ import { hash } from 'bcrypt';
 import variables from '@/bin/configuration/variables';
 import { sign } from 'jsonwebtoken';
 let accountCollection: Collection;
-const makeAccessToken = async (role: string): Promise<string> => {
+const makeAccessToken = async (
+  role: string,
+  password: string,
+): Promise<string> => {
   const res = await accountCollection.insertOne({
     name: 'tedsste',
     email: 'testando@gmail.com',
-    password: '222',
+    password,
     role,
   });
   const _id = res.ops[0]._id;
@@ -72,8 +75,8 @@ describe('Name of the group', () => {
   });
   describe('GET /user/page/:page', () => {
     test('Should return 200 an token on users', async () => {
-      const accessToken = await makeAccessToken('client');
       const password = await hash('111123', 12);
+      const accessToken = await makeAccessToken('client', password);
       await accountCollection.insertMany([
         {
           name: 'tedsste',
@@ -92,8 +95,8 @@ describe('Name of the group', () => {
       expect(200);
     });
     test('Should return 401 an token without role client on users', async () => {
-      const accessToken = await makeAccessToken('any_role');
       const password = await hash('111123', 12);
+      const accessToken = await makeAccessToken('client', password);
       await accountCollection.insertMany([
         {
           name: 'tedsste',
@@ -117,20 +120,8 @@ describe('Name of the group', () => {
   });
   describe('PUT /user/completeRegister', () => {
     test('Should return 200 an update on my user', async () => {
-      const accessToken = await makeAccessToken('client');
       const password = await hash('111123', 12);
-      await accountCollection.insertMany([
-        {
-          name: 'tedsste',
-          email: 'testando@gmail.com',
-          password,
-        },
-        {
-          name: 'tedsste',
-          email: 'testando@gmail.com',
-          password,
-        },
-      ]);
+      const accessToken = await makeAccessToken('client', password);
       await request(app)
         .put('/api/user/completeRegister')
         .send({
@@ -141,20 +132,8 @@ describe('Name of the group', () => {
       expect(200);
     });
     test('Should return 401 an token without role client on users', async () => {
-      const accessToken = await makeAccessToken('any_role');
       const password = await hash('111123', 12);
-      await accountCollection.insertMany([
-        {
-          name: 'tedsste',
-          email: 'testando@gmail.com',
-          password,
-        },
-        {
-          name: 'tedsste',
-          email: 'testando@gmail.com',
-          password,
-        },
-      ]);
+      const accessToken = await makeAccessToken('any_role', password);
       await request(app)
         .put('/api/user/completeRegister')
         .send({
@@ -170,6 +149,53 @@ describe('Name of the group', () => {
         .send({
           cpf: 'any_cpf',
           phone: 'any_phone',
+        })
+        .expect(403);
+    });
+  });
+  describe('PUT /user/updatePassword', () => {
+    test('Should return 200 an update on my user', async () => {
+      const password = await hash('111123', 12);
+      const accessToken = await makeAccessToken('client', password);
+      await request(app)
+        .put('/api/user/updatePassword')
+        .send({
+          oldPassword: '111123',
+          newPassword: 'any_password',
+        })
+        .set('authorization', 'Bearer ' + accessToken);
+      expect(200);
+    });
+    test('Should return 401 an token without role client on users', async () => {
+      const password = await hash('111123', 12);
+      const accessToken = await makeAccessToken('client', password);
+      await accountCollection.insertMany([
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+        {
+          name: 'tedsste',
+          email: 'testando@gmail.com',
+          password,
+        },
+      ]);
+      await request(app)
+        .put('/api/user/updatePassword')
+        .send({
+          oldPassword: '111123',
+          newPassword: 'any_password',
+        })
+        .set('authorization', 'Bearer ' + accessToken);
+      expect(401);
+    });
+    test('Should return 403 on users without token', async () => {
+      await request(app)
+        .put('/api/user/updatePassword')
+        .send({
+          oldPassword: '111123',
+          newPassword: 'any_password',
         })
         .expect(403);
     });
