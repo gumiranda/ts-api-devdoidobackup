@@ -21,6 +21,7 @@ const makeFakeRequest = (): HttpRequest => ({
     password: 'any_password',
     passwordConfirmation: 'any_password',
     role: 'client',
+    coords: [25.0000188, -71.0087548],
     pushToken: 'any_token',
     payDay: addDay(new Date(), 7),
   },

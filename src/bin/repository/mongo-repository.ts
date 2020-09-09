@@ -49,6 +49,10 @@ export class MongoRepository {
     const collection = await this.getCollection();
     return await collection.find(query).count();
   }
+  async createIndex(query) {
+    const collection = await this.getCollection();
+    return await collection.createIndex(query);
+  }
 
   async getMyAll(account) {
     const collection = await this.getCollection();

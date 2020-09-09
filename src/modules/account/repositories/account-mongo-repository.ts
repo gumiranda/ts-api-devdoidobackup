@@ -12,6 +12,7 @@ import { MongoRepository } from '@/bin/repository/mongo-repository';
 import { UpdateAccountRepository } from './protocols/update-account-repository';
 import { UpdatePasswordRepository } from './protocols/update-password-repository';
 import { LoadAccountByIdRepository } from './protocols/load-account-by-id-repository';
+import { QueryBuilder } from '@/bin/helpers/query-builder';
 export class AccountMongoRepository
   implements
     AddAccountRepository,
@@ -41,6 +42,30 @@ export class AccountMongoRepository
     page: number,
     accountId: string,
   ): Promise<Omit<AccountModel, 'password'>[]> {
+    const userLogged = await this.mongoRepository.getById(accountId);
+    console.log(userLogged);
+    const query = new QueryBuilder()
+      .geoNear({
+        near: { type: 'Point', coordinates: userLogged.coord.coordinates },
+        query: { role: 'client' },
+        distanceField: 'distance',
+        maxDistance: 100000,
+        spherical: true,
+      })
+      .sort({ distance: 1 })
+      .skip((page - 1) * 10)
+      .limit(10)
+      .project({ password: 0 })
+      .build();
+    console.warn(query);
+    const accounts = await this.mongoRepository.aggregate(query);
+    console.warn(accounts);
+    return accounts;
+  }
+  async loadByPageBackup(
+    page: number,
+    accountId: string,
+  ): Promise<Omit<AccountModel, 'password'>[]> {
     const accounts = await this.mongoRepository.getPaginate(
       page,
       { role: 'client', _id: { $ne: new ObjectId(accountId) } },
@@ -67,6 +92,7 @@ export class AccountMongoRepository
   }
   async add(accountData: AddAccountModel): Promise<AccountModel> {
     const result = await this.mongoRepository.add(accountData);
+    await this.mongoRepository.createIndex({ coord: '2dsphere' });
     return result && MongoHelper.mapPassword(result);
   }
   async updateOne(

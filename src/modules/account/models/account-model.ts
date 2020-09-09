@@ -8,7 +8,10 @@ export type AccountModel = {
   payDay: string;
   cpf?: string;
   phone?: string;
+  coord?: any;
+  distance?: Number;
 };
+//25.0000188,-71.0087548
 export type AccountsPaginate = {
   accounts: Omit<AccountModel, 'password'>[];
   accountsCount: number;

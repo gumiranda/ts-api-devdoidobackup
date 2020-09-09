@@ -10,6 +10,7 @@ import {
 import {
   mockFakeAccountData,
   mockFakeAccount,
+  mockFakeAccountWithPasswordHashed,
 } from '@/modules/account/models/mocks/mock-account';
 import MockDate from 'mockdate';
 import { addDay } from '@/bin/utils/date-fns';
@@ -70,13 +71,9 @@ describe('DbAddAccount Usecase', () => {
     const { sut, addAccountRepositoryStub, encrypterStub } = makeSut();
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add');
     await sut.add(mockFakeAccountData());
-    expect(addSpy).toHaveBeenCalledWith({
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
-      password: encrypterStub.hashedPassword,
-      role: 'client',
-      payDay: addDay(new Date(), 7),
-    });
+    expect(addSpy).toHaveBeenCalledWith(
+      mockFakeAccountWithPasswordHashed(encrypterStub.hashedPassword),
+    );
   });
 
   test('Should throw if Encrypter throws', async () => {

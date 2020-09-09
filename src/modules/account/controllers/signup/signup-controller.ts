@@ -29,13 +29,21 @@ export class SignUpController implements Controller {
       if (!httpRequest.body.role) {
         httpRequest.body.role = 'client';
       }
-      const { name, email, password, role, pushToken } = httpRequest.body;
+      const {
+        name,
+        email,
+        password,
+        role,
+        pushToken,
+        coord,
+      } = httpRequest.body;
       const payDay = addDay(new Date(), 7);
       const account = await this.addAccount.add({
         name,
         email,
         password,
         role,
+        coord,
         pushToken,
         payDay,
       });

@@ -8,9 +8,20 @@ export class QueryBuilder {
     this.query.push({ $group: data });
     return this;
   }
-
+  geoNear(data: object): QueryBuilder {
+    this.query.push({ $geoNear: data });
+    return this;
+  }
   project(data: object): QueryBuilder {
     this.query.push({ $project: data });
+    return this;
+  }
+  skip(data: number): QueryBuilder {
+    this.query.push({ $skip: data });
+    return this;
+  }
+  limit(data: number): QueryBuilder {
+    this.query.push({ $limit: data });
     return this;
   }
   addFields(data: object): QueryBuilder {
