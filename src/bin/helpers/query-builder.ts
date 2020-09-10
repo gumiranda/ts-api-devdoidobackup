@@ -8,6 +8,10 @@ export class QueryBuilder {
     this.query.push({ $group: data });
     return this;
   }
+  count(data: string): QueryBuilder {
+    this.query.push({ $count: data });
+    return this;
+  }
   geoNear(data: object): QueryBuilder {
     this.query.push({ $geoNear: data });
     return this;

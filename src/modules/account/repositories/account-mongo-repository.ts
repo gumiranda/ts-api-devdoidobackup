@@ -32,11 +32,22 @@ export class AccountMongoRepository
     return result;
   }
   async countAccountsByPage(page: number, accountId: string): Promise<number> {
-    const accountsCount = await this.mongoRepository.getCount({
-      role: 'client',
-      _id: { $ne: new ObjectId(accountId) },
-    });
-    return accountsCount;
+    const userLogged = await this.mongoRepository.getById(accountId);
+    const query = new QueryBuilder()
+      .geoNear({
+        near: { type: 'Point', coordinates: userLogged.coord.coordinates },
+        query: { role: 'owner', _id: { $ne: new ObjectId(accountId) } },
+        distanceField: 'distance',
+        maxDistance: 100000,
+        spherical: true,
+      })
+      .count('name')
+      .build();
+    const accountsCount: any = await this.mongoRepository.aggregate(query);
+    if (accountsCount.length === 0) {
+      return 0;
+    }
+    return await accountsCount[0]?.name;
   }
   async loadByPage(
     page: number,
@@ -46,7 +57,7 @@ export class AccountMongoRepository
     const query = new QueryBuilder()
       .geoNear({
         near: { type: 'Point', coordinates: userLogged.coord.coordinates },
-        query: { role: 'owner' },
+        query: { role: 'owner', _id: { $ne: new ObjectId(accountId) } },
         distanceField: 'distance',
         maxDistance: 100000,
         spherical: true,

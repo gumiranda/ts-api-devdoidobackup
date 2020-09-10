@@ -84,7 +84,10 @@ describe('Account Mongo Repository', () => {
   test('Should return an account countAccountsByPage success', async () => {
     const sut = makeSut();
     let arrayAccounts = makeFakeArrayAccounts();
-    arrayAccounts.forEach((acc) => delete acc._id);
+    arrayAccounts.forEach((acc) => {
+      delete acc._id;
+      acc.role = 'owner';
+    });
     await accountCollection.insertMany(arrayAccounts);
     const accountAdded = await makeAccount();
     const accountsCounts = await sut.countAccountsByPage(1, accountAdded._id);
