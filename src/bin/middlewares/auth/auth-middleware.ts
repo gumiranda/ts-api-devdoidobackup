@@ -19,13 +19,16 @@ export class AuthMiddleware implements Middleware {
             accessToken,
             this.role,
           );
-          if (account.role === 'owner') {
-            const past = isPast(new Date(account.payDay));
-            if (!account.payDay || past) {
-              return forbidden(new AccessDeniedError());
-            }
-          }
           if (account) {
+            if (account.role === 'owner') {
+              if (!account.payDay) {
+                return forbidden(new AccessDeniedError());
+              } else {
+                if (isPast(new Date(account.payDay))) {
+                  return forbidden(new AccessDeniedError());
+                }
+              }
+            }
             return ok({ accountId: account._id });
           }
         }

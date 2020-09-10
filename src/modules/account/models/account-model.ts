@@ -10,6 +10,7 @@ export type AccountModel = {
   phone?: string;
   coord?: any;
   distance?: Number;
+  plan?: string;
   createdAt: Date;
 };
 //25.0000188,-71.0087548

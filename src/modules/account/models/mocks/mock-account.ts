@@ -21,6 +21,7 @@ export const mockFakeAccount = (): AccountModel => ({
     type: 'Point',
     coordinates: [43.6589, -67.0087548],
   },
+  plan: 'basic',
   email: 'valid_email@mail.com',
   password: 'valid_password',
   role: 'client',

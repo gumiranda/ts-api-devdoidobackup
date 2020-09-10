@@ -36,10 +36,11 @@ export class SignUpController implements Controller {
         role,
         pushToken,
         coord,
+        plan,
       } = httpRequest.body;
       let position = coord;
       const payDay = addDay(new Date(), 7);
-      const obj = {
+      let obj: any = {
         name,
         email,
         password,
@@ -48,6 +49,11 @@ export class SignUpController implements Controller {
         payDay,
         createdAt: new Date(),
       };
+      if (plan) {
+        obj.plan = plan;
+      } else {
+        obj.plan = 'basic';
+      }
       const account = await this.addAccount.add(obj);
       if (!account) {
         return forbidden(new EmailInUseError());
