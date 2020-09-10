@@ -11,20 +11,14 @@ import { MissingParamError, EmailInUseError, ServerError } from '@/bin/errors';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { mockValidation } from '@/bin/test/mock-validation';
 import { mockAddAccount } from '@/modules/account/usecases/mocks/mock-account';
-import { mockFakeAccount } from '@/modules/account/models/mocks/mock-account';
+import {
+  mockFakeAccount,
+  mockFakeAccountData,
+} from '@/modules/account/models/mocks/mock-account';
 import MockDate from 'mockdate';
 import { addDay } from '@/bin/utils/date-fns';
 const makeFakeRequest = (): HttpRequest => ({
-  body: {
-    name: 'any_name',
-    email: 'any_email@mail.com',
-    password: 'any_password',
-    passwordConfirmation: 'any_password',
-    role: 'client',
-    coords: [25.0000188, -71.0087548],
-    pushToken: 'any_token',
-    payDay: addDay(new Date(), 7),
-  },
+  body: mockFakeAccountData(),
 });
 type SutTypes = {
   sut: SignUpController;
@@ -71,16 +65,10 @@ describe('SignUp Controller', () => {
   test('Should call AddAccount with correct values', async () => {
     const { sut, addAccountStub } = makeSut();
     const addSpy = jest.spyOn(addAccountStub, 'add');
-
     await sut.handle(makeFakeRequest());
-    expect(addSpy).toHaveBeenCalledWith({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password',
-      role: 'client',
-      pushToken: 'any_token',
-      payDay: addDay(new Date(), 7),
-    });
+    const resExpected = mockFakeAccount();
+    delete resExpected._id;
+    expect(addSpy).toHaveBeenCalledWith(resExpected);
   });
   test('Should call Validation with correct values', async () => {
     const { sut, validationStub } = makeSut();

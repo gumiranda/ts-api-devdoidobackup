@@ -35,21 +35,11 @@ export const mockLoadAccountByEmailRepository = (): LoadAccountByEmailRepository
 export const mockLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub
     implements LoadAccountByEmailRepository {
-    accountModel = {
-      _id: 'any_id',
-      name: 'any_name',
-      email: 'any_email@email.com',
-      password: 'any_password',
-      payDay: addDay(new Date(), 7),
-    };
+    accountModel = mockFakeAccount();
     async loadByEmail(email: string): Promise<AccountModel> {
-      this.accountModel = {
-        _id: 'any_id',
-        name: 'any_name',
-        email,
-        password: 'any_password',
-        payDay: addDay(new Date(), 7),
-      };
+      this.accountModel.password = 'any_password';
+      this.accountModel._id = 'any_id';
+      this.accountModel.email = email;
       return new Promise((resolve) => resolve(this.accountModel));
     }
   }

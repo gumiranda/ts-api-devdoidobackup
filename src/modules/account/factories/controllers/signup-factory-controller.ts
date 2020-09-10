@@ -6,7 +6,13 @@ import { mockValidationComposite } from '@/bin/patterns/factories/usecases/valid
 
 export const makeSignUpController = (): Controller => {
   const dbAddAccount = makeDbAddAccount();
-  const requiredFields = ['email', 'name', 'password', 'passwordConfirmation'];
+  const requiredFields = [
+    'email',
+    'name',
+    'password',
+    'passwordConfirmation',
+    'coord',
+  ];
   const validationComposite = mockValidationComposite(requiredFields);
   const signUpController = new SignUpController(
     dbAddAccount,

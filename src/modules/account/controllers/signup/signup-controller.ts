@@ -26,7 +26,7 @@ export class SignUpController implements Controller {
       if (errors?.length > 0) {
         return badRequest(errors);
       }
-      if (!httpRequest.body.role) {
+      if (!httpRequest.body.role || httpRequest.body?.role === 'admin') {
         httpRequest.body.role = 'client';
       }
       const {
@@ -37,16 +37,18 @@ export class SignUpController implements Controller {
         pushToken,
         coord,
       } = httpRequest.body;
+      let position = coord;
       const payDay = addDay(new Date(), 7);
-      const account = await this.addAccount.add({
+      const obj = {
         name,
         email,
         password,
         role,
-        coord,
-        pushToken,
+        coord: { type: 'Point', coordinates: position },
         payDay,
-      });
+        createdAt: new Date(),
+      };
+      const account = await this.addAccount.add(obj);
       if (!account) {
         return forbidden(new EmailInUseError());
       }

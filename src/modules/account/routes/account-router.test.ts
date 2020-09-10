@@ -5,6 +5,7 @@ import { Collection } from 'mongodb';
 import { hash } from 'bcrypt';
 import variables from '@/bin/configuration/variables';
 import { sign } from 'jsonwebtoken';
+import { addDay } from '@/bin/utils/date-fns';
 let accountCollection: Collection;
 const makeAccessToken = async (
   role: string,
@@ -38,10 +39,14 @@ describe('Name of the group', () => {
       await request(app)
         .post('/api/user/register')
         .send({
-          name: 'tedsste',
-          email: 'testetessaste@gmail.com',
+          name: 'any_name',
+          email: 'any_email@mail.com',
           password: '111123',
           passwordConfirmation: '111123',
+          role: 'client',
+          coord: [25.0000188, -71.0087548],
+          pushToken: 'any_token',
+          payDay: addDay(new Date(), 7),
         })
         .expect(200);
     });

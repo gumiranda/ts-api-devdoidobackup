@@ -5,15 +5,16 @@ import jwt from 'jsonwebtoken';
 import variables from '@/bin/configuration/variables';
 import {
   mockFakeAccountData,
-  makeFakeArrayAddAccounts,
+  makeFakeArrayAccounts,
 } from '@/modules/account/models/mocks/mock-account';
 import { AccountModel } from '@/modules/account/models/account-model';
 import { MongoRepository } from '@/bin/repository/mongo-repository';
-import { addDay } from '@/bin/utils/date-fns';
 import MockDate from 'mockdate';
 let accountCollection: Collection;
 const makeAccount = async (): Promise<AccountModel> => {
-  const { ops } = await accountCollection.insertOne(mockFakeAccountData());
+  let account = mockFakeAccountData();
+  account.coord = { type: 'Point', coordinates: account.coord };
+  const { ops } = await accountCollection.insertOne(account);
   return ops[0];
 };
 describe('Account Mongo Repository', () => {
@@ -39,16 +40,11 @@ describe('Account Mongo Repository', () => {
 
   test('Should return an account add success', async () => {
     const sut = makeSut();
-    const account = await sut.add({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password',
-      payDay: addDay(new Date(), 7),
-    });
+    const account = await sut.add(mockFakeAccountData());
     expect(account).toBeTruthy();
     expect(account._id).toBeTruthy();
-    expect(account.name).toBe('any_name');
-    expect(account.email).toBe('any_email@mail.com');
+    expect(account.name).toBe('valid_name');
+    expect(account.email).toBe('valid_email@mail.com');
   });
 
   test('Should return an account loadByEmail success', async () => {
@@ -71,7 +67,13 @@ describe('Account Mongo Repository', () => {
   });
   test('Should return an account loadByPage success', async () => {
     const sut = makeSut();
-    await accountCollection.insertMany(makeFakeArrayAddAccounts());
+    let arrayAccounts = makeFakeArrayAccounts();
+    arrayAccounts.forEach((acc) => {
+      delete acc._id;
+      acc.role = 'owner';
+    });
+    await accountCollection.insertMany(arrayAccounts);
+    await accountCollection.createIndex({ coord: '2dsphere' });
     const accountAdded = await makeAccount();
     const accounts = await sut.loadByPage(1, accountAdded._id);
     expect(accounts).toBeTruthy();
@@ -81,7 +83,9 @@ describe('Account Mongo Repository', () => {
   });
   test('Should return an account countAccountsByPage success', async () => {
     const sut = makeSut();
-    await accountCollection.insertMany(makeFakeArrayAddAccounts());
+    let arrayAccounts = makeFakeArrayAccounts();
+    arrayAccounts.forEach((acc) => delete acc._id);
+    await accountCollection.insertMany(arrayAccounts);
     const accountAdded = await makeAccount();
     const accountsCounts = await sut.countAccountsByPage(1, accountAdded._id);
     expect(accountsCounts).toBe(15);

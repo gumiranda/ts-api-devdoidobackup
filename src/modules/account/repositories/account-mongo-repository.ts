@@ -43,11 +43,10 @@ export class AccountMongoRepository
     accountId: string,
   ): Promise<Omit<AccountModel, 'password'>[]> {
     const userLogged = await this.mongoRepository.getById(accountId);
-    console.log(userLogged);
     const query = new QueryBuilder()
       .geoNear({
         near: { type: 'Point', coordinates: userLogged.coord.coordinates },
-        query: { role: 'client' },
+        query: { role: 'owner' },
         distanceField: 'distance',
         maxDistance: 100000,
         spherical: true,
@@ -57,9 +56,7 @@ export class AccountMongoRepository
       .limit(10)
       .project({ password: 0 })
       .build();
-    console.warn(query);
     const accounts = await this.mongoRepository.aggregate(query);
-    console.warn(accounts);
     return accounts;
   }
   async loadByPageBackup(

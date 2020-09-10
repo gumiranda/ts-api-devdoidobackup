@@ -15,9 +15,7 @@ import {
   AddAccountModel,
 } from '@/modules/account/usecases/add-account/add-account';
 import { LoadAccountByPage } from '@/modules/account/usecases/load-account-by-page/load-account-by-page';
-import { LoadAccountByPageRepository } from '@/modules/account/repositories/protocols/load-account-by-page-repository';
 import { UpdateAccount } from '../update-account/update-account';
-import { LoadAccountByIdRepository } from '../../repositories/protocols/load-account-by-id-repository';
 import { UpdatePassword } from '../update-password/update-password';
 
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
