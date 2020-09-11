@@ -5,7 +5,7 @@ COPY package.json /usr/app/
 
 RUN yarn
 COPY . /usr/app
-
+#a
 EXPOSE 3333
 
 CMD ["yarn","debug"]
