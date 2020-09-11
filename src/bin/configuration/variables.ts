@@ -13,8 +13,8 @@ export default {
     appId: process.env.ONE_SIGNAL_APP_ID,
   },
   Pagarme: {
-    pagarmeKey: process.env.pagarme,
-    pagarmeKeyTest: process.env.pagarmetest,
+    pagarmeKey: process.env.PAGARME,
+    pagarmeKeyTest: process.env.PAGARMETEST,
   },
 };
 // module.exports = variables;
