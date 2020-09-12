@@ -18,9 +18,14 @@ export const mockSaveRatingResultRepository = (): SaveRatingResultRepository => 
 export const mockLoadRatingResultRepository = (): LoadRatingResultRepository => {
   class LoadRatingResultRepositoryStub implements LoadRatingResultRepository {
     ratingId: string;
+    ratingFor: string;
     ratingResultModel = mockFakeRatingResult();
-    async loadByRatingId(ratingId: string): Promise<RatingResultModel> {
+    async loadByRatingIdRatingFor(
+      ratingId: string,
+      ratingFor: string,
+    ): Promise<RatingResultModel> {
       this.ratingId = ratingId;
+      this.ratingFor = ratingFor;
       return Promise.resolve(this.ratingResultModel);
     }
   }

@@ -17,10 +17,11 @@ import {
 import { LoadAccountByPage } from '@/modules/account/usecases/load-account-by-page/load-account-by-page';
 import { UpdateAccount } from '../update-account/update-account';
 import { UpdatePassword } from '../update-password/update-password';
+import { LoadAccountById } from '../load-account-by-id/load-account-by-id';
 
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
-    accountModel = mockFakeAccount();
+    accountModel = mockFakeAccount('client');
     accessToken: string;
     role: string;
     async load(accessToken: string, role?: string): Promise<AccountModel> {
@@ -34,7 +35,7 @@ export const mockLoadAccountByToken = (): LoadAccountByToken => {
 
 export const mockAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    accountModel = mockFakeAccount();
+    accountModel = mockFakeAccount('client');
     async add(account: AddAccountModel): Promise<AccountModel> {
       //this.accountModel = { _id: this.accountModel._id, ...account };
       return new Promise((resolve) => resolve(this.accountModel));
@@ -44,7 +45,7 @@ export const mockAddAccount = (): AddAccount => {
 };
 export const mockUpdateAccount = (): UpdateAccount => {
   class UpdateAccountStub implements UpdateAccount {
-    accountModel = mockFakeAccountUpdated();
+    accountModel = mockFakeAccountUpdated('client');
     async updateAccount(
       account: UserData,
       accountId: string,
@@ -56,7 +57,7 @@ export const mockUpdateAccount = (): UpdateAccount => {
 };
 export const mockUpdatePassword = (): UpdatePassword => {
   class UpdatePasswordStub implements UpdatePassword {
-    accountModel = mockFakeAccountPassword();
+    accountModel = mockFakeAccountPassword('client');
     async updatePassword(
       newPassword: string,
       oldPassword: string,
@@ -84,4 +85,15 @@ export const mockLoadAccountByPage = (): LoadAccountByPage => {
     }
   }
   return new LoadAccountByPageStub();
+};
+export const mockLoadAccountById = (): LoadAccountById => {
+  class LoadAccountByIdStub implements LoadAccountById {
+    accountModel = mockFakeAccount('owner');
+    _id: string;
+    async loadById(_id: string): Promise<AccountModel> {
+      this._id = _id;
+      return new Promise((resolve) => resolve(this.accountModel));
+    }
+  }
+  return new LoadAccountByIdStub();
 };

@@ -8,25 +8,31 @@ import { InvalidParamError } from '@/bin/errors';
 import { mockFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-result';
 import { mockLoadRatingById } from '@/modules/rating/usecases/mocks/mock-rating';
 import { makeSaveRatingResult } from '@/modules/rating/usecases/mocks/mock-rating-result';
+import { LoadAccountById } from '@/modules/account/usecases/load-account-by-id/load-account-by-id';
+import { mockLoadAccountById } from '@/modules/account/usecases/mocks/mock-account';
 
 type SutTypes = {
   sut: SaveRatingResultController;
   loadRatingByIdStub: LoadRatingById;
+  loadAccountByIdStub: LoadAccountById;
   saveRatingStub: SaveRatingResult;
 };
 
 const makeSut = (): SutTypes => {
   const loadRatingByIdStub = mockLoadRatingById();
+  const loadAccountByIdStub = mockLoadAccountById();
   const saveRatingStub = makeSaveRatingResult();
   const sut = new SaveRatingResultController(
     loadRatingByIdStub,
+    loadAccountByIdStub,
     saveRatingStub,
   );
-  return { sut, loadRatingByIdStub, saveRatingStub };
+  return { sut, loadRatingByIdStub, loadAccountByIdStub, saveRatingStub };
 };
 const makeFakeRequest = (): HttpRequest => ({
   params: {
     ratingId: 'any_rating_id',
+    ratingFor: 'any_ratingFor',
   },
   body: {
     rating: 'Bom',
@@ -54,6 +60,7 @@ describe('SaveRatingResult Controller', () => {
     await sut.handle(httpRequest);
     expect(saveRatingSpy).toHaveBeenCalledWith({
       ratingId: 'any_rating_id',
+      ratingFor: 'any_ratingFor',
       accountId: 'any_account_id',
       rating: 'Bom',
       createdAt: new Date(),

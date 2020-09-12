@@ -5,12 +5,12 @@ import { makeSaveRatingResultsController } from '@/modules/rating/factories/cont
 import { makeLoadRatingResultsController } from '@/modules/rating/factories/controllers/load-rating-result-controller-factory';
 const router = Router();
 router.put(
-  '/:ratingId/results',
+  '/:ratingId/:ratingFor/results',
   auth,
   adaptRoute(makeSaveRatingResultsController()),
 );
 router.get(
-  '/:ratingId/results',
+  '/:ratingId/:ratingFor/results',
   auth,
   adaptRoute(makeLoadRatingResultsController()),
 );

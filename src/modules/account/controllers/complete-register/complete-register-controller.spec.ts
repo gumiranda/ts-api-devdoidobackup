@@ -84,7 +84,7 @@ describe('Complete register Controller', () => {
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(ok(mockFakeAccountUpdated()));
+    expect(httpResponse).toEqual(ok(mockFakeAccountUpdated('client')));
   });
   test('Should return 400 if validation returns an error', async () => {
     const { sut, validationStub } = makeSut();

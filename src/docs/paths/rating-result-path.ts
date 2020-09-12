@@ -12,6 +12,14 @@ export const ratingResultPath = {
           type: 'string',
         },
       },
+      {
+        in: 'path',
+        name: 'ratingFor',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+      },
     ],
     requestBody: {
       description: 'Forneça os dados básicos de avaliação',
@@ -32,6 +40,14 @@ export const ratingResultPath = {
       {
         in: 'path',
         name: 'ratingId',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+      },
+      {
+        in: 'path',
+        name: 'ratingFor',
         required: true,
         schema: {
           type: 'string',

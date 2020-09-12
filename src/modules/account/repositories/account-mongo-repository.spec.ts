@@ -12,7 +12,7 @@ import { MongoRepository } from '@/bin/repository/mongo-repository';
 import MockDate from 'mockdate';
 let accountCollection: Collection;
 const makeAccount = async (): Promise<AccountModel> => {
-  let account = mockFakeAccountData();
+  let account = mockFakeAccountData('client');
   account.coord = { type: 'Point', coordinates: account.coord };
   const { ops } = await accountCollection.insertOne(account);
   return ops[0];
@@ -40,7 +40,7 @@ describe('Account Mongo Repository', () => {
 
   test('Should return an account add success', async () => {
     const sut = makeSut();
-    const account = await sut.add(mockFakeAccountData());
+    const account = await sut.add(mockFakeAccountData('client'));
     expect(account).toBeTruthy();
     expect(account._id).toBeTruthy();
     expect(account.name).toBe('valid_name');

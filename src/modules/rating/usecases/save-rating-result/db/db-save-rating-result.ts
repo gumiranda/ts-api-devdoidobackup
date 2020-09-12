@@ -13,8 +13,9 @@ export class DbSaveRatingResult implements SaveRatingResult {
   ) {}
   async save(data: SaveRatingResultParams): Promise<RatingResultModel> {
     await this.saveRatingRepository.save(data);
-    const ratingResult = await this.loadRatingResultRepository.loadByRatingId(
+    const ratingResult = await this.loadRatingResultRepository.loadByRatingIdRatingFor(
       data.ratingId,
+      data.ratingFor,
     );
     return ratingResult;
   }

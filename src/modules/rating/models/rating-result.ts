@@ -1,6 +1,7 @@
 export type RatingResultModel = {
   ratingId: string;
   ratingType: string;
+  ratingFor: string;
   ratings: RatingResultStarsModel[];
   createdAt: Date;
 };

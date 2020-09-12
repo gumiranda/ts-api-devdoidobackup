@@ -5,16 +5,16 @@ import {
   UserData,
 } from '@/modules/account/models/account-model';
 import { addDay } from '@/bin/utils/date-fns';
-export const mockFakeAccountData = (): AddAccountModel => ({
+export const mockFakeAccountData = (role: string): AddAccountModel => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password',
-  role: 'client',
+  role,
   createdAt: new Date(),
   coord: [43.6589, -67.0087548],
   payDay: addDay(new Date(), 7),
 });
-export const mockFakeAccount = (): AccountModel => ({
+export const mockFakeAccount = (role: string): AccountModel => ({
   _id: 'valid_id',
   name: 'valid_name',
   coord: {
@@ -24,15 +24,17 @@ export const mockFakeAccount = (): AccountModel => ({
   plan: 'basic',
   email: 'valid_email@mail.com',
   password: 'valid_password',
-  role: 'client',
+  role,
   createdAt: new Date(),
   payDay: addDay(new Date(), 7),
 });
-export const mockFakeAccountPassword = (): Omit<AccountModel, 'password'> => ({
+export const mockFakeAccountPassword = (
+  role: string,
+): Omit<AccountModel, 'password'> => ({
   _id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
-  role: 'client',
+  role,
   createdAt: new Date(),
   coord: {
     type: 'Point',
@@ -40,11 +42,13 @@ export const mockFakeAccountPassword = (): Omit<AccountModel, 'password'> => ({
   },
   payDay: addDay(new Date(), 7),
 });
-export const mockFakeAccountUpdated = (): Omit<AccountModel, 'password'> => ({
+export const mockFakeAccountUpdated = (
+  role: string,
+): Omit<AccountModel, 'password'> => ({
   _id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
-  role: 'client',
+  role,
   cpf: 'any_cpf',
   phone: 'any_phone',
   createdAt: new Date(),
@@ -54,14 +58,13 @@ export const mockFakeAccountUpdated = (): Omit<AccountModel, 'password'> => ({
   },
   payDay: addDay(new Date(), 7),
 });
-export const mockFakeAccountPasswordUpdated = (): Omit<
-  AccountModel,
-  'password'
-> => ({
+export const mockFakeAccountPasswordUpdated = (
+  role: string,
+): Omit<AccountModel, 'password'> => ({
   _id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
-  role: 'client',
+  role,
   createdAt: new Date(),
   coord: {
     type: 'Point',
@@ -74,38 +77,38 @@ export const mockFakeAccountsPaginated = (): AccountsPaginate => ({
   accountsCount: makeFakeArrayAccounts().length,
 });
 export const makeFakeArrayAccounts = (): AccountModel[] => [
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
-  mockFakeAccount(),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
+  mockFakeAccount('client'),
 ];
 export const makeFakeArrayAddAccounts = (): AddAccountModel[] => [
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
-  mockFakeAccountData(),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
+  mockFakeAccountData('client'),
 ];
 export const mockFakeUpdateAccountData = (): UserData => ({
   cpf: 'any_cpf',

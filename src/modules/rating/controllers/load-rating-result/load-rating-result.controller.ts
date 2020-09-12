@@ -17,12 +17,15 @@ export class LoadRatingResultController implements Controller {
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const { ratingId } = httpRequest.params;
+      const { ratingId, ratingFor } = httpRequest.params;
       const rating = await this.loadRatingById.loadById(ratingId);
       if (!rating) {
         return forbidden(new InvalidParamError('ratingId'));
       }
-      const ratingResult = await this.loadRatingResult.load(ratingId);
+      const ratingResult = await this.loadRatingResult.load(
+        ratingId,
+        ratingFor,
+      );
       return ratingResult ? ok(ratingResult) : noContent();
     } catch (error) {
       return serverError(error);

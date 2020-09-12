@@ -8,7 +8,7 @@ import MockDate from 'mockdate';
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-      return new Promise((resolve) => resolve(ok(mockFakeAccount())));
+      return new Promise((resolve) => resolve(ok(mockFakeAccount('client'))));
     }
   }
   return new ControllerStub();
@@ -76,7 +76,7 @@ describe('LogController Decorator', () => {
   test('Should return the same result of the controller', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(ok(mockFakeAccount()));
+    expect(httpResponse).toEqual(ok(mockFakeAccount('client')));
   });
 
   test('Should call LogErrorRepository with correct error if controller returns a server error', async () => {

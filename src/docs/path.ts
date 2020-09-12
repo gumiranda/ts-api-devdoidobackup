@@ -15,5 +15,5 @@ export default {
   '/user/uploadPassword': updatePasswordPath,
   '/user/register': signupPath,
   '/rating': ratingPath,
-  '/ratingResult/{ratingId}/results': ratingResultPath,
+  '/ratingResult/{ratingId}/{ratingFor}/results': ratingResultPath,
 };

@@ -25,6 +25,15 @@ const makeAccount = async (): Promise<AccountModel> => {
   });
   return ops[0];
 };
+const makeOwner = async (): Promise<AccountModel> => {
+  const { ops } = await accountCollection.insertOne({
+    role: 'owner',
+    name: faker.random.word(),
+    email: faker.internet.email(),
+    password: faker.random.word(),
+  });
+  return ops[0];
+};
 const makeSut = (): RatingResultMongoRepository => {
   const mongoRepository = new MongoRepository('ratingResults');
   return new RatingResultMongoRepository(mongoRepository);
@@ -50,9 +59,11 @@ describe('RatingResult Mongo Repository', () => {
   test('Should add a rating result if its new', async () => {
     const rating = await makeRating();
     const account = await makeAccount();
+    const owner = await makeOwner();
     const sut = makeSut();
     await sut.save({
       ratingId: rating._id,
+      ratingFor: owner._id,
       accountId: account._id,
       rating: rating.ratings[0].rating,
       createdAt: new Date(),
@@ -67,6 +78,7 @@ describe('RatingResult Mongo Repository', () => {
   test('Should update rating result if its not new', async () => {
     const rating = await makeRating();
     const account = await makeAccount();
+    const owner = await makeOwner();
     await ratingResultCollection.insertOne({
       ratingId: new ObjectId(rating._id),
       accountId: new ObjectId(account._id),
@@ -76,6 +88,7 @@ describe('RatingResult Mongo Repository', () => {
     const sut = makeSut();
     await sut.save({
       ratingId: rating._id,
+      ratingFor: owner._id,
       accountId: account._id,
       rating: rating.ratings[1].rating,
       createdAt: new Date(),
@@ -83,19 +96,22 @@ describe('RatingResult Mongo Repository', () => {
     const ratingResult = await ratingResultCollection
       .find({
         ratingId: rating._id,
+        ratingFor: owner._id,
         accountId: account._id,
       })
       .toArray();
     expect(ratingResult).toBeTruthy();
     expect(ratingResult.length).toBe(1);
   });
-  describe('loadByRatingId()', () => {
+  describe('loadByRatingIdRatingFor()', () => {
     test('Should load rating result', async () => {
       const rating = await makeRating();
       const account = await makeAccount();
+      const owner = await makeOwner();
       await ratingResultCollection.insertMany([
         {
           ratingId: new ObjectId(rating._id),
+          ratingFor: new ObjectId(owner._id),
           accountId: new ObjectId(account._id),
           rating: rating.ratings[0].rating,
           createdAt: new Date(),
@@ -103,24 +119,30 @@ describe('RatingResult Mongo Repository', () => {
         {
           ratingId: new ObjectId(rating._id),
           accountId: new ObjectId(account._id),
+          ratingFor: new ObjectId(owner._id),
           rating: rating.ratings[0].rating,
           createdAt: new Date(),
         },
         {
           ratingId: new ObjectId(rating._id),
           accountId: new ObjectId(account._id),
+          ratingFor: new ObjectId(owner._id),
           rating: rating.ratings[1].rating,
           createdAt: new Date(),
         },
         {
           ratingId: new ObjectId(rating._id),
           accountId: new ObjectId(account._id),
+          ratingFor: new ObjectId(owner._id),
           rating: rating.ratings[1].rating,
           createdAt: new Date(),
         },
       ]);
       const sut = makeSut();
-      const ratingResult = await sut.loadByRatingId(rating._id);
+      const ratingResult = await sut.loadByRatingIdRatingFor(
+        rating._id,
+        owner._id,
+      );
       expect(ratingResult).toBeTruthy();
       expect(ratingResult.ratingId).toEqual(rating._id);
       expect(ratingResult.ratings[0].count).toBe(2);

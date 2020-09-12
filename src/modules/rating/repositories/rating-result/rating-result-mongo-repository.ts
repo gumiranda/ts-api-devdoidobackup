@@ -9,12 +9,15 @@ export class RatingResultMongoRepository
   implements SaveRatingResultRepository, LoadRatingResultRepository {
   ratingResultModel: RatingResultModel;
   ratingId: string;
+  ratingFor: string;
+
   constructor(private readonly mongoRepository: MongoRepository) {}
   async save(ratingData: SaveRatingResultParams): Promise<void> {
-    const { ratingId, accountId, rating, createdAt } = ratingData;
+    const { ratingId, ratingFor, accountId, rating, createdAt } = ratingData;
     await this.mongoRepository.findOneAndUpdate(
       {
         ratingId: new ObjectId(ratingId),
+        ratingFor: new ObjectId(ratingFor),
         accountId: new ObjectId(accountId),
       },
       {
@@ -26,10 +29,14 @@ export class RatingResultMongoRepository
       { upsert: true },
     );
   }
-  async loadByRatingId(ratingId: string): Promise<RatingResultModel> {
+  async loadByRatingIdRatingFor(
+    ratingId: string,
+    ratingFor: string,
+  ): Promise<RatingResultModel> {
     const query = new QueryBuilder()
       .match({
         ratingId: new ObjectId(ratingId),
+        ratingFor: new ObjectId(ratingFor),
       })
       .group({
         _id: 0,

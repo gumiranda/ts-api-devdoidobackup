@@ -61,19 +61,22 @@ describe('DbSaveRatingResult Usecase', () => {
 
   test('Should call LoadRatingResultRepository with correct values', async () => {
     const { sut, loadRatingResultRepositoryStub } = makeSut();
-    const loadByRatingIdSpy = jest.spyOn(
+    const loadByRatingIdRatingForSpy = jest.spyOn(
       loadRatingResultRepositoryStub,
-      'loadByRatingId',
+      'loadByRatingIdRatingFor',
     );
     const ratingResultData = mockFakeRatingResultSave();
     await sut.save(ratingResultData);
-    expect(loadByRatingIdSpy).toHaveBeenCalledWith(ratingResultData.ratingId);
+    expect(loadByRatingIdRatingForSpy).toHaveBeenCalledWith(
+      ratingResultData.ratingId,
+      ratingResultData.ratingFor,
+    );
   });
 
   test('Should throw if LoadRatingResultRepository throws', async () => {
     const { sut, loadRatingResultRepositoryStub } = makeSut();
     jest
-      .spyOn(loadRatingResultRepositoryStub, 'loadByRatingId')
+      .spyOn(loadRatingResultRepositoryStub, 'loadByRatingIdRatingFor')
       .mockImplementationOnce(() => {
         throw new Error();
       });

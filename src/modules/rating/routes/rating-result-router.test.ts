@@ -23,6 +23,15 @@ const makeAccessToken = async (): Promise<string> => {
   const _id = res.ops[0]._id;
   return sign({ _id }, variables.Security.secretKey);
 };
+const makeOwner = async (): Promise<string> => {
+  const res = await accountCollection.insertOne({
+    name: 'tedsste',
+    email: 'owner@gmail.com',
+    password: '222',
+    role: 'owner',
+  });
+  return res.ops[0]._id;
+};
 describe('/ratingResult', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
@@ -41,7 +50,7 @@ describe('/ratingResult', () => {
   describe('PUT /:ratingId/results', () => {
     test('Should return 403 an rating result without accessToken', async () => {
       await request(app)
-        .put('/api/ratingResult/any_id/results')
+        .put('/api/ratingResult/any_id/any_id/results')
         .send({
           ratingType: 'atendimento',
         })
@@ -49,9 +58,10 @@ describe('/ratingResult', () => {
     });
     test('Should return 200 an rating result with accessToken', async () => {
       const accessToken = await makeAccessToken();
+      const owner = await makeOwner();
       const ratingId = await makeInsertRating();
       await request(app)
-        .put(`/api/ratingResult/${ratingId}/results`)
+        .put(`/api/ratingResult/${ratingId}/${owner}/results`)
         .send({
           rating: 'Bom',
         })
@@ -62,7 +72,7 @@ describe('/ratingResult', () => {
   describe('GET /:ratingId/results', () => {
     test('Should return 403 an load rating result without accessToken', async () => {
       await request(app)
-        .get('/api/ratingResult/any_id/results')
+        .get('/api/ratingResult/any_id/any_id/results')
         .send({
           ratingType: 'atendimento',
         })
@@ -70,9 +80,10 @@ describe('/ratingResult', () => {
     });
     test('Should return 200 an load rating result with accessToken', async () => {
       const accessToken = await makeAccessToken();
+      const owner = await makeOwner();
       const ratingId = await makeInsertRating();
       await request(app)
-        .get(`/api/ratingResult/${ratingId}/results`)
+        .get(`/api/ratingResult/${ratingId}/${owner}/results`)
         .set('Authorization', 'Bearer ' + accessToken)
         .expect(200);
     });

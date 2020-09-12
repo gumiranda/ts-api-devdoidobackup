@@ -3,5 +3,9 @@ import { RatingResultModel } from '@/modules/rating/models/rating-result';
 export interface LoadRatingResultRepository {
   ratingResultModel: RatingResultModel;
   ratingId: string;
-  loadByRatingId(ratingId: string): Promise<RatingResultModel>;
+  ratingFor: string;
+  loadByRatingIdRatingFor(
+    ratingId: string,
+    ratingFor: string,
+  ): Promise<RatingResultModel>;
 }

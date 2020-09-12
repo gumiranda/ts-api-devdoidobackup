@@ -14,9 +14,9 @@ import { LoadAccountByPageRepository } from '../protocols/load-account-by-page-r
 import { LoadAccountByIdRepository } from '../protocols/load-account-by-id-repository';
 import { UpdatePasswordRepository } from '../protocols/update-password-repository';
 export const mockAddAccountRepository = (): AddAccountRepository => {
-  //  accountModel = mockFakeAccount();
+  //  accountModel = mockFakeAccount('client');
   class AddAccountRepositoryStub implements AddAccountRepository {
-    accountModel = mockFakeAccount();
+    accountModel = mockFakeAccount('client');
     async add(accountData: AddAccountModel): Promise<AccountModel> {
       return new Promise((resolve) => resolve(this.accountModel));
     }
@@ -35,7 +35,7 @@ export const mockLoadAccountByEmailRepository = (): LoadAccountByEmailRepository
 export const mockLoadAccountByEmailRepositoryNotNull = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub
     implements LoadAccountByEmailRepository {
-    accountModel = mockFakeAccount();
+    accountModel = mockFakeAccount('client');
     async loadByEmail(email: string): Promise<AccountModel> {
       this.accountModel.password = 'any_password';
       this.accountModel._id = 'any_id';
@@ -50,7 +50,7 @@ export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository
     implements LoadAccountByTokenRepository {
     role: string;
     token: string;
-    accountModel = mockFakeAccount();
+    accountModel = mockFakeAccount('client');
     async loadByToken(token: string, role?: string): Promise<AccountModel> {
       this.token = token;
       this.role = role;
@@ -60,7 +60,7 @@ export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository
   return new LoadAccountByTokenRepositoryStub();
 };
 export const mockUpdateAccountRepository = (): UpdateAccountRepository => {
-  //  accountModel = mockFakeAccount();
+  //  accountModel = mockFakeAccount('client');
   class UpdateAccountRepositoryStub implements UpdateAccountRepository {
     async updateOne(
       userData: UserData,
@@ -68,12 +68,12 @@ export const mockUpdateAccountRepository = (): UpdateAccountRepository => {
     ): Promise<Omit<AccountModel, 'password'>> {
       return new Promise((resolve) => resolve(this.accountModel));
     }
-    accountModel = mockFakeAccountUpdated();
+    accountModel = mockFakeAccountUpdated('client');
   }
   return new UpdateAccountRepositoryStub();
 };
 export const mockUpdatePasswordRepository = (): UpdatePasswordRepository => {
-  //  accountModel = mockFakeAccount();
+  //  accountModel = mockFakeAccount('client');
   class UpdatePasswordRepositoryStub implements UpdatePasswordRepository {
     async updatePassword(
       newPassword: string,
@@ -81,7 +81,7 @@ export const mockUpdatePasswordRepository = (): UpdatePasswordRepository => {
     ): Promise<Omit<AccountModel, 'password'>> {
       return new Promise((resolve) => resolve(this.accountModel));
     }
-    accountModel = mockFakeAccountUpdated();
+    accountModel = mockFakeAccountUpdated('client');
   }
   return new UpdatePasswordRepositoryStub();
 };
@@ -108,7 +108,7 @@ export const mockLoadAccountByPageRepository = (): LoadAccountByPageRepository =
 };
 export const mockLoadAccountByIdRepository = (): LoadAccountByIdRepository => {
   class LoadAccountByIdStub implements LoadAccountByIdRepository {
-    accountModel = mockFakeAccount();
+    accountModel = mockFakeAccount('client');
     _id: string;
     async loadById(_id: string): Promise<AccountModel> {
       this._id = _id;

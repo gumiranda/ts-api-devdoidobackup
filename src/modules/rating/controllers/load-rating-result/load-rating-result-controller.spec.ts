@@ -17,6 +17,7 @@ import { mockFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-
 const makeFakeRequest = (): HttpRequest => ({
   params: {
     ratingId: 'any_id',
+    ratingFor: 'any_id',
   },
 });
 type SutTypes = {
@@ -52,7 +53,7 @@ describe('LoadRatingResult Controller', () => {
     const { sut, loadRatingResultStub } = makeSut();
     const loadSpy = jest.spyOn(loadRatingResultStub, 'load');
     await sut.handle(makeFakeRequest());
-    expect(loadSpy).toHaveBeenCalledWith('any_id');
+    expect(loadSpy).toHaveBeenCalledWith('any_id', 'any_id');
   });
   test('should return 403 if LoadRatingById returns null', async () => {
     const { sut, loadRatingByIdStub } = makeSut();
