@@ -6,5 +6,6 @@ export type RatingModel = {
 };
 export type RatingStarsModel = {
   rating: string;
+  comment: string;
   stars: number;
 };

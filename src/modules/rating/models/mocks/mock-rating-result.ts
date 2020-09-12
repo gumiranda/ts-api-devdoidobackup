@@ -9,12 +9,14 @@ export const mockFakeRatingResult = (): RatingResultModel => ({
   ratings: [
     {
       rating: 'any_rating',
+      comment: 'Oloko meo',
       stars: 3,
       count: 0,
       percent: 0,
     },
     {
       rating: 'Bom',
+      comment: 'Oloko meo',
       stars: 3,
       count: 0,
       percent: 0,

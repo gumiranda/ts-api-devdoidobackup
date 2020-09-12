@@ -8,6 +8,7 @@ export type RatingResultModel = {
 type RatingResultStarsModel = {
   rating: string;
   stars: number;
+  comment: string;
   count: number;
   percent: number;
 };

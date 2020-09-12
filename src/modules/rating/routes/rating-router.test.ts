@@ -39,7 +39,7 @@ describe('POST /', () => {
       .post('/api/rating')
       .send({
         ratingType: 'atendimento',
-        ratings: [{ stars: 2, rating: 'any_rating' }],
+        ratings: [{ stars: 2, rating: 'any_rating', comment: 'Oloko meo' }],
       })
       .expect(403);
   });
@@ -49,7 +49,7 @@ describe('POST /', () => {
       .post('/api/rating')
       .send({
         ratingType: 'atendimento',
-        ratings: [{ stars: 2, rating: 'any_rating' }],
+        ratings: [{ stars: 2, rating: 'any_rating', comment: 'Oloko meo' }],
       })
       .set('Authorization', 'Bearer ' + accessToken)
       .expect(204);

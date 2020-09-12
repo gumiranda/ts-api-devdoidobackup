@@ -151,6 +151,7 @@ export class RatingResultMongoRepository
           createdAt: '$createdAt',
           rating: '$ratings.rating',
           stars: '$ratings.stars',
+          comment: '$ratings.comment',
         },
         count: {
           $sum: '$ratings.count',
@@ -167,6 +168,7 @@ export class RatingResultMongoRepository
         rating: {
           rating: '$_id.rating',
           stars: '$_id.stars',
+          comment: '$_id.comment',
           count: '$count',
           percent: '$percent',
         },

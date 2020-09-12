@@ -22,7 +22,7 @@ const makeFakeRequest = (): HttpRequest => ({
   body: {
     ratingType: 'atendimento',
     createdAt: new Date(),
-    ratings: [{ rating: 'Bom', stars: 3 }],
+    ratings: [{ rating: 'Bom', stars: 3, comment: 'Oloko meo' }],
   },
 });
 describe('AddRating Controller', () => {
