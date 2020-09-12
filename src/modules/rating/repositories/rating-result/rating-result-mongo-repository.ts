@@ -13,12 +13,12 @@ export class RatingResultMongoRepository
 
   constructor(private readonly mongoRepository: MongoRepository) {}
   async save(ratingData: SaveRatingResultParams): Promise<void> {
-    const { ratingId, ratingFor, accountId, rating, createdAt } = ratingData;
+    const { ratingId, ratingFor, userId, rating, createdAt } = ratingData;
     await this.mongoRepository.findOneAndUpdate(
       {
         ratingId: new ObjectId(ratingId),
         ratingFor: new ObjectId(ratingFor),
-        accountId: new ObjectId(accountId),
+        userId: new ObjectId(userId),
       },
       {
         $set: {

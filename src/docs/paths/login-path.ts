@@ -19,7 +19,7 @@ export const loginPath = {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/account',
+            $ref: '#/schemas/token',
           },
         },
       },

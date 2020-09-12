@@ -1,5 +1,5 @@
 import { HttpRequest } from '@/bin/protocols/http';
-import { Authentication } from '@/modules/account/usecases/auth/authentication';
+import { Authentication } from '@/modules/user/usecases/auth/authentication';
 
 export const mockFakeRequestHeader = (): HttpRequest => ({
   headers: { authorization: 'Bearer any_token' },

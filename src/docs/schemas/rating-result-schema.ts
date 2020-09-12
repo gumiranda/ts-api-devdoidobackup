@@ -7,7 +7,7 @@ export const ratingResultSchema = {
       type: 'array',
       items: { $ref: '#/schemas/ratingResultRating' },
     },
-    accountId: { type: 'string' },
+    userId: { type: 'string' },
     ratingType: { type: 'string' },
     createdAt: { type: 'string' },
   },

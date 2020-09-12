@@ -25,12 +25,12 @@ export const mockFakeRatingResult = (): RatingResultModel => ({
 const mockFakeRatingResultData = (
   ratingId: string,
   ratingFor: string,
-  accountId: string,
+  userId: string,
   rating: string,
 ): SaveRatingResultParams => ({
   ratingId,
   ratingFor,
-  accountId,
+  userId,
   rating,
   createdAt: new Date(),
 });
@@ -38,7 +38,7 @@ export const mockFakeRatingResultSave = (): SaveRatingResultParams => {
   return mockFakeRatingResultData(
     'any_rating_id',
     'any_ratingFor',
-    'any_account_id',
+    'any_user_id',
     'Bom',
   );
 };

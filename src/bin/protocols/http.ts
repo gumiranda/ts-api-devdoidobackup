@@ -9,6 +9,6 @@ export type HttpRequest = {
   io?: any;
   params?: any;
   usuarioLogado?: any;
-  accountId?: string;
+  userId?: string;
   connectedUsers?: any;
 };

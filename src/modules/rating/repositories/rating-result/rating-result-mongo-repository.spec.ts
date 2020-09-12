@@ -2,22 +2,22 @@ import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection } from 'mongodb';
 import { RatingResultMongoRepository } from './rating-result-mongo-repository';
 import { RatingModel } from '@/modules/rating/models/rating';
-import { AccountModel } from '@/modules/account/models/account-model';
+import { UserModel } from '@/modules/user/models/user-model';
 import { ObjectId } from 'mongodb';
 import { mockFakeAddRating } from '@/modules/rating/models/mocks/mock-rating';
 import { MongoRepository } from '@/bin/repository/mongo-repository';
 import faker from 'faker';
 let ratingCollection: Collection;
 let ratingResultCollection: Collection;
-let accountCollection: Collection;
+let userCollection: Collection;
 
 const makeRating = async (): Promise<RatingModel> => {
   const { ops } = await ratingCollection.insertOne(mockFakeAddRating());
   return ops[0];
 };
 
-const makeAccount = async (): Promise<AccountModel> => {
-  const { ops } = await accountCollection.insertOne({
+const makeUser = async (): Promise<UserModel> => {
+  const { ops } = await userCollection.insertOne({
     role: 'admin',
     name: faker.random.word(),
     email: faker.internet.email(),
@@ -25,8 +25,8 @@ const makeAccount = async (): Promise<AccountModel> => {
   });
   return ops[0];
 };
-const makeOwner = async (): Promise<AccountModel> => {
-  const { ops } = await accountCollection.insertOne({
+const makeOwner = async (): Promise<UserModel> => {
+  const { ops } = await userCollection.insertOne({
     role: 'owner',
     name: faker.random.word(),
     email: faker.internet.email(),
@@ -52,36 +52,36 @@ describe('RatingResult Mongo Repository', () => {
     await ratingCollection.deleteMany({});
     ratingResultCollection = await MongoHelper.getCollection('ratingResults');
     await ratingResultCollection.deleteMany({});
-    accountCollection = await MongoHelper.getCollection('accounts');
-    await accountCollection.deleteMany({});
+    userCollection = await MongoHelper.getCollection('users');
+    await userCollection.deleteMany({});
   });
 
   test('Should add a rating result if its new', async () => {
     const rating = await makeRating();
-    const account = await makeAccount();
+    const user = await makeUser();
     const owner = await makeOwner();
     const sut = makeSut();
     await sut.save({
       ratingId: rating._id,
       ratingFor: owner._id,
-      accountId: account._id,
+      userId: user._id,
       rating: rating.ratings[0].rating,
       createdAt: new Date(),
     });
     const ratingResult = await ratingResultCollection.findOne({
       ratingId: rating._id,
-      accountId: account._id,
+      userId: user._id,
     });
     expect(ratingResult).toBeTruthy();
   });
 
   test('Should update rating result if its not new', async () => {
     const rating = await makeRating();
-    const account = await makeAccount();
+    const user = await makeUser();
     const owner = await makeOwner();
     await ratingResultCollection.insertOne({
       ratingId: new ObjectId(rating._id),
-      accountId: new ObjectId(account._id),
+      userId: new ObjectId(user._id),
       rating: rating.ratings[0].rating,
       createdAt: new Date(),
     });
@@ -89,7 +89,7 @@ describe('RatingResult Mongo Repository', () => {
     await sut.save({
       ratingId: rating._id,
       ratingFor: owner._id,
-      accountId: account._id,
+      userId: user._id,
       rating: rating.ratings[1].rating,
       createdAt: new Date(),
     });
@@ -97,7 +97,7 @@ describe('RatingResult Mongo Repository', () => {
       .find({
         ratingId: rating._id,
         ratingFor: owner._id,
-        accountId: account._id,
+        userId: user._id,
       })
       .toArray();
     expect(ratingResult).toBeTruthy();
@@ -106,33 +106,33 @@ describe('RatingResult Mongo Repository', () => {
   describe('loadByRatingIdRatingFor()', () => {
     test('Should load rating result', async () => {
       const rating = await makeRating();
-      const account = await makeAccount();
+      const user = await makeUser();
       const owner = await makeOwner();
       await ratingResultCollection.insertMany([
         {
           ratingId: new ObjectId(rating._id),
           ratingFor: new ObjectId(owner._id),
-          accountId: new ObjectId(account._id),
+          userId: new ObjectId(user._id),
           rating: rating.ratings[0].rating,
           createdAt: new Date(),
         },
         {
           ratingId: new ObjectId(rating._id),
-          accountId: new ObjectId(account._id),
+          userId: new ObjectId(user._id),
           ratingFor: new ObjectId(owner._id),
           rating: rating.ratings[0].rating,
           createdAt: new Date(),
         },
         {
           ratingId: new ObjectId(rating._id),
-          accountId: new ObjectId(account._id),
+          userId: new ObjectId(user._id),
           ratingFor: new ObjectId(owner._id),
           rating: rating.ratings[1].rating,
           createdAt: new Date(),
         },
         {
           ratingId: new ObjectId(rating._id),
-          accountId: new ObjectId(account._id),
+          userId: new ObjectId(user._id),
           ratingFor: new ObjectId(owner._id),
           rating: rating.ratings[1].rating,
           createdAt: new Date(),

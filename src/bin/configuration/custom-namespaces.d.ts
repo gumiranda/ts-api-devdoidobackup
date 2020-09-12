@@ -1,6 +1,6 @@
 declare namespace Express {
   interface Request {
-    accountId?: string;
+    userId?: string;
     io: any;
     connectedUsers: any;
   }

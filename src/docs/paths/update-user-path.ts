@@ -20,7 +20,7 @@ export const updateUserPath = {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/account',
+            $ref: '#/schemas/user',
           },
         },
       },

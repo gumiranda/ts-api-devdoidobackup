@@ -8,7 +8,7 @@ export const adaptRoute = (controller: Controller) => {
       body: req.body,
       io: req.io,
       params: req.params,
-      accountId: req.accountId,
+      userId: req.userId,
       connectedUsers: req.connectedUsers,
       usuarioLogado: req.usuarioLogado,
     };

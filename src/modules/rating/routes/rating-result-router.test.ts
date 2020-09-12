@@ -5,7 +5,7 @@ import { Collection } from 'mongodb';
 import { sign } from 'jsonwebtoken';
 import variables from '@/bin/configuration/variables';
 import { mockFakeAddRating } from '@/modules/rating/models/mocks/mock-rating';
-let accountCollection: Collection;
+let userCollection: Collection;
 let ratingCollection: Collection;
 
 const makeInsertRating = async (): Promise<string> => {
@@ -14,7 +14,7 @@ const makeInsertRating = async (): Promise<string> => {
   return _id.toString();
 };
 const makeAccessToken = async (): Promise<string> => {
-  const res = await accountCollection.insertOne({
+  const res = await userCollection.insertOne({
     name: 'tedsste',
     email: 'testando@gmail.com',
     password: '222',
@@ -24,7 +24,7 @@ const makeAccessToken = async (): Promise<string> => {
   return sign({ _id }, variables.Security.secretKey);
 };
 const makeOwner = async (): Promise<string> => {
-  const res = await accountCollection.insertOne({
+  const res = await userCollection.insertOne({
     name: 'tedsste',
     email: 'owner@gmail.com',
     password: '222',
@@ -44,8 +44,8 @@ describe('/ratingResult', () => {
   beforeEach(async () => {
     ratingCollection = await MongoHelper.getCollection('ratings');
     await ratingCollection.deleteMany({});
-    accountCollection = await MongoHelper.getCollection('accounts');
-    await accountCollection.deleteMany({});
+    userCollection = await MongoHelper.getCollection('users');
+    await userCollection.deleteMany({});
   });
   describe('PUT /:ratingId/results', () => {
     test('Should return 403 an rating result without accessToken', async () => {

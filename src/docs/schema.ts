@@ -1,5 +1,5 @@
 import {
-  accountSchema,
+  tokenSchema,
   loginParamsSchema,
   saveRatingParamsSchema,
   signupParamsSchema,
@@ -17,7 +17,7 @@ import { updateUserParamsSchema } from './schemas/update-user-params-schema';
 import { updatePasswordParamsSchema } from './schemas/update-password-params-schema';
 
 export default {
-  account: accountSchema,
+  token: tokenSchema,
   loginParams: loginParamsSchema,
   addRatingParams: addRatingParamsSchema,
   saveRatingParams: saveRatingParamsSchema,

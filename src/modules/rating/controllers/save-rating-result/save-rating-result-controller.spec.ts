@@ -8,26 +8,26 @@ import { InvalidParamError } from '@/bin/errors';
 import { mockFakeRatingResult } from '@/modules/rating/models/mocks/mock-rating-result';
 import { mockLoadRatingById } from '@/modules/rating/usecases/mocks/mock-rating';
 import { makeSaveRatingResult } from '@/modules/rating/usecases/mocks/mock-rating-result';
-import { LoadAccountById } from '@/modules/account/usecases/load-account-by-id/load-account-by-id';
-import { mockLoadAccountById } from '@/modules/account/usecases/mocks/mock-account';
+import { LoadUserById } from '@/modules/user/usecases/load-user-by-id/load-user-by-id';
+import { mockLoadUserById } from '@/modules/user/usecases/mocks/mock-user';
 
 type SutTypes = {
   sut: SaveRatingResultController;
   loadRatingByIdStub: LoadRatingById;
-  loadAccountByIdStub: LoadAccountById;
+  loadUserByIdStub: LoadUserById;
   saveRatingStub: SaveRatingResult;
 };
 
 const makeSut = (): SutTypes => {
   const loadRatingByIdStub = mockLoadRatingById();
-  const loadAccountByIdStub = mockLoadAccountById();
+  const loadUserByIdStub = mockLoadUserById();
   const saveRatingStub = makeSaveRatingResult();
   const sut = new SaveRatingResultController(
     loadRatingByIdStub,
-    loadAccountByIdStub,
+    loadUserByIdStub,
     saveRatingStub,
   );
-  return { sut, loadRatingByIdStub, loadAccountByIdStub, saveRatingStub };
+  return { sut, loadRatingByIdStub, loadUserByIdStub, saveRatingStub };
 };
 const makeFakeRequest = (): HttpRequest => ({
   params: {
@@ -37,7 +37,7 @@ const makeFakeRequest = (): HttpRequest => ({
   body: {
     rating: 'Bom',
   },
-  accountId: 'any_account_id',
+  userId: 'any_user_id',
 });
 describe('SaveRatingResult Controller', () => {
   beforeAll(() => {
@@ -61,7 +61,7 @@ describe('SaveRatingResult Controller', () => {
     expect(saveRatingSpy).toHaveBeenCalledWith({
       ratingId: 'any_rating_id',
       ratingFor: 'any_ratingFor',
-      accountId: 'any_account_id',
+      userId: 'any_user_id',
       rating: 'Bom',
       createdAt: new Date(),
     });

@@ -1,0 +1,19 @@
+import { Router } from 'express';
+import { makeSignUpController } from '@/modules/user/factories/controllers/signup-factory-controller';
+import { adaptRoute } from '@/bin/configuration/adapters/express-route-adapter';
+import { makeLoginController } from '@/modules/user/factories/controllers/login-factory-controller';
+import { makeLoadUserByPageController } from '@/modules/user/factories/controllers/load-user-by-page-factory-controller';
+import { auth } from '@/bin/middlewares/auth';
+import { makeCompleteRegisterController } from '../factories/controllers/update-user-factory-controller';
+import { makeUpdatePasswordController } from '../factories/controllers/update-password-factory-controller';
+const router = Router();
+router.post('/register', adaptRoute(makeSignUpController()));
+router.post('/authenticate', adaptRoute(makeLoginController()));
+router.get('/page/:page', auth, adaptRoute(makeLoadUserByPageController()));
+router.put(
+  '/completeRegister',
+  auth,
+  adaptRoute(makeCompleteRegisterController()),
+);
+router.put('/updatePassword', auth, adaptRoute(makeUpdatePasswordController()));
+export default router;

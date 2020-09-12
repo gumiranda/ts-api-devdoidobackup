@@ -3,7 +3,7 @@ import { RatingResultModel } from '@/modules/rating/models/rating-result';
 export type SaveRatingResultParams = {
   ratingId: string;
   ratingFor: string;
-  accountId: string;
+  userId: string;
   rating: string;
   createdAt: Date;
 };

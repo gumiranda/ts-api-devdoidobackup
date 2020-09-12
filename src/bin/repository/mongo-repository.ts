@@ -54,9 +54,9 @@ export class MongoRepository {
     return await collection.createIndex(query);
   }
 
-  async getMyAll(account) {
+  async getMyAll(user) {
     const collection = await this.getCollection();
-    return await collection.find({ accountId: account }).toArray();
+    return await collection.find({ userId: user }).toArray();
   }
 
   async delete(_id) {
