@@ -2,7 +2,7 @@ export const ratingResultRatingSchema = {
   type: 'object',
   properties: {
     rating: { type: 'string' },
-    comment: { type: 'string' },
+    comments: { type: 'string' },
     count: { type: 'number' },
     percent: { type: 'number' },
     stars: { type: 'number' },

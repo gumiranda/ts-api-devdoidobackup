@@ -4,6 +4,9 @@ export const saveRatingParamsSchema = {
     rating: {
       type: 'string',
     },
+    comment: {
+      type: 'string',
+    },
   },
-  required: ['rating'],
+  required: ['rating', 'comment'],
 };

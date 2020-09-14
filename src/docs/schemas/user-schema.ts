@@ -4,7 +4,7 @@ export const userSchema = {
     name: {
       type: 'string',
     },
-    pushToken: {
+    pushId: {
       type: 'string',
     },
     email: {

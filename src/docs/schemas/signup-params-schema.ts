@@ -4,11 +4,18 @@ export const signupParamsSchema = {
     email: {
       type: 'string',
     },
+    pushToken: {
+      type: 'string',
+    },
     name: {
       type: 'string',
     },
     role: {
       type: 'string',
+    },
+    coord: {
+      type: 'array',
+      items: { type: 'number' },
     },
     password: {
       type: 'string',
@@ -17,5 +24,12 @@ export const signupParamsSchema = {
       type: 'string',
     },
   },
-  required: ['email', 'password', 'passwordConfirmation', 'name', 'role'],
+  required: [
+    'email',
+    'coord',
+    'password',
+    'passwordConfirmation',
+    'name',
+    'role',
+  ],
 };
