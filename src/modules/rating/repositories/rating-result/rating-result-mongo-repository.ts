@@ -105,6 +105,22 @@ export class RatingResultMongoRepository
                       else: 0,
                     },
                   },
+                  starsAvg: {
+                    $cond: {
+                      if: {
+                        $eq: ['$$item.rating', '$_id.rating'],
+                      },
+                      then: {
+                        $divide: [
+                          {
+                            $multiply: ['$count', '$$item.stars'],
+                          },
+                          '$_id.total',
+                        ],
+                      },
+                      else: 0,
+                    },
+                  },
                   percent: {
                     $cond: {
                       if: {
@@ -169,6 +185,9 @@ export class RatingResultMongoRepository
         count: {
           $sum: '$ratings.count',
         },
+        starsAvg: {
+          $sum: '$ratings.starsAvg',
+        },
         percent: {
           $sum: '$ratings.percent',
         },
@@ -190,6 +209,9 @@ export class RatingResultMongoRepository
           comments: '$_id.comments',
           count: '$count',
           percent: '$percent',
+          starsAvg: {
+            $sum: '$starsAvg',
+          },
         },
       })
       .sort({ 'rating.count': -1 })
@@ -209,6 +231,13 @@ export class RatingResultMongoRepository
         ratingType: '$_id.ratingType',
         createdAt: '$_id.createdAt',
         ratings: '$ratings',
+        starsAvg: {
+          $reduce: {
+            input: '$ratings.starsAvg',
+            initialValue: 0,
+            in: { $sum: ['$$value', '$$this'] },
+          },
+        },
       })
       .build();
     const ratingResult = await this.mongoRepository.aggregate(query);
