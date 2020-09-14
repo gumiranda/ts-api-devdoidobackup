@@ -7,6 +7,7 @@ export default {
   },
   Security: {
     secretKey: process.env.SECRETKEY,
+    AESKey: process.env.AESKEY,
   },
   OneSignal: {
     authKey: process.env.ONE_SIGNAL_AUTH_KEY,

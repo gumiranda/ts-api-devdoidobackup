@@ -1,0 +1,12 @@
+    const CryptoJS = require('react-native-crypto-js');
+
+    const cardHash = CryptoJS.AES.encrypt(
+      objtoencrypt,
+      'hdfudhuidfhudhudah9d8s8f9d8a98as9d8s9d89as',
+    ).toString();
+
+    const bytes = CryptoJS.AES.decrypt(
+        data.card_hash,
+        'hdfudhuidfhudhudah9d8s8f9d8a98as9d8s9d89as',
+      );
+    const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
