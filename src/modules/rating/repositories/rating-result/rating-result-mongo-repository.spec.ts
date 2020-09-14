@@ -66,6 +66,7 @@ describe('RatingResult Mongo Repository', () => {
       ratingFor: owner._id,
       userId: user._id,
       rating: rating.ratings[0].rating,
+      comment: 'massa',
       createdAt: new Date(),
     });
     const ratingResult = await ratingResultCollection.findOne({
@@ -82,6 +83,7 @@ describe('RatingResult Mongo Repository', () => {
     await ratingResultCollection.insertOne({
       ratingId: new ObjectId(rating._id),
       userId: new ObjectId(user._id),
+      comment: 'massa',
       rating: rating.ratings[0].rating,
       createdAt: new Date(),
     });
@@ -90,6 +92,7 @@ describe('RatingResult Mongo Repository', () => {
       ratingId: rating._id,
       ratingFor: owner._id,
       userId: user._id,
+      comment: 'massa',
       rating: rating.ratings[1].rating,
       createdAt: new Date(),
     });
@@ -113,12 +116,14 @@ describe('RatingResult Mongo Repository', () => {
           ratingId: new ObjectId(rating._id),
           ratingFor: new ObjectId(owner._id),
           userId: new ObjectId(user._id),
+          comment: 'massa1',
           rating: rating.ratings[0].rating,
           createdAt: new Date(),
         },
         {
           ratingId: new ObjectId(rating._id),
           userId: new ObjectId(user._id),
+          comment: 'massa2',
           ratingFor: new ObjectId(owner._id),
           rating: rating.ratings[0].rating,
           createdAt: new Date(),
@@ -126,6 +131,7 @@ describe('RatingResult Mongo Repository', () => {
         {
           ratingId: new ObjectId(rating._id),
           userId: new ObjectId(user._id),
+          comment: 'massa3',
           ratingFor: new ObjectId(owner._id),
           rating: rating.ratings[1].rating,
           createdAt: new Date(),
@@ -133,6 +139,7 @@ describe('RatingResult Mongo Repository', () => {
         {
           ratingId: new ObjectId(rating._id),
           userId: new ObjectId(user._id),
+          comment: 'massa4',
           ratingFor: new ObjectId(owner._id),
           rating: rating.ratings[1].rating,
           createdAt: new Date(),

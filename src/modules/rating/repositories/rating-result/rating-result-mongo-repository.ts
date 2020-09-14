@@ -10,24 +10,25 @@ export class RatingResultMongoRepository
   ratingResultModel: RatingResultModel;
   ratingId: string;
   ratingFor: string;
-
   constructor(private readonly mongoRepository: MongoRepository) {}
   async save(ratingData: SaveRatingResultParams): Promise<void> {
-    const { ratingId, ratingFor, userId, rating, createdAt } = ratingData;
-    await this.mongoRepository.findOneAndUpdate(
-      {
-        ratingId: new ObjectId(ratingId),
-        ratingFor: new ObjectId(ratingFor),
-        userId: new ObjectId(userId),
-      },
-      {
-        $set: {
-          rating,
-          createdAt,
-        },
-      },
-      { upsert: true },
-    );
+    const {
+      ratingId,
+      ratingFor,
+      userId,
+      rating,
+      comment,
+      createdAt,
+    } = ratingData;
+    const res = await this.mongoRepository.add({
+      ratingId: new ObjectId(ratingId),
+      ratingFor: new ObjectId(ratingFor),
+      userId: new ObjectId(userId),
+      rating,
+      comment,
+      createdAt,
+    });
+    console.error(res);
   }
   async loadByRatingIdRatingFor(
     ratingId: string,
@@ -66,7 +67,15 @@ export class RatingResultMongoRepository
           createdAt: '$rating.createdAt',
           total: '$total',
           rating: '$data.rating',
+          ratingFor: '$data.ratingFor',
           ratings: '$rating.ratings',
+        },
+        comments: {
+          $push: {
+            rating: '$data.rating',
+            comment: '$data.comment',
+            userId: '$data.userId',
+          },
         },
         count: {
           $sum: 1,
@@ -75,6 +84,8 @@ export class RatingResultMongoRepository
       .project({
         _id: 0,
         ratingId: '$_id.ratingId',
+        comments: '$comments',
+        ratingFor: '$_id.ratingFor',
         ratingType: '$_id.ratingType',
         createdAt: '$_id.createdAt',
         ratings: {
@@ -119,6 +130,7 @@ export class RatingResultMongoRepository
       .group({
         _id: {
           ratingId: '$ratingId',
+          comments: '$comments',
           ratingType: '$ratingType',
           createdAt: '$createdAt',
         },
@@ -131,6 +143,7 @@ export class RatingResultMongoRepository
         ratingId: '$_id.ratingId',
         ratingType: '$_id.ratingType',
         createdAt: '$_id.createdAt',
+        comments: '$_id.comments',
         ratings: {
           $reduce: {
             input: '$ratings',
@@ -147,11 +160,11 @@ export class RatingResultMongoRepository
       .group({
         _id: {
           ratingId: '$ratingId',
+          comments: '$comments',
           ratingType: '$ratingType',
           createdAt: '$createdAt',
           rating: '$ratings.rating',
           stars: '$ratings.stars',
-          comment: '$ratings.comment',
         },
         count: {
           $sum: '$ratings.count',
@@ -160,22 +173,26 @@ export class RatingResultMongoRepository
           $sum: '$ratings.percent',
         },
       })
+      .match({
+        count: {
+          $gt: 0,
+        },
+      })
       .project({
         _id: 0,
         ratingId: '$_id.ratingId',
         ratingType: '$_id.ratingType',
         createdAt: '$_id.createdAt',
+        comments: '$_id.comments',
         rating: {
           rating: '$_id.rating',
           stars: '$_id.stars',
-          comment: '$_id.comment',
+          comments: '$_id.comments',
           count: '$count',
           percent: '$percent',
         },
       })
-      .sort({
-        'rating.count': -1,
-      })
+      .sort({ 'rating.count': -1 })
       .group({
         _id: {
           ratingId: '$ratingId',
@@ -195,6 +212,7 @@ export class RatingResultMongoRepository
       })
       .build();
     const ratingResult = await this.mongoRepository.aggregate(query);
+    console.warn(JSON.stringify(ratingResult));
     return ratingResult?.length ? ratingResult[0] : null;
   }
 }

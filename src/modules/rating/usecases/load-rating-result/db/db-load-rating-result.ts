@@ -14,6 +14,7 @@ export class DbLoadRatingResult implements LoadRatingResult {
       ratingId,
       ratingFor,
     );
+    console.warn('ratingResult', ratingResult);
     if (!ratingResult) {
       const {
         _id,
@@ -27,7 +28,7 @@ export class DbLoadRatingResult implements LoadRatingResult {
         ratingFor,
         createdAt,
         ratings: ratings.map((rating) =>
-          Object.assign({}, rating, { count: 0, percent: 0 }),
+          Object.assign({}, rating, { count: 0, comment: '', percent: 0 }),
         ),
       };
     }

@@ -3,9 +3,9 @@ export type UserModel = {
   name: string;
   email: string;
   password: string;
-  role?: string;
-  pushToken?: string;
   payDay: string;
+  role?: string;
+  pushId?: string;
   cpf?: string;
   phone?: string;
   coord?: any;

@@ -16,7 +16,7 @@ export class SaveRatingResultController implements Controller {
     try {
       const { ratingId, ratingFor } = httpRequest.params;
       const { userId } = httpRequest;
-      const { rating } = httpRequest.body;
+      const { rating, comment } = httpRequest.body;
       const ratingLoaded = await this.loadRatingById.loadById(ratingId);
       if (ratingLoaded) {
         const ratings = ratingLoaded.ratings.map((a) => a.rating);
@@ -35,6 +35,7 @@ export class SaveRatingResultController implements Controller {
         ratingId,
         ratingFor,
         rating,
+        comment,
         createdAt: new Date(),
       });
       return ok(ratingSaved);

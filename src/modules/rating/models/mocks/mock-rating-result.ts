@@ -33,6 +33,7 @@ const mockFakeRatingResultData = (
   ratingId,
   ratingFor,
   userId,
+  comment: 'Oloko meo',
   rating,
   createdAt: new Date(),
 });

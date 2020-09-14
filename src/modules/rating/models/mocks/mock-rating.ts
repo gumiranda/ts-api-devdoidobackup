@@ -9,7 +9,7 @@ export const mockFakeRatings = (): RatingModel[] => {
       ratings: [
         {
           rating: 'Bom',
-          comment: 'Oloko meo',
+
           stars: 3,
         },
       ],
@@ -21,7 +21,7 @@ export const mockFakeRatings = (): RatingModel[] => {
       ratings: [
         {
           rating: 'Bom',
-          comment: 'Oloko meo',
+
           stars: 3,
         },
       ],
@@ -35,7 +35,7 @@ export const mockFakeRating = (): RatingModel => ({
   ratings: [
     {
       rating: 'Bom',
-      comment: 'Oloko meo',
+
       stars: 3,
     },
   ],
@@ -47,12 +47,12 @@ export const mockFakeRatingWithIdFake = (_id: string): RatingModel => ({
   ratings: [
     {
       rating: 'any_rating',
-      comment: 'Oloko meo',
+
       stars: 3,
     },
     {
       rating: 'Bom',
-      comment: 'Oloko meo',
+
       stars: 3,
     },
   ],
@@ -63,12 +63,10 @@ export const mockFakeAddRating = (): Omit<RatingModel, '_id'> => ({
   ratings: [
     {
       rating: 'Bom',
-      comment: 'Oloko meo',
       stars: 3,
     },
     {
       rating: 'Ótimo',
-      comment: 'Oloko meo',
       stars: 4,
     },
   ],

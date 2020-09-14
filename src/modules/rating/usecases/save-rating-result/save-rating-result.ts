@@ -5,6 +5,7 @@ export type SaveRatingResultParams = {
   ratingFor: string;
   userId: string;
   rating: string;
+  comment: string;
   createdAt: Date;
 };
 export interface SaveRatingResult {

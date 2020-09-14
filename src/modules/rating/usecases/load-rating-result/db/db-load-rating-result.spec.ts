@@ -80,7 +80,7 @@ describe('DbLoadRatingResult UseCase', () => {
       createdAt: ratingModel.createdAt,
       ratingFor,
       ratings: ratingModel.ratings.map((rating) =>
-        Object.assign({}, rating, { count: 0, percent: 0 }),
+        Object.assign({}, rating, { count: 0, comment: '', percent: 0 }),
       ),
     });
   });
