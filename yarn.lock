@@ -2770,6 +2770,11 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
+faker-br@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/faker-br/-/faker-br-0.3.0.tgz#b6d2bef6197012f118110f7e3d2a8752a7ec0931"
+  integrity sha512-YSDsfsZ2ZzjkzenCcFPmeLwMctQJHyBOiYCieWzgYwpWTRTlpN5C7ZyY/kiHy04X6xeyBv+ejwbuFjxP+i7gCA==
+
 faker@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/faker/-/faker-4.1.0.tgz#1e45bbbecc6774b3c195fad2835109c6d748cc3f"

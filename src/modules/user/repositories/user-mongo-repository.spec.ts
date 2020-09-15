@@ -93,6 +93,12 @@ describe('User Mongo Repository', () => {
     const usersCounts = await sut.countUsersByPage(1, userAdded._id);
     expect(usersCounts).toBe(15);
   });
+  test('Should return 0 on countUsersByPage success', async () => {
+    const sut = makeSut();
+    const userAdded = await makeUser();
+    const usersCounts = await sut.countUsersByPage(1, userAdded._id);
+    expect(usersCounts).toBe(0);
+  });
   test('Should return null user if loadByEmail fails', async () => {
     const sut = makeSut();
     const user = await sut.loadByEmail('any_email@mail.com');

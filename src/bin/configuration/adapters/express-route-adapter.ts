@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Controller } from '@/bin/protocols/controller';
 import { HttpRequest } from '@/bin/protocols/http';
-import EncrypterAES from '@/bin/helpers/crypto-js';
+//import EncrypterAES from '@/bin/helpers/crypto-js';
 
 export const adaptRoute = (controller: Controller) => {
   return async (req: Request, res: Response) => {

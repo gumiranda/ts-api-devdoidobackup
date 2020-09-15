@@ -1,0 +1,77 @@
+usuarioController.prototype.authFacebook = async (req, res) => {
+  try{
+    let _validationContract = new validation();
+    _validationContract.isRequired(req.body.userID, "Informe seu userid");
+    _validationContract.isRequired(req.body.accessToken, "Informe seu token");
+    if (!_validationContract.isValid()) {
+      res.status(400).send({
+        message: "Não foi possível efetuar o login",
+        validation: _validationContract.errors()
+      });
+      return;
+    }
+   const response = await axios.get('https://graph.facebook.com/' + req.body.userID+'?fields=picture,email,name,first_name&access_token='+req.body.accessToken)
+   if(response.error){
+    res.status(400).send({
+      message: "Não foi possível efetuar o login",
+      error:response.error
+    });
+    return;
+   }
+    let usuarioEncontrado = await _repo.authenticate(
+      req.body.userID,
+      '',true);
+    if (usuarioEncontrado === null) {
+      console.log(response.data);
+      
+      req.body.photo_url = response.data.picture.data.url;
+      req.body.nome = response.data.name;
+      
+const dadosUser = {userid:req.body.userID,nome:response.data.name,photo_url:response.data.picture.data.url}
+     // req.body.userid = response.data.id; 
+      let userCreated = await _repo.postFacebook(
+        dadosUser);
+          if(userCreated){
+            res.status(200).send({
+              usuario: userCreated,
+              token: jwt.sign({ user: userCreated }, variables.Security.secretKey)
+            });
+          }
+    }
+    if (usuarioEncontrado) {
+      if (usuarioEncontrado.type == 'dono') {
+        let profissionais = [];
+        let profissionaisRes = [];
+        profissionais = await _repo.profissionais(usuarioEncontrado);
+        if (profissionais === null || profissionais === undefined || profissionais.length == 0) {
+          res.status(200).send({
+            usuario: usuarioEncontrado,
+            token: jwt.sign({ user: usuarioEncontrado }, variables.Security.secretKey)
+          });
+        } else {
+          for (const profissional of profissionais) {
+            let profissionalAux = {
+              usuario: profissional,
+              token: jwt.sign({ user: profissional }, variables.Security.secretKey)
+            };
+            profissionaisRes.push(profissionalAux);
+          }
+          res.status(200).send({
+            usuario: usuarioEncontrado,
+            profissionais: profissionaisRes,
+            token: jwt.sign({ user: usuarioEncontrado }, variables.Security.secretKey)
+          });
+        }
+      } else {
+        res.status(200).send({
+          usuario: usuarioEncontrado,
+          token: jwt.sign({ user: usuarioEncontrado }, variables.Security.secretKey)
+        });
+      }
+    }
+  }
+  catch(e){
+    console.log(e);
+    res.status(500).send({error:e});
+  }
+};
