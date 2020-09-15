@@ -10,3 +10,7 @@ export * from './save-rating-params-schema';
 export * from './rating-result-rating-schema';
 export * from './api-key-auth-schema';
 export * from './add-rating-params-schema';
+export * from './user-schema';
+export * from './users-schema';
+export * from './update-user-params-schema';
+export * from './update-password-params-schema';

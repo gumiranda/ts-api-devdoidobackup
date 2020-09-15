@@ -4,7 +4,7 @@ import components from './component';
 export default {
   openapi: '3.0.0',
   info: {
-    title: 'API DEV DOIDO',
+    title: 'API',
     description: 'A API mais querida do Brasil',
     version: '1.0.0',
   },

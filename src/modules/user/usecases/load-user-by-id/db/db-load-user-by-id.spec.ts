@@ -1,5 +1,5 @@
 import { DbLoadUserById } from './db-load-user-by-id';
-import faker from 'faker';
+import faker from 'faker-br';
 import { LoadUserByIdRepository } from '@/modules/user/repositories/protocols/load-user-by-id-repository';
 import { mockLoadUserByIdRepository } from '@/modules/user/repositories/mocks/mock-user-repository';
 type SutTypes = {

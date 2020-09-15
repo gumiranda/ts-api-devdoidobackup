@@ -10,11 +10,11 @@ import {
   ratingDetailsSchema,
   addRatingParamsSchema,
   ratingResultRatingSchema,
+  updateUserParamsSchema,
+  userSchema,
+  updatePasswordParamsSchema,
+  usersSchema,
 } from './schemas';
-import { userSchema } from './schemas/user-schema';
-import { usersSchema } from './schemas/users-schema';
-import { updateUserParamsSchema } from './schemas/update-user-params-schema';
-import { updatePasswordParamsSchema } from './schemas/update-password-params-schema';
 
 export default {
   token: tokenSchema,

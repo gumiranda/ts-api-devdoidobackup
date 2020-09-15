@@ -7,6 +7,7 @@ export const adaptRoute = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     //const body = EncrypterAES.decryptObject(req.body.data);
     //const body = EncrypterAES.encryptObject(req.body);
+    const body = req.body;
     const httpRequest: HttpRequest = {
       body,
       io: req.io,

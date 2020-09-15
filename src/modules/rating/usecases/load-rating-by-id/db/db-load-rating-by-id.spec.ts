@@ -3,7 +3,7 @@ import { LoadRatingByIdRepository } from '@/modules/rating/repositories/rating/p
 import { DbLoadRatingById } from './db-load-rating-by-id';
 import { mockFakeRatingWithIdFake } from '@/modules/rating/models/mocks/mock-rating';
 import { mockLoadRatingByIdRepository } from '@/modules/rating/repositories/mocks/mock-rating';
-import faker from 'faker';
+import faker from 'faker-br';
 type SutTypes = {
   sut: DbLoadRatingById;
   loadRatingStub: LoadRatingByIdRepository;

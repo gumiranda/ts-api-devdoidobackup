@@ -3,10 +3,10 @@ import {
   ratingResultPath,
   signupPath,
   ratingPath,
+  updateUserPath,
   userPath,
+  updatePasswordPath,
 } from './paths';
-import { updatePasswordPath } from './paths/update-password-path';
-import { updateUserPath } from './paths/update-user-path';
 
 export default {
   '/user/authenticate': loginPath,

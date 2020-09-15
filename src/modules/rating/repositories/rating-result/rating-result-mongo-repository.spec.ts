@@ -6,7 +6,7 @@ import { UserModel } from '@/modules/user/models/user-model';
 import { ObjectId } from 'mongodb';
 import { mockFakeAddRating } from '@/modules/rating/models/mocks/mock-rating';
 import { MongoRepository } from '@/bin/repository/mongo-repository';
-import faker from 'faker';
+import faker from 'faker-br';
 let ratingCollection: Collection;
 let ratingResultCollection: Collection;
 let userCollection: Collection;

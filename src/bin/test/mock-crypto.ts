@@ -2,7 +2,7 @@ import { TokenDecrypter } from '@/bin/protocols/crypto/token-decrypter';
 import { Encrypter } from '@/bin/protocols/crypto/encrypter';
 import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
 import { TokenGenerator } from '@/bin/protocols/crypto/token-generator';
-import faker from 'faker';
+import faker from 'faker-br';
 export const mockTokenDecrypter = (): TokenDecrypter => {
   class TokenDecrypterStub implements TokenDecrypter {
     plaintext = faker.internet.password();
