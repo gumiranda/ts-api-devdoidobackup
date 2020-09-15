@@ -1,5 +1,5 @@
 export interface Encrypter {
-  hashedPassword: string;
+  hashedText: string;
   plaintext: string;
   encrypt(value: string): Promise<string>;
 }

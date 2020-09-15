@@ -14,7 +14,6 @@ export const adaptRoute = (controller: Controller) => {
       params: req.params,
       userId: req.userId,
       connectedUsers: req.connectedUsers,
-      usuarioLogado: req.usuarioLogado,
     };
     const httpResponse = await controller.handle(httpRequest);
     if (httpResponse.statusCode >= 200 || httpResponse.statusCode <= 299) {

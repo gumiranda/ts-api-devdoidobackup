@@ -27,9 +27,9 @@ export class DbAddUser implements AddUser {
       userData.email,
     );
     if (!user) {
-      const hashedPassword = await this.encrypter.encrypt(userData.password);
+      const hashedText = await this.encrypter.encrypt(userData.password);
       const newUser = await this.addUserRepository.add(
-        Object.assign({}, userData, { password: hashedPassword }),
+        Object.assign({}, userData, { password: hashedText }),
       );
       return newUser;
     }

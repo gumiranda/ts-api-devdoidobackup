@@ -72,7 +72,7 @@ describe('DbAddUser Usecase', () => {
     const addSpy = jest.spyOn(addUserRepositoryStub, 'add');
     await sut.add(mockFakeUserData('client'));
     expect(addSpy).toHaveBeenCalledWith(
-      mockFakeUserWithPasswordHashed(encrypterStub.hashedPassword),
+      mockFakeUserWithPasswordHashed(encrypterStub.hashedText),
     );
   });
 

@@ -16,11 +16,11 @@ export const mockTokenDecrypter = (): TokenDecrypter => {
 };
 export const mockEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
-    hashedPassword = faker.random.uuid();
+    hashedText = faker.random.uuid();
     plaintext: string;
     async encrypt(plaintext: string): Promise<string> {
       this.plaintext = plaintext;
-      return new Promise((resolve) => resolve(this.hashedPassword));
+      return new Promise((resolve) => resolve(this.hashedText));
     }
   }
   return new EncrypterStub();
@@ -28,11 +28,11 @@ export const mockEncrypter = (): Encrypter => {
 export const mockHashComparer = (): HashComparer => {
   class HashComparerStub implements HashComparer {
     password: string;
-    hashedPassword: string;
+    hashedText: string;
     isValid = true;
-    async compare(password: string, hashedPassword: string): Promise<boolean> {
+    async compare(password: string, hashedText: string): Promise<boolean> {
       this.password = password;
-      this.hashedPassword = hashedPassword;
+      this.hashedText = hashedText;
       return new Promise((resolve) => resolve(this.isValid));
     }
   }
