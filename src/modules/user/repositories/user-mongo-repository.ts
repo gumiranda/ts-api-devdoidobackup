@@ -107,16 +107,12 @@ export class UserMongoRepository
     userData: UserData,
     userId: string,
   ): Promise<Omit<UserModel, 'password'>> {
-    const { cpf, phone } = userData;
     await this.mongoRepository.updateOne(
       {
         _id: new ObjectId(userId),
       },
       {
-        $set: {
-          cpf,
-          phone,
-        },
+        $set: userData,
       },
       { upsert: true },
     );

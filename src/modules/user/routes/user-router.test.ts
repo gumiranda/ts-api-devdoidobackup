@@ -34,7 +34,7 @@ describe('Name of the group', () => {
     await userCollection.deleteMany({});
   });
 
-  describe('POST /signup', () => {
+  describe('POST /user/register', () => {
     test('Should return 200 an user on success', async () => {
       await request(app)
         .post('/api/user/register')

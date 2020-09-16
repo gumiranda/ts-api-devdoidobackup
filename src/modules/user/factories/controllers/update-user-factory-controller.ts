@@ -5,7 +5,7 @@ import { CompleteRegisterController } from '../../controllers/complete-register/
 import { makeDbUpdateUser } from '../usecases/update-user/db-update-user-factory';
 
 export const makeCompleteRegisterController = (): Controller => {
-  const requiredFields = ['cpf', 'phone'];
+  const requiredFields = [];
   const validationComposite = makeValidationComposite(requiredFields);
   const loginController = new CompleteRegisterController(
     makeDbUpdateUser(),

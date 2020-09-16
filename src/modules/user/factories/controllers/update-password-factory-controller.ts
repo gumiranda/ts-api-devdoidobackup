@@ -5,7 +5,7 @@ import { UpdatePasswordController } from '../../controllers/update-password/upda
 import { makeDbUpdatePassword } from '../usecases/update-password/db-update-password-factory';
 
 export const makeUpdatePasswordController = (): Controller => {
-  const requiredFields = ['cpf', 'phone'];
+  const requiredFields = ['oldPassword', 'newPassword'];
   const validationComposite = makeValidationComposite(requiredFields);
   const loginController = new UpdatePasswordController(
     makeDbUpdatePassword(),

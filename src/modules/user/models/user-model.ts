@@ -58,10 +58,10 @@ export type DisLike = {
 export type Follower = {
   followedBy: string;
 };
-export type UserData = {
-  cpf: string;
-  phone: string;
-};
+export type UserData = Omit<
+  UserModel,
+  'plan followers following numDislikes numLikes numFollowing numFollowers ownerId role email _id active password payDay email createdAt emailConfirmation'
+>;
 export type Days = {
   monday: boolean;
   sunday: boolean;
