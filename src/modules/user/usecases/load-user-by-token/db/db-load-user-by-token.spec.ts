@@ -1,5 +1,5 @@
 import { DbLoadUserByToken } from './db-load-user-by-token';
-import { TokenDecrypter } from '@/bin/protocols/crypto/token-decrypter';
+import { TokenDecrypter } from '@/bin/protocols/cryptography/token-decrypter';
 import { LoadUserByTokenRepository } from '@/modules/user/repositories/protocols/load-user-by-token-repository';
 import { mockTokenDecrypter } from '@/bin/test/mock-crypto';
 import { mockLoadUserByTokenRepository } from '@/modules/user/repositories/mocks/mock-user-repository';

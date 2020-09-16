@@ -1,7 +1,7 @@
-import { TokenDecrypter } from '@/bin/protocols/crypto/token-decrypter';
-import { Encrypter } from '@/bin/protocols/crypto/encrypter';
-import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
-import { TokenGenerator } from '@/bin/protocols/crypto/token-generator';
+import { TokenDecrypter } from '@/bin/protocols/cryptography/token-decrypter';
+import { Encrypter } from '@/bin/protocols/cryptography/encrypter';
+import { HashComparer } from '@/bin/protocols/cryptography/hash-comparer';
+import { TokenGenerator } from '@/bin/protocols/cryptography/token-generator';
 import faker from 'faker-br';
 export const mockTokenDecrypter = (): TokenDecrypter => {
   class TokenDecrypterStub implements TokenDecrypter {

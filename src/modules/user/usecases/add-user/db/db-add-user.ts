@@ -2,7 +2,7 @@ import {
   AddUser,
   AddUserModel,
 } from '@/modules/user/usecases/add-user/add-user';
-import { Encrypter } from '@/bin/protocols/crypto/encrypter';
+import { Encrypter } from '@/bin/protocols/cryptography/encrypter';
 import { AddUserRepository } from '@/modules/user/repositories/protocols/add-user-repository';
 import { UserModel } from '@/modules/user/models/user-model';
 import { LoadUserByEmailRepository } from '@/modules/user/repositories/protocols/load-user-by-email-repository';

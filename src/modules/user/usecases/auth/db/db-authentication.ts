@@ -1,5 +1,5 @@
-import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
-import { TokenGenerator } from '@/bin/protocols/crypto/token-generator';
+import { HashComparer } from '@/bin/protocols/cryptography/hash-comparer';
+import { TokenGenerator } from '@/bin/protocols/cryptography/token-generator';
 import { LoadUserByEmailRepository } from '@/modules/user/repositories/protocols/load-user-by-email-repository';
 import { Authentication } from '@/modules/user/usecases/auth/authentication';
 

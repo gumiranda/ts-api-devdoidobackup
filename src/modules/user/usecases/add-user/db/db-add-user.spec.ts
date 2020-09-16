@@ -1,5 +1,5 @@
 import { DbAddUser } from '@/modules/user/usecases/add-user/db/db-add-user';
-import { Encrypter } from '@/bin/protocols/crypto/encrypter';
+import { Encrypter } from '@/bin/protocols/cryptography/encrypter';
 import { AddUserRepository } from '@/modules/user/repositories/protocols/add-user-repository';
 import { LoadUserByEmailRepository } from '@/modules/user/repositories/protocols/load-user-by-email-repository';
 import { mockEncrypter } from '@/bin/test/mock-crypto';

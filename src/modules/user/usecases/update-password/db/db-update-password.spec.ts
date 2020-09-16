@@ -1,4 +1,4 @@
-import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
+import { HashComparer } from '@/bin/protocols/cryptography/hash-comparer';
 import { LoadUserByIdRepository } from '@/modules/user/repositories/protocols/load-user-by-id-repository';
 import { mockHashComparer } from '@/bin/test/mock-crypto';
 import { DbUpdatePassword } from './db-update-password';

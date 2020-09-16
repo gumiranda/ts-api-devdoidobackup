@@ -1,6 +1,6 @@
 import { LoadUserByToken } from '@/modules/user/usecases/load-user-by-token/load-user-by-token';
 import { UserModel } from '@/modules/user/models/user-model';
-import { TokenDecrypter } from '@/bin/protocols/crypto/token-decrypter';
+import { TokenDecrypter } from '@/bin/protocols/cryptography/token-decrypter';
 import { LoadUserByTokenRepository } from '@/modules/user/repositories/protocols/load-user-by-token-repository';
 
 export class DbLoadUserByToken implements LoadUserByToken {

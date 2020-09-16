@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-import { Encrypter } from '@/bin/protocols/crypto/encrypter';
-import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
+import { Encrypter } from '@/bin/protocols/cryptography/encrypter';
+import { HashComparer } from '@/bin/protocols/cryptography/hash-comparer';
 
 export class BcryptAdapter implements Encrypter, HashComparer {
   private readonly salt: number;

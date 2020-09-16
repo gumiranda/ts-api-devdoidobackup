@@ -1,6 +1,6 @@
 import { UpdatePasswordRepository } from '@/modules/user/repositories/protocols/update-password-repository';
 import { UpdatePassword } from '../update-password';
-import { HashComparer } from '@/bin/protocols/crypto/hash-comparer';
+import { HashComparer } from '@/bin/protocols/cryptography/hash-comparer';
 import { UserModel } from '@/modules/user/models/user-model';
 import { LoadUserByIdRepository } from '@/modules/user/repositories/protocols/load-user-by-id-repository';
 
