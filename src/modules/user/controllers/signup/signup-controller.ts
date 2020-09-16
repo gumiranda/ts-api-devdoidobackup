@@ -35,6 +35,7 @@ export class SignUpController implements Controller {
         password,
         role,
         pushToken,
+        pushId,
         coord,
         plan,
       } = httpRequest.body;
@@ -45,6 +46,7 @@ export class SignUpController implements Controller {
         email,
         password,
         role,
+        pushId,
         coord: { type: 'Point', coordinates: position },
         payDay,
         createdAt: new Date(),
