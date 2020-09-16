@@ -4,7 +4,7 @@ import { CompareFieldsValidation } from '@/bin/helpers/validators/compare-fields
 import { EmailValidation } from '@/bin/helpers/validators/email-validation';
 import { ValidationComposite } from '@/bin/helpers/validators/validation-composite';
 
-export const mockValidationComposite = (
+export const makeValidationComposite = (
   requiredFields: Array<string>,
 ): Validation => {
   const validations: Validation[] = [];
