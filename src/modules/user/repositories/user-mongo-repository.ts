@@ -115,7 +115,12 @@ export class UserMongoRepository
     const query = new QueryBuilder()
       .geoNear({
         near: { type: 'Point', coordinates: userLogged.coord.coordinates },
-        query: { role: 'owner', _id: { $ne: new ObjectId(userId) } },
+        query: {
+          role: 'owner',
+          active: true,
+          payDay: { $gte: new Date() },
+          _id: { $ne: new ObjectId(userId) },
+        },
         distanceField: 'distance',
         maxDistance: 100000,
         spherical: true,
@@ -131,16 +136,24 @@ export class UserMongoRepository
   async loadByFaceToken(faceId: string, faceToken: string): Promise<UserModel> {
     const response: any = await loginFB(faceId, faceToken);
     if (response?.data?.id) {
-      const result = await this.mongoRepository.getOne({ faceId, face: true });
+      const result = await this.mongoRepository.getOne({
+        faceId,
+        face: true,
+        active: true,
+      });
       if (result) {
         return result;
       }
-      let userData: any = { faceId, face: true };
+      let userData: any = {
+        faceId,
+        face: true,
+        active: true,
+        role: 'client',
+        createdAt: new Date(),
+        payDay: new Date(),
+      };
       if (response?.data?.name) {
         userData.name = response.data.name;
-        userData.payDay = new Date();
-        userData.createdAt = new Date();
-        userData.role = 'client';
         userData.photo_url = response.data.picture.data.url;
       }
       const resultAdd = await this.mongoRepository.add(userData);

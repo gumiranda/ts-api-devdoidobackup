@@ -49,13 +49,11 @@ export class SignUpController implements Controller {
         pushId,
         coord: { type: 'Point', coordinates: position },
         payDay,
+        active: true,
+        face: false,
+        plan = 'basic',
         createdAt: new Date(),
       };
-      if (plan) {
-        obj.plan = plan;
-      } else {
-        obj.plan = 'basic';
-      }
       const user = await this.addUser.add(obj);
       if (!user) {
         return forbidden(new EmailInUseError());

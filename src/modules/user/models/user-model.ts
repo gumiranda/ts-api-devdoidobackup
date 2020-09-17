@@ -73,7 +73,6 @@ export type UserData = Omit<
   | 'role'
   | 'email'
   | '_id'
-  | 'active'
   | 'password'
   | 'payDay'
   | 'createdAt'
