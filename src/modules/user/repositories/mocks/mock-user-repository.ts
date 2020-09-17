@@ -1,18 +1,19 @@
 import {
+  makeFakeArrayUsers,
   mockFakeUser,
   mockFakeUserUpdated,
-  makeFakeArrayUsers,
 } from '@/modules/user/models/mocks/mock-user';
 import { AddUserRepository } from '@/modules/user/repositories/protocols/add-user-repository';
 import { AddUserModel } from '@/modules/user/usecases/add-user/add-user';
-import { UserModel, UserData } from '@/modules/user/models/user-model';
+import { UserData, UserModel } from '@/modules/user/models/user-model';
 import { LoadUserByEmailRepository } from '@/modules/user/repositories/protocols/load-user-by-email-repository';
 import { LoadUserByTokenRepository } from '@/modules/user/repositories/protocols/load-user-by-token-repository';
-import { addDay } from '@/bin/utils/date-fns';
 import { UpdateUserRepository } from '../protocols/update-user-repository';
-import { LoadUserByPageRepository } from '../protocols/load-user-by-page-repository';
-import { LoadUserByIdRepository } from '../protocols/load-user-by-id-repository';
 import { UpdatePasswordRepository } from '../protocols/update-password-repository';
+import { LoadUserByIdRepository } from '../protocols/load-user-by-id-repository';
+import { LoadUserByPageRepository } from '../protocols/load-user-by-page-repository';
+import { LoadUserByFaceTokenRepository } from '../protocols/load-user-by-face-token-repository';
+
 export const mockAddUserRepository = (): AddUserRepository => {
   //  userModel = mockFakeUser('client');
   class AddUserRepositoryStub implements AddUserRepository {
@@ -57,7 +58,6 @@ export const mockLoadUserByTokenRepository = (): LoadUserByTokenRepository => {
   return new LoadUserByTokenRepositoryStub();
 };
 export const mockUpdateUserRepository = (): UpdateUserRepository => {
-  //  userModel = mockFakeUser('client');
   class UpdateUserRepositoryStub implements UpdateUserRepository {
     async updateOne(
       userData: UserData,
@@ -82,6 +82,20 @@ export const mockUpdatePasswordRepository = (): UpdatePasswordRepository => {
   }
   return new UpdatePasswordRepositoryStub();
 };
+export const mockLoadUserByIdRepository = (): LoadUserByIdRepository => {
+  class LoadUserByIdStub implements LoadUserByIdRepository {
+    userModel = mockFakeUser('client');
+    _id: string;
+    async loadById(_id: string): Promise<UserModel> {
+      this._id = _id;
+      if (this.userModel !== null) {
+        this.userModel._id = _id;
+      }
+      return new Promise((resolve) => resolve(this.userModel));
+    }
+  }
+  return new LoadUserByIdStub();
+};
 export const mockLoadUserByPageRepository = (): LoadUserByPageRepository => {
   class LoadUserByPageStub implements LoadUserByPageRepository {
     users = makeFakeArrayUsers();
@@ -100,17 +114,21 @@ export const mockLoadUserByPageRepository = (): LoadUserByPageRepository => {
   }
   return new LoadUserByPageStub();
 };
-export const mockLoadUserByIdRepository = (): LoadUserByIdRepository => {
-  class LoadUserByIdStub implements LoadUserByIdRepository {
+
+export const mockLoadUserByFaceTokenRepository = (): LoadUserByFaceTokenRepository => {
+  class LoadUserByFaceTokenRepositoryStub
+    implements LoadUserByFaceTokenRepository {
+    faceId: string;
+    faceToken: string;
     userModel = mockFakeUser('client');
-    _id: string;
-    async loadById(_id: string): Promise<UserModel> {
-      this._id = _id;
-      if (this.userModel !== null) {
-        this.userModel._id = _id;
-      }
+    async loadByFaceToken(
+      faceId: string,
+      faceToken: string,
+    ): Promise<UserModel> {
+      this.faceToken = faceToken;
+      this.faceId = faceId;
       return new Promise((resolve) => resolve(this.userModel));
     }
   }
-  return new LoadUserByIdStub();
+  return new LoadUserByFaceTokenRepositoryStub();
 };

@@ -1,11 +1,13 @@
 export type UserModel = {
   _id: string;
-  name: string;
+  name?: string;
   email: string;
   password: string;
   payDay: string;
   role?: string;
+  faceId?: string;
   pushId?: string;
+  photo_url?: string;
   cpf?: string;
   phone?: string;
   coord?: any;
@@ -60,7 +62,23 @@ export type Follower = {
 };
 export type UserData = Omit<
   UserModel,
-  'plan followers following numDislikes numLikes numFollowing numFollowers ownerId role email _id active password payDay email createdAt emailConfirmation'
+  | 'plan'
+  | 'followers'
+  | 'following'
+  | 'numDislikes'
+  | 'numLikes'
+  | 'numFollowing'
+  | 'numFollowers'
+  | 'ownerId'
+  | 'role'
+  | 'email'
+  | '_id'
+  | 'active'
+  | 'password'
+  | 'payDay'
+  | 'createdAt'
+  | 'emailConfirmation'
+  | 'faceId'
 >;
 export type Days = {
   monday: boolean;

@@ -1,23 +1,27 @@
 import { UserMongoRepository } from './user-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection, ObjectId } from 'mongodb';
-import jwt from 'jsonwebtoken';
-import variables from '@/bin/configuration/variables';
 import {
-  mockFakeUserData,
   makeFakeArrayUsers,
+  mockFakeUserData,
 } from '@/modules/user/models/mocks/mock-user';
-import { UserModel } from '@/modules/user/models/user-model';
 import { MongoRepository } from '@/bin/repository/mongo-repository';
 import MockDate from 'mockdate';
+import variables from '@/bin/configuration/variables';
+import jwt from 'jsonwebtoken';
+import { UserModel } from '../models/user-model';
+
 let userCollection: Collection;
-const makeUser = async (): Promise<UserModel> => {
-  let user = mockFakeUserData('client');
-  user.coord = { type: 'Point', coordinates: user.coord };
-  const { ops } = await userCollection.insertOne(user);
-  return ops[0];
-};
-describe('User Mongo Repository', () => {
+
+  const makeUser = async (): Promise<UserModel> => {
+    let user = mockFakeUserData('client');
+    user.coord = { type: 'Point', coordinates: user.coord };
+    const { ops } = await userCollection.insertOne(user);
+    return ops[0];
+  };  const makeSut = (): UserMongoRepository => {
+    const mongoRepository = new MongoRepository('users');
+    return new UserMongoRepository(mongoRepository);
+  };describe('User Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
     MockDate.set(new Date());
@@ -33,10 +37,6 @@ describe('User Mongo Repository', () => {
     await userCollection.deleteMany({});
   });
 
-  const makeSut = (): UserMongoRepository => {
-    const mongoRepository = new MongoRepository('users');
-    return new UserMongoRepository(mongoRepository);
-  };
 
   test('Should return an user add success', async () => {
     const sut = makeSut();
@@ -64,6 +64,68 @@ describe('User Mongo Repository', () => {
     const sut = makeSut();
     const user = await sut.loadByEmail('any_email@mail.com');
     expect(user).toBeFalsy();
+  });
+  test('Should return null user if loadByEmail fails', async () => {
+    const sut = makeSut();
+    const user = await sut.loadByEmail('any_email@mail.com');
+    expect(user).toBeFalsy();
+  });
+  test('Should return an user loadByToken success with role', async () => {
+    const sut = makeSut();
+    const userAdd = {
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password',
+      role: 'client',
+    };
+    const { ops } = await userCollection.insertOne(userAdd);
+    const { _id } = ops[0];
+    const token = await jwt.sign({ _id }, variables.Security.secretKey);
+    const user = await sut.loadByToken(token, 'client');
+    expect(user).toBeTruthy();
+    expect(user._id).toBeTruthy();
+    expect(user.name).toBe('any_name');
+    expect(user.email).toBe('any_email@mail.com');
+  });
+  test('Should return null user if loadByToken fails', async () => {
+    const sut = makeSut();
+    const token = await jwt.sign(
+      { _id: new ObjectId() },
+      variables.Security.secretKey,
+    );
+    const user = await sut.loadByToken(token, 'client');
+    expect(user).toBeFalsy();
+  });
+
+  test('Should return an user updated success', async () => {
+    const user = await makeUser();
+    const sut = makeSut();
+    const userUpdated = await sut.updateOne(
+      {
+        cpf: 'any_cpf',
+        phone: 'any_phone',
+      },
+      user._id,
+    );
+    expect(userUpdated).toBeTruthy();
+    expect(userUpdated._id).toBeTruthy();
+    expect(userUpdated.cpf).toBe('any_cpf');
+    expect(userUpdated.phone).toBe('any_phone');
+  });
+  test('Should return an user updated password success', async () => {
+    const user = await makeUser();
+    const sut = makeSut();
+    const userUpdated = await sut.updatePassword('new_password', user._id);
+    expect(userUpdated).toBeTruthy();
+    expect(userUpdated._id).toBeTruthy();
+  });
+  test('Should return an user loaded by id with success', async () => {
+    const user = await makeUser();
+    const sut = makeSut();
+    const userLoaded = await sut.loadById(user._id);
+    expect(userLoaded).toBeTruthy();
+    expect(userLoaded._id).toBeTruthy();
+    expect(userLoaded._id).toEqual(user._id);
   });
   test('Should return an user loadByPage success', async () => {
     const sut = makeSut();
@@ -98,67 +160,5 @@ describe('User Mongo Repository', () => {
     const userAdded = await makeUser();
     const usersCounts = await sut.countUsersByPage(1, userAdded._id);
     expect(usersCounts).toBe(0);
-  });
-  test('Should return null user if loadByEmail fails', async () => {
-    const sut = makeSut();
-    const user = await sut.loadByEmail('any_email@mail.com');
-    expect(user).toBeFalsy();
-  });
-
-  test('Should return an user loadByToken success with role', async () => {
-    const sut = makeSut();
-    const userAdd = {
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password',
-      role: 'client',
-    };
-    const { ops } = await userCollection.insertOne(userAdd);
-    const { _id } = ops[0];
-    const token = await jwt.sign({ _id }, variables.Security.secretKey);
-    const user = await sut.loadByToken(token, 'client');
-    expect(user).toBeTruthy();
-    expect(user._id).toBeTruthy();
-    expect(user.name).toBe('any_name');
-    expect(user.email).toBe('any_email@mail.com');
-  });
-  test('Should return null user if loadByToken fails', async () => {
-    const sut = makeSut();
-    const token = await jwt.sign(
-      { _id: new ObjectId() },
-      variables.Security.secretKey,
-    );
-    const user = await sut.loadByToken(token, 'client');
-    expect(user).toBeFalsy();
-  });
-  test('Should return an user updated success', async () => {
-    const user = await makeUser();
-    const sut = makeSut();
-    const userUpdated = await sut.updateOne(
-      {
-        cpf: 'any_cpf',
-        phone: 'any_phone',
-      },
-      user._id,
-    );
-    expect(userUpdated).toBeTruthy();
-    expect(userUpdated._id).toBeTruthy();
-    expect(userUpdated.cpf).toBe('any_cpf');
-    expect(userUpdated.phone).toBe('any_phone');
-  });
-  test('Should return an user updated password success', async () => {
-    const user = await makeUser();
-    const sut = makeSut();
-    const userUpdated = await sut.updatePassword('new_password', user._id);
-    expect(userUpdated).toBeTruthy();
-    expect(userUpdated._id).toBeTruthy();
-  });
-  test('Should return an user loaded by id with success', async () => {
-    const user = await makeUser();
-    const sut = makeSut();
-    const userLoaded = await sut.loadById(user._id);
-    expect(userLoaded).toBeTruthy();
-    expect(userLoaded._id).toBeTruthy();
-    expect(userLoaded._id).toEqual(user._id);
   });
 });

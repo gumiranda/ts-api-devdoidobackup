@@ -1,24 +1,26 @@
-import { LoadUserByToken } from '@/modules/user/usecases/load-user-by-token/load-user-by-token';
 import {
-  UserModel,
-  UsersPaginate,
-  UserData,
-} from '@/modules/user/models/user-model';
-import {
-  mockFakeUser,
   makeFakeArrayUsers,
-  mockFakeUserUpdated,
+  mockFakeUser,
   mockFakeUserPassword,
-} from '@/modules/user/models/mocks/mock-user';
-import {
-  AddUser,
-  AddUserModel,
-} from '@/modules/user/usecases/add-user/add-user';
-import { LoadUserByPage } from '@/modules/user/usecases/load-user-by-page/load-user-by-page';
-import { UpdateUser } from '../update-user/update-user';
+  mockFakeUserUpdated,
+} from '../../models/mocks/mock-user';
+import { UserData, UserModel, UsersPaginate } from '../../models/user-model';
+import { AddUser, AddUserModel } from '../add-user/add-user';
+import { LoadUserByPage } from '../load-user-by-page/load-user-by-page';
+import { LoadUserByToken } from '../load-user-by-token/load-user-by-token';
 import { UpdatePassword } from '../update-password/update-password';
-import { LoadUserById } from '../load-user-by-id/load-user-by-id';
+import { UpdateUser } from '../update-user/update-user';
 
+export const mockAddUser = (): AddUser => {
+  class AddUserStub implements AddUser {
+    userModel = mockFakeUser('client');
+    async add(user: AddUserModel): Promise<UserModel> {
+      //this.userModel = { _id: this.userModel._id, ...user };
+      return new Promise((resolve) => resolve(this.userModel));
+    }
+  }
+  return new AddUserStub();
+};
 export const mockLoadUserByToken = (): LoadUserByToken => {
   class LoadUserByTokenStub implements LoadUserByToken {
     userModel = mockFakeUser('client');
@@ -31,17 +33,6 @@ export const mockLoadUserByToken = (): LoadUserByToken => {
     }
   }
   return new LoadUserByTokenStub();
-};
-
-export const mockAddUser = (): AddUser => {
-  class AddUserStub implements AddUser {
-    userModel = mockFakeUser('client');
-    async add(user: AddUserModel): Promise<UserModel> {
-      //this.userModel = { _id: this.userModel._id, ...user };
-      return new Promise((resolve) => resolve(this.userModel));
-    }
-  }
-  return new AddUserStub();
 };
 export const mockUpdateUser = (): UpdateUser => {
   class UpdateUserStub implements UpdateUser {
@@ -85,15 +76,4 @@ export const mockLoadUserByPage = (): LoadUserByPage => {
     }
   }
   return new LoadUserByPageStub();
-};
-export const mockLoadUserById = (): LoadUserById => {
-  class LoadUserByIdStub implements LoadUserById {
-    userModel = mockFakeUser('owner');
-    _id: string;
-    async loadById(_id: string): Promise<UserModel> {
-      this._id = _id;
-      return new Promise((resolve) => resolve(this.userModel));
-    }
-  }
-  return new LoadUserByIdStub();
 };

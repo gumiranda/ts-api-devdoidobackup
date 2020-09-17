@@ -5,10 +5,7 @@ import { Validation } from '@/bin/helpers/validators/validation';
 import { mockValidation } from '@/bin/test/mock-validation';
 
 import MockDate from 'mockdate';
-import {
-  mockFakeUserUpdated,
-  mockFakeUserPasswordUpdated,
-} from '../../models/mocks/mock-user';
+import { mockFakeUserPasswordUpdated } from '../../models/mocks/mock-user';
 import { UpdatePasswordController } from './update-password-controller';
 import { UpdatePassword } from '../../usecases/update-password/update-password';
 import { mockUpdatePassword } from '../../usecases/mocks/mock-user';
