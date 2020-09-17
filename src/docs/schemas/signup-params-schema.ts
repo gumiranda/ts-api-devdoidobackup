@@ -7,6 +7,9 @@ export const signupParamsSchema = {
     pushToken: {
       type: 'string',
     },
+    pushId: {
+      type: 'string',
+    },
     name: {
       type: 'string',
     },
@@ -30,6 +33,8 @@ export const signupParamsSchema = {
     'password',
     'passwordConfirmation',
     'name',
+    'pushToken',
+    'pushId',
     'role',
   ],
 };

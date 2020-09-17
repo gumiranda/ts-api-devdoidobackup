@@ -1,6 +1,7 @@
 export * from './token-schema';
 export * from './error-schema';
 export * from './login-params-schema';
+export * from './login-facebook-params-schema';
 export * from './signup-params-schema';
 export * from './rating-details-schema';
 export * from './rating-schema';

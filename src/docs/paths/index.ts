@@ -1,4 +1,5 @@
 export * from './login-path';
+export * from './login-facebook-path';
 export * from './rating-path';
 export * from './user-path';
 export * from './rating-result-path';

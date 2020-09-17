@@ -5,11 +5,13 @@ import {
   ratingPath,
   updateUserPath,
   userPath,
+  loginFacebookPath,
   updatePasswordPath,
 } from './paths';
 
 export default {
   '/user/authenticate': loginPath,
+  '/user/authenticateFacebook': loginFacebookPath,
   '/user/page/{page}': userPath,
   '/user/completeRegister': updateUserPath,
   '/user/uploadPassword': updatePasswordPath,

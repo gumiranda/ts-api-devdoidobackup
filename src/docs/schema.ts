@@ -1,6 +1,7 @@
 import {
   tokenSchema,
   loginParamsSchema,
+  loginFacebookParamsSchema,
   saveRatingParamsSchema,
   signupParamsSchema,
   errorSchema,
@@ -19,6 +20,7 @@ import {
 export default {
   token: tokenSchema,
   loginParams: loginParamsSchema,
+  loginFacebookParams: loginFacebookParamsSchema,
   addRatingParams: addRatingParamsSchema,
   saveRatingParams: saveRatingParamsSchema,
   signupParams: signupParamsSchema,
