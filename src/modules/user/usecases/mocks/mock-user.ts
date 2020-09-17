@@ -6,6 +6,7 @@ import {
 } from '../../models/mocks/mock-user';
 import { UserData, UserModel, UsersPaginate } from '../../models/user-model';
 import { AddUser, AddUserModel } from '../add-user/add-user';
+import { LoadUserById } from '../load-user-by-id/load-user-by-id';
 import { LoadUserByPage } from '../load-user-by-page/load-user-by-page';
 import { LoadUserByToken } from '../load-user-by-token/load-user-by-token';
 import { UpdatePassword } from '../update-password/update-password';
@@ -76,4 +77,15 @@ export const mockLoadUserByPage = (): LoadUserByPage => {
     }
   }
   return new LoadUserByPageStub();
+};
+export const mockLoadUserById = (): LoadUserById => {
+  class LoadUserByIdStub implements LoadUserById {
+    userModel = mockFakeUser('owner');
+    _id: string;
+    async loadById(_id: string): Promise<UserModel> {
+      this._id = _id;
+      return new Promise((resolve) => resolve(this.userModel));
+    }
+  }
+  return new LoadUserByIdStub();
 };
