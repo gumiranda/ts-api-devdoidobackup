@@ -118,7 +118,7 @@ export class UserMongoRepository
         query: {
           role: 'owner',
           active: true,
-          payDay: { $gte: new Date() },
+          payDay: { $gte: new Date().toISOString() },
           _id: { $ne: new ObjectId(userId) },
         },
         distanceField: 'distance',

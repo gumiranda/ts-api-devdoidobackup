@@ -51,7 +51,7 @@ export class SignUpController implements Controller {
         payDay,
         active: true,
         face: false,
-        plan = 'basic',
+        plan: 'basic',
         createdAt: new Date(),
       };
       const user = await this.addUser.add(obj);
