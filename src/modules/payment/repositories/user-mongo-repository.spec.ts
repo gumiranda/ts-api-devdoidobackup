@@ -9,19 +9,21 @@ import { MongoRepository } from '@/bin/repository/mongo-repository';
 import MockDate from 'mockdate';
 import variables from '@/bin/configuration/variables';
 import jwt from 'jsonwebtoken';
-import { UserModel } from '../models/user-model';
+import { UserModel } from '../models/card-model';
 
 let userCollection: Collection;
 
-  const makeUser = async (): Promise<UserModel> => {
-    let user = mockFakeUserData('client');
-    user.coord = { type: 'Point', coordinates: user.coord };
-    const { ops } = await userCollection.insertOne(user);
-    return ops[0];
-  };  const makeSut = (): UserMongoRepository => {
-    const mongoRepository = new MongoRepository('users');
-    return new UserMongoRepository(mongoRepository);
-  };describe('User Mongo Repository', () => {
+const makeUser = async (): Promise<UserModel> => {
+  let user = mockFakeUserData('client');
+  user.coord = { type: 'Point', coordinates: user.coord };
+  const { ops } = await userCollection.insertOne(user);
+  return ops[0];
+};
+const makeSut = (): UserMongoRepository => {
+  const mongoRepository = new MongoRepository('users');
+  return new UserMongoRepository(mongoRepository);
+};
+describe('User Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
     MockDate.set(new Date());
@@ -36,7 +38,6 @@ let userCollection: Collection;
     userCollection = await MongoHelper.getCollection('users');
     await userCollection.deleteMany({});
   });
-
 
   test('Should return an user add success', async () => {
     const sut = makeSut();

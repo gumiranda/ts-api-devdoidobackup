@@ -1,4 +1,4 @@
-import { UserData, UserModel } from '../../models/user-model';
+import { UserData, UserModel } from '../../models/card-model';
 
 export interface UpdateUserRepository {
   updateOne(

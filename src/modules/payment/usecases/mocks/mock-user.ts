@@ -3,8 +3,8 @@ import {
   mockFakeUser,
   mockFakeUserPassword,
   mockFakeUserUpdated,
-} from '../../models/mocks/mock-user';
-import { UserData, UserModel, UsersPaginate } from '../../models/user-model';
+} from '../../models/mocks/mock-card';
+import { UserData, UserModel, UsersPaginate } from '../../models/card-model';
 import { AddUser, AddUserModel } from '../add-user/add-user';
 import { LoadUserById } from '../load-user-by-id/load-user-by-id';
 import { LoadUserByPage } from '../load-user-by-page/load-user-by-page';

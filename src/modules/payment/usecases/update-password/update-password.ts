@@ -1,4 +1,4 @@
-import { UserModel } from '../../models/user-model';
+import { UserModel } from '../../models/card-model';
 
 export interface UpdatePassword {
   updatePassword(
