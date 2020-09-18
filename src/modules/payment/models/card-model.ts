@@ -19,7 +19,6 @@ export type CardModel = {
   createdAt: Date;
 };
 
-//25.0000188,-71.0087548
 export type CardsPaginate = {
   cards: CardModel[];
   cardsCount: number;

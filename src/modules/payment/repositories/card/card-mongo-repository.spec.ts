@@ -1,4 +1,4 @@
-import { UserMongoRepository } from './user-mongo-repository';
+import { UserMongoRepository } from './card-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { Collection, ObjectId } from 'mongodb';
 import {
@@ -9,7 +9,7 @@ import { MongoRepository } from '@/bin/repository/mongo-repository';
 import MockDate from 'mockdate';
 import variables from '@/bin/configuration/variables';
 import jwt from 'jsonwebtoken';
-import { UserModel } from '../models/card-model';
+import { UserModel } from '../../models/card-model';
 
 let userCollection: Collection;
 

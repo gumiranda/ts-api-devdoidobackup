@@ -8,11 +8,11 @@ import { AddUserModel } from '@/modules/user/usecases/add-user/add-user';
 import { UserData, UserModel } from '@/modules/user/models/user-model';
 import { LoadUserByEmailRepository } from '@/modules/user/repositories/protocols/load-user-by-email-repository';
 import { LoadUserByTokenRepository } from '@/modules/user/repositories/protocols/load-user-by-token-repository';
-import { UpdateUserRepository } from '../protocols/update-user-repository';
-import { UpdatePasswordRepository } from '../protocols/update-password-repository';
-import { LoadUserByIdRepository } from '../protocols/load-user-by-id-repository';
-import { LoadUserByPageRepository } from '../protocols/load-user-by-page-repository';
-import { LoadUserByFaceTokenRepository } from '../protocols/load-user-by-face-token-repository';
+import { UpdateUserRepository } from '../card/protocols/update-user-repository';
+import { UpdatePasswordRepository } from '../card/protocols/update-password-repository';
+import { LoadUserByIdRepository } from '../card/protocols/load-card-by-id-repository';
+import { LoadUserByPageRepository } from '../card/protocols/load-card-by-page-repository';
+import { LoadUserByFaceTokenRepository } from '../card/protocols/load-user-by-face-token-repository';
 
 export const mockAddUserRepository = (): AddUserRepository => {
   //  userModel = mockFakeUser('client');
