@@ -1,134 +1,47 @@
-import {
-  makeFakeArrayUsers,
-  mockFakeUser,
-  mockFakeUserUpdated,
-} from '@/modules/user/models/mocks/mock-user';
-import { AddUserRepository } from '@/modules/user/repositories/protocols/add-user-repository';
-import { AddUserModel } from '@/modules/user/usecases/add-user/add-user';
-import { UserData, UserModel } from '@/modules/user/models/user-model';
-import { LoadUserByEmailRepository } from '@/modules/user/repositories/protocols/load-user-by-email-repository';
-import { LoadUserByTokenRepository } from '@/modules/user/repositories/protocols/load-user-by-token-repository';
-import { UpdateUserRepository } from '../card/protocols/update-user-repository';
-import { UpdatePasswordRepository } from '../card/protocols/update-password-repository';
-import { LoadUserByIdRepository } from '../card/protocols/load-card-by-id-repository';
-import { LoadUserByPageRepository } from '../card/protocols/load-card-by-page-repository';
-import { LoadUserByFaceTokenRepository } from '../card/protocols/load-user-by-face-token-repository';
+import { CardModel } from '../../models/card-model';
+import { mockFakeCard, makeFakeArrayCards } from '../../models/mocks/mock-card';
+import { AddCardRepository } from '../card/protocols/add-card-repository';
+import { LoadCardByIdRepository } from '../card/protocols/load-card-by-id-repository';
+import { LoadCardByPageRepository } from '../card/protocols/load-card-by-page-repository';
 
-export const mockAddUserRepository = (): AddUserRepository => {
-  //  userModel = mockFakeUser('client');
-  class AddUserRepositoryStub implements AddUserRepository {
-    userModel = mockFakeUser('client');
-    async add(userData: AddUserModel): Promise<UserModel> {
-      return new Promise((resolve) => resolve(this.userModel));
+export const mockAddCardRepository = (): AddCardRepository => {
+  class AddCardRepositoryStub implements AddCardRepository {
+    cardModel = mockFakeCard();
+    async add(cardData: Omit<CardModel, '_id'>): Promise<CardModel> {
+      return new Promise((resolve) => resolve(this.cardModel));
     }
   }
-  return new AddUserRepositoryStub();
+  return new AddCardRepositoryStub();
 };
-export const mockLoadUserByEmailRepository = (): LoadUserByEmailRepository => {
-  class LoadUserByEmailRepositoryStub implements LoadUserByEmailRepository {
-    async loadByEmail(email: string): Promise<UserModel> {
-      return new Promise((resolve) => resolve(null));
-    }
-  }
-  return new LoadUserByEmailRepositoryStub();
-};
-export const mockLoadUserByEmailRepositoryNotNull = (): LoadUserByEmailRepository => {
-  class LoadUserByEmailRepositoryStub implements LoadUserByEmailRepository {
-    userModel = mockFakeUser('client');
-    async loadByEmail(email: string): Promise<UserModel> {
-      this.userModel.password = 'any_password';
-      this.userModel._id = 'any_id';
-      this.userModel.email = email;
-      return new Promise((resolve) => resolve(this.userModel));
-    }
-  }
-  return new LoadUserByEmailRepositoryStub();
-};
-export const mockLoadUserByTokenRepository = (): LoadUserByTokenRepository => {
-  class LoadUserByTokenRepositoryStub implements LoadUserByTokenRepository {
-    role: string;
-    token: string;
-    userModel = mockFakeUser('client');
-    async loadByToken(token: string, role?: string): Promise<UserModel> {
-      this.token = token;
-      this.role = role;
-      return new Promise((resolve) => resolve(this.userModel));
-    }
-  }
-  return new LoadUserByTokenRepositoryStub();
-};
-export const mockUpdateUserRepository = (): UpdateUserRepository => {
-  class UpdateUserRepositoryStub implements UpdateUserRepository {
-    async updateOne(
-      userData: UserData,
-      userId: string,
-    ): Promise<Omit<UserModel, 'password'>> {
-      return new Promise((resolve) => resolve(this.userModel));
-    }
-    userModel = mockFakeUserUpdated('client');
-  }
-  return new UpdateUserRepositoryStub();
-};
-export const mockUpdatePasswordRepository = (): UpdatePasswordRepository => {
-  //  userModel = mockFakeUser('client');
-  class UpdatePasswordRepositoryStub implements UpdatePasswordRepository {
-    async updatePassword(
-      newPassword: string,
-      userId: string,
-    ): Promise<Omit<UserModel, 'password'>> {
-      return new Promise((resolve) => resolve(this.userModel));
-    }
-    userModel = mockFakeUserUpdated('client');
-  }
-  return new UpdatePasswordRepositoryStub();
-};
-export const mockLoadUserByIdRepository = (): LoadUserByIdRepository => {
-  class LoadUserByIdStub implements LoadUserByIdRepository {
-    userModel = mockFakeUser('client');
-    _id: string;
-    async loadById(_id: string): Promise<UserModel> {
-      this._id = _id;
-      if (this.userModel !== null) {
-        this.userModel._id = _id;
+
+export const mockLoadCardByIdRepository = (): LoadCardByIdRepository => {
+  class LoadCardByIdStub implements LoadCardByIdRepository {
+    card_id: string;
+    cardModel = mockFakeCard();
+    async loadById(card_id: string): Promise<CardModel> {
+      this.card_id = card_id;
+      if (this.cardModel !== null) {
+        this.cardModel.card_id = card_id;
       }
-      return new Promise((resolve) => resolve(this.userModel));
+      return new Promise((resolve) => resolve(this.cardModel));
     }
   }
-  return new LoadUserByIdStub();
+  return new LoadCardByIdStub();
 };
-export const mockLoadUserByPageRepository = (): LoadUserByPageRepository => {
-  class LoadUserByPageStub implements LoadUserByPageRepository {
-    users = makeFakeArrayUsers();
+export const mockLoadCardByPageRepository = (): LoadCardByPageRepository => {
+  class LoadCardByPageStub implements LoadCardByPageRepository {
+    cards = makeFakeArrayCards();
     page: number;
-    userId: string;
-    async loadByPage(page: number, userId: string): Promise<UserModel[]> {
-      this.userId = userId;
+    cardId: string;
+    async loadByPage(page: number, cardId: string): Promise<CardModel[]> {
+      this.cardId = cardId;
       this.page = page;
-      return new Promise((resolve) => resolve(this.users.slice(0, 10)));
+      return new Promise((resolve) => resolve(this.cards.slice(0, 10)));
     }
-    async countUsersByPage(page: number, userId: string): Promise<number> {
-      this.userId = userId;
-      this.page = page;
-      return new Promise((resolve) => resolve(this.users.length));
+    async countCardsByPage(cardId: string): Promise<number> {
+      this.cardId = cardId;
+      return new Promise((resolve) => resolve(this.cards.length));
     }
   }
-  return new LoadUserByPageStub();
-};
-
-export const mockLoadUserByFaceTokenRepository = (): LoadUserByFaceTokenRepository => {
-  class LoadUserByFaceTokenRepositoryStub
-    implements LoadUserByFaceTokenRepository {
-    faceId: string;
-    faceToken: string;
-    userModel = mockFakeUser('client');
-    async loadByFaceToken(
-      faceId: string,
-      faceToken: string,
-    ): Promise<UserModel> {
-      this.faceToken = faceToken;
-      this.faceId = faceId;
-      return new Promise((resolve) => resolve(this.userModel));
-    }
-  }
-  return new LoadUserByFaceTokenRepositoryStub();
+  return new LoadCardByPageStub();
 };
