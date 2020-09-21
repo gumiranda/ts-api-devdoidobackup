@@ -10,10 +10,9 @@ import { Validation } from '@/bin/helpers/validators/validation';
 import { mockValidation } from '@/bin/test/mock-validation';
 
 import MockDate from 'mockdate';
-import { addDay } from '@/bin/utils/date-fns';
 import {
-  mockFakeTransactionData,
   mockFakeTransaction,
+  mockFakeTransactionRequest,
 } from '../../models/mocks/mock-transaction';
 import { AddTransaction } from '../../usecases/add-transaction/add-transaction';
 import { TransactionController } from './add-transaction-controller';
@@ -28,7 +27,7 @@ import { AddCard } from '../../usecases/add-card/add-card';
 import { LoadCardById } from '../../usecases/load-card-by-id/load-card-by-id';
 import { mockAddTransaction } from '../../usecases/mocks/mock-transaction';
 const makeFakeRequest = (): HttpRequest => ({
-  body: mockFakeTransactionData(),
+  body: mockFakeTransactionRequest(),
 });
 type SutTypes = {
   sut: TransactionController;
@@ -110,6 +109,7 @@ describe('Transaction Controller', () => {
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
+    console.warn(httpResponse.body);
     expect(httpResponse).toEqual(ok(mockFakeTransaction()));
   });
   test('Should return 400 if validation returns an error', async () => {
@@ -122,12 +122,12 @@ describe('Transaction Controller', () => {
       badRequest([new MissingParamError('any_field')]),
     );
   });
-  test('Should return 403 if AddTransaction returns null', async () => {
+  test('Should return 500 if AddTransaction returns null', async () => {
     const { sut, addTransactionStub } = makeSut();
     jest
       .spyOn(addTransactionStub, 'add')
       .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
     const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(forbidden(new EmailInUseError()));
+    expect(httpResponse).toEqual(serverError(new Error()));
   });
 });

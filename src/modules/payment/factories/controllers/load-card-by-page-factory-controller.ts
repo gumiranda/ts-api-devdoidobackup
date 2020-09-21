@@ -1,11 +1,11 @@
-import { Controller } from '@/bin/protocols/controller';
-import { LoadUserByPageController } from '@/modules/user/controllers/load-user-by-page/load-user-by-page';
 import { makeLogControllerDecorator } from '@/bin/patterns/factories/decorators/log-controller-decorator-factory';
-import { makeDbLoadUserByPage } from '@/modules/user/factories/usecases/load-user-by-page/db-load-user-by-page';
+import { Controller } from '@/bin/protocols/controller';
+import { LoadCardByPageController } from '../../controllers/load-card-by-page/load-card-by-page';
+import { makeDbLoadCardByPage } from '../usecases/load-card-by-page/db-load-card-by-page';
 
-export const makeLoadUserByPageController = (): Controller => {
-  const loadRatingController = new LoadUserByPageController(
-    makeDbLoadUserByPage(),
+export const makeLoadCardByPageController = (): Controller => {
+  const loadCardController = new LoadCardByPageController(
+    makeDbLoadCardByPage(),
   );
-  return makeLogControllerDecorator(loadRatingController);
+  return makeLogControllerDecorator(loadCardController);
 };
