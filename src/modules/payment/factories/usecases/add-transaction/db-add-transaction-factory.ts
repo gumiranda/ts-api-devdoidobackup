@@ -1,12 +1,13 @@
 import { BcryptAdapter } from '@/bin/infra/cryptography/bcrypt-adapter/bcrypt-adapter';
-import { UserMongoRepository } from '@/modules/user/repositories/user-mongo-repository';
-import { DbAddUser } from '@/modules/user/usecases/add-user/db/db-add-user';
-import { AddUser } from '@/modules/user/usecases/add-user/add-user';
+
 import { MongoRepository } from '@/bin/repository/mongo-repository';
-export const makeDbAddUser = (): AddUser => {
-  const salt = 12;
-  const bcryptAdapter = new BcryptAdapter(salt);
-  const mongoRepository = new MongoRepository('users');
-  const userMongoRepository = new UserMongoRepository(mongoRepository);
-  return new DbAddUser(bcryptAdapter, userMongoRepository, userMongoRepository);
+import { TransactionMongoRepository } from '@/modules/payment/repositories/transaction/transaction-mongo-repository';
+import { AddTransaction } from '@/modules/payment/usecases/add-transaction/add-transaction';
+import { DbAddTransaction } from '@/modules/payment/usecases/add-transaction/db/db-add-transaction';
+export const makeDbAddTransaction = (): AddTransaction => {
+  const mongoRepository = new MongoRepository('transactions');
+  const transactionMongoRepository = new TransactionMongoRepository(
+    mongoRepository,
+  );
+  return new DbAddTransaction(transactionMongoRepository);
 };

@@ -1,7 +1,6 @@
 import { TransactionModel } from '../transaction-model';
 
 export const mockFakeTransactionData = (): Omit<TransactionModel, '_id'> => ({
-  transaction_id: 'string',
   status: 'string',
   authorization_code: 'string',
   risk_level: 'string',
@@ -13,7 +12,6 @@ export const mockFakeTransactionData = (): Omit<TransactionModel, '_id'> => ({
 });
 export const mockFakeTransaction = (): TransactionModel => ({
   _id: 'valid_id',
-  transaction_id: 'string',
   status: 'string',
   authorization_code: 'string',
   risk_level: 'string',

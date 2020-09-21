@@ -1,6 +1,5 @@
 export type TransactionModel = {
   _id: string;
-  transaction_id: string;
   status: string;
   authorization_code: string;
   risk_level: string;

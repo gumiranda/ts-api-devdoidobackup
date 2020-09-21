@@ -74,7 +74,6 @@ export type UserData = Omit<
   | 'email'
   | '_id'
   | 'password'
-  | 'payDay'
   | 'createdAt'
   | 'emailConfirmation'
   | 'faceId'

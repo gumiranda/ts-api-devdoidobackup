@@ -33,6 +33,5 @@ describe('Transaction Mongo Repository', () => {
     expect(transaction).toBeTruthy();
     expect(transaction._id).toBeTruthy();
     expect(transaction.cardId).toBe('string');
-    expect(transaction.transaction_id).toBe('string');
   });
 });

@@ -7,19 +7,19 @@ import {
   ok,
 } from '@/bin/helpers/http-helper';
 import { InvalidParamError } from '@/bin/errors';
-import { LoadUserByPage } from '@/modules/user/usecases/load-user-by-page/load-user-by-page';
+import { LoadCardByPage } from '../../usecases/load-card-by-page/load-card-by-page';
 
-export class LoadUserByPageController implements Controller {
-  constructor(private readonly loadUserByPage: LoadUserByPage) {}
+export class LoadCardByPageController implements Controller {
+  constructor(private readonly loadCardByPage: LoadCardByPage) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { page } = httpRequest.params;
       const { userId } = httpRequest;
-      const users = await this.loadUserByPage.loadByPage(page, userId);
-      if (!users) {
+      const cards = await this.loadCardByPage.loadByPage(page, userId);
+      if (!cards) {
         return forbidden(new InvalidParamError('page'));
       }
-      return users ? ok(users) : noContent();
+      return cards ? ok(cards) : noContent();
     } catch (error) {
       return serverError(error);
     }

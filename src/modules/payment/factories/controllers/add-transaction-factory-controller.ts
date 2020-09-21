@@ -1,10 +1,9 @@
 import { Controller } from '@/bin/protocols/controller';
-import { SignUpController } from '@/modules/user/controllers/signup/signup-controller';
-import { makeDbAddUser } from '@/modules/user/factories/usecases/add-user/db-add-user-factory';
 import { makeLogControllerDecorator } from '@/bin/patterns/factories/decorators/log-controller-decorator-factory';
 import { makeValidationComposite } from '@/bin/patterns/factories/usecases/validation/validation-factory';
+import { TransactionController } from '../../controllers/add-transaction/add-transaction-controller';
 
-export const makeSignUpController = (): Controller => {
+export const makeTransactionController = (): Controller => {
   const dbAddUser = makeDbAddUser();
   const requiredFields = [
     'email',
@@ -14,6 +13,9 @@ export const makeSignUpController = (): Controller => {
     'coord',
   ];
   const validationComposite = makeValidationComposite(requiredFields);
-  const signUpController = new SignUpController(dbAddUser, validationComposite);
+  const signUpController = new TransactionController(
+    dbAddUser,
+    validationComposite,
+  );
   return makeLogControllerDecorator(signUpController);
 };

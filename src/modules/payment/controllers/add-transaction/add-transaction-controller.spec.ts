@@ -1,5 +1,3 @@
-import { SignUpController } from '@/modules/user/controllers/signup/signup-controller';
-import { AddUser } from '@/modules/user/usecases/add-user/add-user';
 import { HttpRequest } from '@/bin/protocols/http';
 import {
   badRequest,
@@ -10,33 +8,64 @@ import {
 import { MissingParamError, EmailInUseError, ServerError } from '@/bin/errors';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { mockValidation } from '@/bin/test/mock-validation';
-import { mockAddUser } from '@/modules/user/usecases/mocks/mock-user';
-import {
-  mockFakeUser,
-  mockFakeUserData,
-} from '@/modules/user/models/mocks/mock-user';
+
 import MockDate from 'mockdate';
 import { addDay } from '@/bin/utils/date-fns';
+import {
+  mockFakeTransactionData,
+  mockFakeTransaction,
+} from '../../models/mocks/mock-transaction';
+import { AddTransaction } from '../../usecases/add-transaction/add-transaction';
+import { TransactionController } from './add-transaction-controller';
+import { mockAddCard, mockLoadCardById } from '../../usecases/mocks/mock-card';
+import {
+  mockLoadUserById,
+  mockUpdateUser,
+} from '@/modules/user/usecases/mocks/mock-user';
+import { LoadUserById } from '@/modules/user/usecases/load-user-by-id/load-user-by-id';
+import { UpdateUser } from '@/modules/user/usecases/update-user/update-user';
+import { AddCard } from '../../usecases/add-card/add-card';
+import { LoadCardById } from '../../usecases/load-card-by-id/load-card-by-id';
+import { mockAddTransaction } from '../../usecases/mocks/mock-transaction';
 const makeFakeRequest = (): HttpRequest => ({
-  body: mockFakeUserData('client'),
+  body: mockFakeTransactionData(),
 });
 type SutTypes = {
-  sut: SignUpController;
-  addUserStub: AddUser;
+  sut: TransactionController;
+  addTransactionStub: AddTransaction;
+  addCardStub: AddCard;
+  loadCardByIdStub: LoadCardById;
+  updateUserStub: UpdateUser;
+  loadUserByIdStub: LoadUserById;
   validationStub: Validation;
 };
 
 const makeSut = (): SutTypes => {
-  const addUserStub = mockAddUser();
+  const addTransactionStub = mockAddTransaction();
+  const addCardStub = mockAddCard();
+  const loadCardByIdStub = mockLoadCardById();
+  const loadUserByIdStub = mockLoadUserById();
+  const updateUserStub = mockUpdateUser();
   const validationStub = mockValidation();
-  const sut = new SignUpController(addUserStub, validationStub);
-  return {
-    sut,
+  const sut = new TransactionController(
+    addTransactionStub,
+    addCardStub,
+    loadCardByIdStub,
+    updateUserStub,
+    loadUserByIdStub,
     validationStub,
-    addUserStub,
+  );
+  return {
+    addTransactionStub,
+    addCardStub,
+    loadCardByIdStub,
+    updateUserStub,
+    loadUserByIdStub,
+    validationStub,
+    sut,
   };
 };
-describe('SignUp Controller', () => {
+describe('Transaction Controller', () => {
   beforeAll(async () => {
     MockDate.set(new Date());
   });
@@ -53,20 +82,20 @@ describe('SignUp Controller', () => {
     expect(httpResponse).toEqual(serverError(new ServerError(null)));
   });
 
-  test('Should return 500 if AddUser throws', async () => {
-    const { sut, addUserStub } = makeSut();
-    jest.spyOn(addUserStub, 'add').mockImplementationOnce(async () => {
+  test('Should return 500 if AddTransaction throws', async () => {
+    const { sut, addTransactionStub } = makeSut();
+    jest.spyOn(addTransactionStub, 'add').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => reject(new Error()));
     });
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(serverError(new ServerError(null)));
   });
 
-  test('Should call AddUser with correct values', async () => {
-    const { sut, addUserStub } = makeSut();
-    const addSpy = jest.spyOn(addUserStub, 'add');
+  test('Should call AddTransaction with correct values', async () => {
+    const { sut, addTransactionStub } = makeSut();
+    const addSpy = jest.spyOn(addTransactionStub, 'add');
     await sut.handle(makeFakeRequest());
-    const resExpected = mockFakeUser('client');
+    const resExpected = mockFakeTransaction();
     delete resExpected._id;
     expect(addSpy).toHaveBeenCalledWith(resExpected);
   });
@@ -81,7 +110,7 @@ describe('SignUp Controller', () => {
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(ok(mockFakeUser('client')));
+    expect(httpResponse).toEqual(ok(mockFakeTransaction()));
   });
   test('Should return 400 if validation returns an error', async () => {
     const { sut, validationStub } = makeSut();
@@ -93,10 +122,10 @@ describe('SignUp Controller', () => {
       badRequest([new MissingParamError('any_field')]),
     );
   });
-  test('Should return 403 if AddUser returns null', async () => {
-    const { sut, addUserStub } = makeSut();
+  test('Should return 403 if AddTransaction returns null', async () => {
+    const { sut, addTransactionStub } = makeSut();
     jest
-      .spyOn(addUserStub, 'add')
+      .spyOn(addTransactionStub, 'add')
       .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()));

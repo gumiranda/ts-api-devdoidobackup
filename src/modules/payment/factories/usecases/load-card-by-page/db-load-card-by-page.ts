@@ -1,10 +1,10 @@
-import { UserMongoRepository } from '@/modules/user/repositories/user-mongo-repository';
-import { DbLoadUserByPage } from '@/modules/user/usecases/load-user-by-page/db/db-load-user-by-page';
-import { LoadUserByPage } from '@/modules/user/usecases/load-user-by-page/load-user-by-page';
 import { MongoRepository } from '@/bin/repository/mongo-repository';
+import { CardMongoRepository } from '@/modules/payment/repositories/card/card-mongo-repository';
+import { DbLoadCardByPage } from '@/modules/payment/usecases/load-card-by-page/db/db-load-card-by-page';
+import { LoadCardByPage } from '@/modules/payment/usecases/load-card-by-page/load-card-by-page';
 
-export const makeDbLoadUserByPage = (): LoadUserByPage => {
-  const mongoRepository = new MongoRepository('users');
-  const userMongoRepository = new UserMongoRepository(mongoRepository);
-  return new DbLoadUserByPage(userMongoRepository);
+export const makeDbLoadCardByPage = (): LoadCardByPage => {
+  const mongoRepository = new MongoRepository('cards');
+  const cardMongoRepository = new CardMongoRepository(mongoRepository);
+  return new DbLoadCardByPage(cardMongoRepository);
 };
