@@ -17,6 +17,7 @@ import { UpdateUser } from '@/modules/user/usecases/update-user/update-user';
 import pagarme from '@/bin/helpers/external-apis/pagarme';
 import { LoadCardById } from '../../usecases/load-card-by-id/load-card-by-id';
 import { InvalidParamError } from '../../../../bin/errors/invalid-param-error';
+import { TransactionModelRequest } from '../../models/transaction-model';
 export class TransactionController implements Controller {
   constructor(
     private readonly addTransaction: AddTransaction,
@@ -85,7 +86,7 @@ export class TransactionController implements Controller {
         }
       }
       const cardHash = await CryptoJSHelper.generateCardHashPagarme(card_hash);
-      let obj: any = {
+      let obj: TransactionModelRequest = {
         cardHash,
         name,
         email,
@@ -124,6 +125,7 @@ export class TransactionController implements Controller {
         neighborhood,
         street,
         street_number,
+        value,
         name: holder_name,
         cpf,
         phone,
