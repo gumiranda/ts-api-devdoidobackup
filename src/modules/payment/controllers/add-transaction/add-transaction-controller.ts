@@ -18,13 +18,12 @@ import pagarme from '@/bin/helpers/external-apis/pagarme';
 import { LoadCardById } from '../../usecases/load-card-by-id/load-card-by-id';
 import { InvalidParamError } from '../../../../bin/errors/invalid-param-error';
 import { TransactionModelRequest } from '../../models/transaction-model';
+import { PayOnce } from '../../usecases/pay-once/pay-once';
 export class TransactionController implements Controller {
   constructor(
     private readonly addTransaction: AddTransaction,
-    private readonly addCard: AddCard,
+    private readonly payOnce: PayOnce,
     private readonly loadCard: LoadCardById,
-    private readonly updateUser: UpdateUser,
-    private readonly loadUser: LoadUserById,
     private readonly validation: Validation,
   ) {}
 
@@ -101,67 +100,8 @@ export class TransactionController implements Controller {
         street,
         createdAt: new Date(),
       };
-      const transactionCreated = await pagarme.createNewTransaction(obj);
-      if (!transactionCreated.card) {
-        if (transactionCreated.length > 0) {
-          let errorsPagarme = [];
-          for (const errorPagarme of transactionCreated) {
-            errorsPagarme.push(badRequest(errorPagarme.message));
-          }
-          return badRequest(errorsPagarme);
-        }
-        return serverError(transactionCreated);
-      }
-      const {
-        holder_name,
-        id,
-        brand,
-        first_digits,
-        last_digits,
-      } = transactionCreated.card;
-      const card = {
-        state,
-        city,
-        neighborhood,
-        street,
-        street_number,
-        value,
-        name: holder_name,
-        cpf,
-        phone,
-        email,
-        zipcode,
-        card_id: id,
-        userId,
-        brand,
-        holder_name,
-        cardNumber: `${first_digits}******${last_digits}`,
-        createdAt: new Date(),
-        active: true,
-      };
-
-      const cardCreated = await this.addCard.add(card);
-      const {
-        status,
-        authorization_code,
-        risk_level,
-        acquirer_id,
-      } = transactionCreated;
-      const transaction = {
-        status,
-        authorization_code,
-        risk_level,
-        cardId: cardCreated._id,
-        userId,
-        createdAt: new Date(),
-        active: true,
-        acquirer_id,
-      };
-      transactionAdded = await this.addTransaction.add(transaction);
+      transactionAdded = await this.payOnce.payOnce(obj, userId);
       if (transactionAdded) {
-        const user = await this.loadUser.loadById(userId);
-        const payDay = addDay(new Date(user.payDay), 30);
-        await this.updateUser.updateUser({ payDay }, userId);
         return ok(transactionAdded);
       }
       return forbidden(new AccessDeniedError());

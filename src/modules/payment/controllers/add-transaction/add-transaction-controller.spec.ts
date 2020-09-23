@@ -25,8 +25,12 @@ import { LoadUserById } from '@/modules/user/usecases/load-user-by-id/load-user-
 import { UpdateUser } from '@/modules/user/usecases/update-user/update-user';
 import { AddCard } from '../../usecases/add-card/add-card';
 import { LoadCardById } from '../../usecases/load-card-by-id/load-card-by-id';
-import { mockAddTransaction } from '../../usecases/mocks/mock-transaction';
+import {
+  mockAddTransaction,
+  mockPayOnce,
+} from '../../usecases/mocks/mock-transaction';
 import { AccessDeniedError } from '../../../../bin/errors/access-denied-error';
+import { PayOnce } from '../../usecases/pay-once/pay-once';
 const makeFakeRequest = (): HttpRequest => ({
   body: mockFakeTransactionRequest(),
 });
@@ -35,7 +39,7 @@ type SutTypes = {
   addTransactionStub: AddTransaction;
   addCardStub: AddCard;
   loadCardByIdStub: LoadCardById;
-  updateUserStub: UpdateUser;
+  payOnceStub: PayOnce;
   loadUserByIdStub: LoadUserById;
   validationStub: Validation;
 };
@@ -45,21 +49,19 @@ const makeSut = (): SutTypes => {
   const addCardStub = mockAddCard();
   const loadCardByIdStub = mockLoadCardById();
   const loadUserByIdStub = mockLoadUserById();
-  const updateUserStub = mockUpdateUser();
+  const payOnceStub = mockPayOnce();
   const validationStub = mockValidation();
   const sut = new TransactionController(
     addTransactionStub,
-    addCardStub,
+    payOnceStub,
     loadCardByIdStub,
-    updateUserStub,
-    loadUserByIdStub,
     validationStub,
   );
   return {
     addTransactionStub,
     addCardStub,
+    payOnceStub,
     loadCardByIdStub,
-    updateUserStub,
     loadUserByIdStub,
     validationStub,
     sut,
@@ -82,9 +84,9 @@ describe('Transaction Controller', () => {
     expect(httpResponse).toEqual(serverError(new ServerError(null)));
   });
 
-  test('Should return 500 if AddTransaction throws', async () => {
-    const { sut, addTransactionStub } = makeSut();
-    jest.spyOn(addTransactionStub, 'add').mockImplementationOnce(async () => {
+  test('Should return 500 if PayOnce throws', async () => {
+    const { sut, payOnceStub } = makeSut();
+    jest.spyOn(payOnceStub, 'payOnce').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => reject(new Error()));
     });
     const httpResponse = await sut.handle(makeFakeRequest());
@@ -114,10 +116,10 @@ describe('Transaction Controller', () => {
       badRequest([new MissingParamError('any_field')]),
     );
   });
-  test('Should return 403 if AddTransaction returns null', async () => {
-    const { sut, addTransactionStub } = makeSut();
+  test('Should return 403 if PayOnce returns null', async () => {
+    const { sut, payOnceStub } = makeSut();
     jest
-      .spyOn(addTransactionStub, 'add')
+      .spyOn(payOnceStub, 'payOnce')
       .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()));

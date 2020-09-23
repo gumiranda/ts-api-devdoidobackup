@@ -13,7 +13,7 @@ export type CardModel = {
   zipcode: string;
   phone: string;
   cpf: string;
-  value?: Number;
+  value?: string;
   email: string;
   userId: string;
   active: boolean;
