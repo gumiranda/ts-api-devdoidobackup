@@ -3,7 +3,6 @@ import { makeLogControllerDecorator } from '@/bin/patterns/factories/decorators/
 import { makeValidationComposite } from '@/bin/patterns/factories/usecases/validation/validation-factory';
 import { TransactionController } from '../../controllers/add-transaction/add-transaction-controller';
 import { makeDbAddTransaction } from '../usecases/add-transaction/db-add-transaction-factory';
-import { DbLoadCardById } from '../../usecases/load-card-by-id/db/db-load-card-by-id';
 import { makeDbLoadCardById } from '../usecases/load-card-by-id/db-load-card-by-id';
 import { makeDbAddCard } from '../usecases/add-card/db-add-card-factory';
 import { makeDbUpdateUser } from '../../../user/factories/usecases/update-user/db-update-user-factory';
@@ -17,7 +16,7 @@ export const makeTransactionController = (): Controller => {
   const DbLoadUserById = makeDbLoadUserById();
   const requiredFields = ['value'];
   const validationComposite = makeValidationComposite(requiredFields);
-  const signUpController = new TransactionController(
+  const transactionController = new TransactionController(
     dbAddTransaction,
     dbAddCard,
     DbLoadCardById,
@@ -25,5 +24,5 @@ export const makeTransactionController = (): Controller => {
     DbLoadUserById,
     validationComposite,
   );
-  return makeLogControllerDecorator(signUpController);
+  return makeLogControllerDecorator(transactionController);
 };

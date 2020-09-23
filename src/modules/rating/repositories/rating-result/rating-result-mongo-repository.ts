@@ -28,7 +28,6 @@ export class RatingResultMongoRepository
       comment,
       createdAt,
     });
-    console.error(res);
   }
   async loadByRatingIdRatingFor(
     ratingId: string,
@@ -241,7 +240,6 @@ export class RatingResultMongoRepository
       })
       .build();
     const ratingResult = await this.mongoRepository.aggregate(query);
-    console.warn(JSON.stringify(ratingResult));
     return ratingResult?.length ? ratingResult[0] : null;
   }
 }

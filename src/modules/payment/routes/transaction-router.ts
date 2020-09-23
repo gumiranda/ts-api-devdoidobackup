@@ -1,10 +1,10 @@
 import { adaptRoute } from '@/bin/configuration/adapters/express-route-adapter';
 import { ownerAuth } from '@/bin/middlewares';
 import { Router } from 'express';
-import { makeLoadCardByPageController } from '../factories/controllers/load-card-by-page-factory-controller';
+import { makeTransactionController } from '../factories/controllers/add-transaction-factory-controller';
 
 const router = Router();
 
-router.get('/:page', ownerAuth, adaptRoute(makeLoadCardByPageController()));
+router.post('/', ownerAuth, adaptRoute(makeTransactionController()));
 
 export default router;

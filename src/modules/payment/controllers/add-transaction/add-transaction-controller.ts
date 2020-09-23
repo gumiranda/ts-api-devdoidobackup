@@ -101,12 +101,10 @@ export class TransactionController implements Controller {
         createdAt: new Date(),
       };
       const transactionCreated = await pagarme.createNewTransaction(obj);
-      console.warn(transactionCreated);
       if (!transactionCreated.card) {
         if (transactionCreated.length > 0) {
           let errorsPagarme = [];
           for (const errorPagarme of transactionCreated) {
-            console.log('erro', errorPagarme.message);
             errorsPagarme.push(badRequest(errorPagarme.message));
           }
           return badRequest(errorsPagarme);

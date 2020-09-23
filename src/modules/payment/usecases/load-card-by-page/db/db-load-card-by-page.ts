@@ -4,9 +4,11 @@ import { LoadCardByPage } from '../load-card-by-page';
 
 export class DbLoadCardByPage implements LoadCardByPage {
   constructor(private readonly loadCardRepository: LoadCardByPageRepository) {}
-  async loadByPage(page: number, cardId: string): Promise<CardsPaginate> {
-    const cards = await this.loadCardRepository.loadByPage(page, cardId);
-    const cardsCount = await this.loadCardRepository.countCardsByPage(cardId);
+  async loadByPage(page: number, userId: string): Promise<CardsPaginate> {
+    console.warn('parametros', page, userId);
+    const cards = await this.loadCardRepository.loadByPage(page, userId);
+    console.warn('cards', cards);
+    const cardsCount = await this.loadCardRepository.countCardsByPage(userId);
     return { cards, cardsCount };
   }
 }

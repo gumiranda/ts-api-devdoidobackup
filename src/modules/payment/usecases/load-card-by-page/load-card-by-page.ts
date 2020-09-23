@@ -1,5 +1,5 @@
 import { CardsPaginate } from '../../models/card-model';
 
 export interface LoadCardByPage {
-  loadByPage(page: number, cardId: string): Promise<CardsPaginate>;
+  loadByPage(page: number, userId: string): Promise<CardsPaginate>;
 }

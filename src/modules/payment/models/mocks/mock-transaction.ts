@@ -15,6 +15,7 @@ export const mockFakeTransactionRequest = (): any => ({
   city: 'Ribeirão Preto',
   name: 'Gu',
   state: 'SP',
+  value: 30,
   complemento: process.env.COMPLEMENTO,
   zipcode: process.env.ZIPCODE,
   neighborhood: process.env.NEIGHBORHOOD,

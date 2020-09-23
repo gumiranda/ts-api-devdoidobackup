@@ -15,7 +15,9 @@ export class LoadCardByPageController implements Controller {
     try {
       const { page } = httpRequest.params;
       const { userId } = httpRequest;
+      console.warn('page e userid',page,userId)
       const cards = await this.loadCardByPage.loadByPage(page, userId);
+      console.warn(cards);
       if (!cards) {
         return forbidden(new InvalidParamError('page'));
       }

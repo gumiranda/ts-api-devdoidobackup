@@ -102,7 +102,6 @@ describe('Transaction Controller', () => {
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
-    console.warn(httpResponse.body);
     expect(httpResponse).toEqual(ok(mockFakeTransaction()));
   });
   test('Should return 400 if validation returns an error', async () => {

@@ -14,7 +14,6 @@ export class DbLoadRatingResult implements LoadRatingResult {
       ratingId,
       ratingFor,
     );
-    console.warn('ratingResult', ratingResult);
     if (!ratingResult) {
       const {
         _id,
