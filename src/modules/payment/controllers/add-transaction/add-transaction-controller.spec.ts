@@ -5,7 +5,7 @@ import {
   ok,
   forbidden,
 } from '@/bin/helpers/http-helper';
-import { MissingParamError, EmailInUseError, ServerError } from '@/bin/errors';
+import { MissingParamError, ServerError } from '@/bin/errors';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { mockValidation } from '@/bin/test/mock-validation';
 
@@ -17,12 +17,6 @@ import {
 import { AddTransaction } from '../../usecases/add-transaction/add-transaction';
 import { TransactionController } from './add-transaction-controller';
 import { mockAddCard, mockLoadCardById } from '../../usecases/mocks/mock-card';
-import {
-  mockLoadUserById,
-  mockUpdateUser,
-} from '@/modules/user/usecases/mocks/mock-user';
-import { LoadUserById } from '@/modules/user/usecases/load-user-by-id/load-user-by-id';
-import { UpdateUser } from '@/modules/user/usecases/update-user/update-user';
 import { AddCard } from '../../usecases/add-card/add-card';
 import { LoadCardById } from '../../usecases/load-card-by-id/load-card-by-id';
 import {
@@ -40,7 +34,6 @@ type SutTypes = {
   addCardStub: AddCard;
   loadCardByIdStub: LoadCardById;
   payOnceStub: PayOnce;
-  loadUserByIdStub: LoadUserById;
   validationStub: Validation;
 };
 
@@ -48,7 +41,6 @@ const makeSut = (): SutTypes => {
   const addTransactionStub = mockAddTransaction();
   const addCardStub = mockAddCard();
   const loadCardByIdStub = mockLoadCardById();
-  const loadUserByIdStub = mockLoadUserById();
   const payOnceStub = mockPayOnce();
   const validationStub = mockValidation();
   const sut = new TransactionController(
@@ -62,7 +54,6 @@ const makeSut = (): SutTypes => {
     addCardStub,
     payOnceStub,
     loadCardByIdStub,
-    loadUserByIdStub,
     validationStub,
     sut,
   };
