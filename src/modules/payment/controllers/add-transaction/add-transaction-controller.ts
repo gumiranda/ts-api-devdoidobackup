@@ -9,7 +9,7 @@ import {
 } from '@/bin/helpers/http-helper';
 import CryptoJSHelper from '@/bin/helpers/crypto-js';
 import { Validation } from '@/bin/helpers/validators/validation';
-import { EmailInUseError } from '@/bin/errors';
+import { AccessDeniedError, EmailInUseError } from '@/bin/errors';
 import { addDay } from '@/bin/utils/date-fns';
 import { AddTransaction } from '../../usecases/add-transaction/add-transaction';
 import { AddCard } from '../../usecases/add-card/add-card';
@@ -162,8 +162,9 @@ export class TransactionController implements Controller {
         const user = await this.loadUser.loadById(userId);
         const payDay = addDay(new Date(user.payDay), 30);
         await this.updateUser.updateUser({ payDay }, userId);
+        return ok(transactionAdded);
       }
-      return ok(transactionAdded);
+      return forbidden(new AccessDeniedError());
     } catch (error) {
       return serverError(error);
     }

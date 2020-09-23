@@ -11,14 +11,18 @@ export const mockFakeTransactionData = (): Omit<TransactionModel, '_id'> => ({
   createdAt: new Date(),
 });
 export const mockFakeTransactionRequest = (): any => ({
-  status: 'string',
-  authorization_code: 'string',
-  risk_level: 'string',
-  acquirer_id: 'string',
-  userId: 'string',
-  cardHash: process.env.CARD_HASH,
-  active: true,
-  createdAt: new Date(),
+  card_hash: process.env.CARDHASH,
+  city: 'Ribeirão Preto',
+  name: 'Gu',
+  state: 'SP',
+  complemento: process.env.COMPLEMENTO,
+  zipcode: process.env.ZIPCODE,
+  neighborhood: process.env.NEIGHBORHOOD,
+  street: process.env.STREET,
+  email: process.env.EMAIL,
+  cpf: process.env.CPF,
+  phone: process.env.PHONE,
+  street_number: '444',
 });
 export const mockFakeTransaction = (): TransactionModel => ({
   _id: 'valid_id',
