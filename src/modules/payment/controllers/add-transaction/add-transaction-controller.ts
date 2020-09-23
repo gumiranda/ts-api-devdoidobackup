@@ -7,6 +7,7 @@ import {
   ok,
   forbidden,
 } from '@/bin/helpers/http-helper';
+import CryptoJSHelper from '@/bin/helpers/crypto-js';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { EmailInUseError } from '@/bin/errors';
 import { addDay } from '@/bin/utils/date-fns';
@@ -35,7 +36,7 @@ export class TransactionController implements Controller {
       const { userId } = httpRequest;
       const {
         card_id,
-        cardHash,
+        card_hash,
         name,
         email,
         phone,
@@ -49,6 +50,7 @@ export class TransactionController implements Controller {
         street,
       } = httpRequest.body;
       let transactionAdded;
+
       if (card_id) {
         let card: any = await this.loadCard.loadById(card_id);
         if (!card) {
@@ -82,6 +84,7 @@ export class TransactionController implements Controller {
           return serverError(transactionCreated);
         }
       }
+      const cardHash = await CryptoJSHelper.generateCardHashPagarme(card_hash);
       let obj: any = {
         cardHash,
         name,
@@ -98,7 +101,16 @@ export class TransactionController implements Controller {
         createdAt: new Date(),
       };
       const transactionCreated = await pagarme.createNewTransaction(obj);
+      console.warn(transactionCreated);
       if (!transactionCreated.card) {
+        if (transactionCreated.length > 0) {
+          let errorsPagarme = [];
+          for (const errorPagarme of transactionCreated) {
+            console.log('erro', errorPagarme.message);
+            errorsPagarme.push(badRequest(errorPagarme.message));
+          }
+          return badRequest(errorsPagarme);
+        }
         return serverError(transactionCreated);
       }
       const {

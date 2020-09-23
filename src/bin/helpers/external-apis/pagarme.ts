@@ -4,6 +4,10 @@ const encryption_key = variables.Pagarme.pagarmeKeyTest;
 const connect = () => {
   return pagarme.client.connect({ api_key: encryption_key });
 };
+const generateCardHash = async (card) => {
+  const client = await connect();
+  return await client.security.encrypt(card);
+};
 const createNewTransaction = async (obj) => {
   try {
     const client = await connect();
@@ -118,5 +122,6 @@ const createTransactionByCardId = async (card) => {
 
 export default {
   createNewTransaction,
+  generateCardHash,
   createTransactionByCardId,
 };
