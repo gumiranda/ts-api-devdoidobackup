@@ -1,4 +1,3 @@
-import { LoadUserById } from './../../../user/usecases/load-user-by-id/load-user-by-id';
 import { Controller } from '@/bin/protocols/controller';
 import { HttpResponse, HttpRequest } from '@/bin/protocols/http';
 import {
@@ -9,11 +8,8 @@ import {
 } from '@/bin/helpers/http-helper';
 import CryptoJSHelper from '@/bin/helpers/crypto-js';
 import { Validation } from '@/bin/helpers/validators/validation';
-import { AccessDeniedError, EmailInUseError } from '@/bin/errors';
-import { addDay } from '@/bin/utils/date-fns';
+import { AccessDeniedError } from '@/bin/errors';
 import { AddTransaction } from '../../usecases/add-transaction/add-transaction';
-import { AddCard } from '../../usecases/add-card/add-card';
-import { UpdateUser } from '@/modules/user/usecases/update-user/update-user';
 import pagarme from '@/bin/helpers/external-apis/pagarme';
 import { LoadCardById } from '../../usecases/load-card-by-id/load-card-by-id';
 import { InvalidParamError } from '../../../../bin/errors/invalid-param-error';

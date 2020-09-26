@@ -25,6 +25,7 @@ export const mockFakeTransactionRequest = (): any => ({
   phone: process.env.PHONE,
   street_number: '444',
 });
+
 export const mockFakeTransaction = (): TransactionModel => ({
   _id: 'valid_id',
   status: 'string',

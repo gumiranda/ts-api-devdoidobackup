@@ -17,5 +17,6 @@ export const makeDbPayOnce = (): PayOnce => {
     transactionMongoRepository,
     cardMongoRepository,
     userMongoRepository,
+    userMongoRepository,
   );
 };

@@ -15,7 +15,10 @@ export default {
   },
   Pagarme: {
     pagarmeKey: process.env.PAGARME,
-    pagarmeKeyTest: process.env.PAGARMETEST,
+    pagarmeKeyTest:
+      process.env.AMBIENTE === 'DEV'
+        ? process.env.PAGARMETEST
+        : 'CHAVE DE PROD',
   },
 };
 // module.exports = variables;
