@@ -9,17 +9,14 @@ import {
 import CryptoJSHelper from '@/bin/helpers/crypto-js';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { AccessDeniedError } from '@/bin/errors';
-import { AddTransaction } from '../../usecases/add-transaction/add-transaction';
-import pagarme from '@/bin/helpers/external-apis/pagarme';
-import { LoadCardById } from '../../usecases/load-card-by-id/load-card-by-id';
 import { InvalidParamError } from '../../../../bin/errors/invalid-param-error';
 import { TransactionModelRequest } from '../../models/transaction-model';
 import { PayOnce } from '../../usecases/pay-once/pay-once';
+import { PayAgain } from '../../usecases/pay-again/pay-again';
 export class TransactionController implements Controller {
   constructor(
-    private readonly addTransaction: AddTransaction,
     private readonly payOnce: PayOnce,
-    private readonly loadCard: LoadCardById,
+    private readonly payAgain: PayAgain,
     private readonly validation: Validation,
   ) {}
 
@@ -48,36 +45,13 @@ export class TransactionController implements Controller {
       let transactionAdded;
 
       if (card_id) {
-        let card: any = await this.loadCard.loadById(card_id);
-        if (!card) {
-          return forbidden(new InvalidParamError('card_id'));
-        }
-        if (value) {
-          card.value = value;
-        }
-        const transactionCreated = await pagarme.createTransactionByCardId(
-          card,
+        transactionAdded = await this.payAgain.payAgain(
+          card_id,
+          Number(value),
+          userId,
         );
-        if (transactionCreated?.authorization_code) {
-          const {
-            status,
-            authorization_code,
-            risk_level,
-            acquirer_id,
-          } = transactionCreated;
-          const transaction = {
-            status,
-            authorization_code,
-            risk_level,
-            cardId: card._id,
-            userId,
-            acquirer_id,
-            active: true,
-            createdAt: new Date(),
-          };
-          transactionAdded = await this.addTransaction.add(transaction);
-        } else {
-          return serverError(transactionCreated);
+        if (!transactionAdded) {
+          return forbidden(new InvalidParamError('card_id'));
         }
       }
       const cardHash = await CryptoJSHelper.generateCardHashPagarme(card_hash);

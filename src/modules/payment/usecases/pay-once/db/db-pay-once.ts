@@ -22,7 +22,6 @@ export class DbPayOnce implements PayOnce {
     userId: string,
   ): Promise<TransactionModel> {
     const transactionCreated = await pagarme.createNewTransaction(transaction);
-    console.warn(transactionCreated);
     const {
       email,
       phone,
@@ -72,24 +71,33 @@ export class DbPayOnce implements PayOnce {
         active: true,
       };
       const cardCreated = await this.addCardRepository.add(cardToAdd);
-      const transaction = {
-        status,
-        authorization_code,
-        risk_level,
-        cardId: cardCreated._id,
-        userId,
-        createdAt: new Date(),
-        active: true,
-        acquirer_id,
-      };
-      const transactionAdded = await this.addTransactionRepository.add(
-        transaction,
-      );
-      if (transactionAdded) {
-        const user = await this.loadUserByIdRepository.loadById(userId);
-        const payDay = addDay(new Date(user.payDay), 30);
-        await this.updateUserRepository.updateOne({ payDay }, userId);
-        return transactionAdded;
+      if (cardCreated) {
+        const transaction = {
+          status,
+          authorization_code,
+          risk_level,
+          cardId: cardCreated._id,
+          userId,
+          createdAt: new Date(),
+          active: true,
+          acquirer_id,
+        };
+        const transactionAdded = await this.addTransactionRepository.add(
+          transaction,
+        );
+        if (transactionAdded) {
+          const user = await this.loadUserByIdRepository.loadById(userId);
+          if (user) {
+            const payDay = addDay(new Date(user.payDay), 30);
+            const userUpdated = await this.updateUserRepository.updateOne(
+              { payDay },
+              userId,
+            );
+            if (userUpdated) {
+              return transactionAdded;
+            }
+          }
+        }
       }
     }
     return null;

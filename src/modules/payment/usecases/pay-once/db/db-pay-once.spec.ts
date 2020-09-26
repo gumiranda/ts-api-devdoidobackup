@@ -65,6 +65,35 @@ describe('DbPayOnce Usecase', () => {
     const transaction = await sut.payOnce(fakeTransactionRequest, 'userId');
     expect(transaction).toEqual(mockFakeTransaction());
   });
+  test('should return null if addTransactionRepositoryStub returns null', async () => {
+    const { sut, addTransactionRepositoryStub } = makeSut();
+    addTransactionRepositoryStub.transactionModel = null;
+    const fakeTransactionRequest = await mockFakeRequestPagarme();
+    const transaction = await sut.payOnce(fakeTransactionRequest, 'userId');
+    expect(transaction).toBeNull();
+  });
+  test('should return null if addCardRepositoryStub returns null', async () => {
+    const { sut, addCardRepositoryStub } = makeSut();
+    addCardRepositoryStub.cardModel = null;
+    const fakeTransactionRequest = await mockFakeRequestPagarme();
+    const transaction = await sut.payOnce(fakeTransactionRequest, 'userId');
+    expect(transaction).toBeNull();
+  });
+  test('should return null if updateUserRepositoryStub returns null', async () => {
+    const { sut, updateUserRepositoryStub } = makeSut();
+    updateUserRepositoryStub.userModel = null;
+    const fakeTransactionRequest = await mockFakeRequestPagarme();
+    const transaction = await sut.payOnce(fakeTransactionRequest, 'userId');
+    expect(transaction).toBeNull();
+  });
+  test('should return null if loadUserByIdRepositoryStub returns null', async () => {
+    const { sut, loadUserByIdRepositoryStub } = makeSut();
+    loadUserByIdRepositoryStub.userModel = null;
+    const fakeTransactionRequest = await mockFakeRequestPagarme();
+    const transaction = await sut.payOnce(fakeTransactionRequest, 'userId');
+    expect(transaction).toBeNull();
+  });
+
   test('Should throw if addTransactionRepositoryStub throws', async () => {
     const { sut, addTransactionRepositoryStub } = makeSut();
     jest

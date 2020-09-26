@@ -7,6 +7,7 @@ import {
   AddTransaction,
   AddTransactionModel,
 } from '../add-transaction/add-transaction';
+import { PayAgain } from '../pay-again/pay-again';
 import { PayOnce } from '../pay-once/pay-once';
 
 export const mockAddTransaction = (): AddTransaction => {
@@ -29,4 +30,17 @@ export const mockPayOnce = (): PayOnce => {
     transactionModel = mockFakeTransaction();
   }
   return new PayOnceStub();
+};
+export const mockPayAgain = (): PayAgain => {
+  class PayAgainStub implements PayAgain {
+    payAgain(
+      cardId: string,
+      value: Number,
+      userId: string,
+    ): Promise<TransactionModel> {
+      return new Promise((resolve) => resolve(this.transactionModel));
+    }
+    transactionModel = mockFakeTransaction();
+  }
+  return new PayAgainStub();
 };

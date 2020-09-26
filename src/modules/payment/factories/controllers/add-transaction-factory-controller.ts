@@ -8,17 +8,16 @@ import { makeDbAddCard } from '../usecases/add-card/db-add-card-factory';
 import { makeDbUpdateUser } from '../../../user/factories/usecases/update-user/db-update-user-factory';
 import { makeDbLoadUserById } from '@/modules/user/factories/usecases/load-user-by-id/db-load-user-by-id';
 import { makeDbPayOnce } from '../usecases/pay-once/db-pay-once-factory';
+import { makeDbPayAgain } from '../usecases/pay-again/db-pay-again-factory';
 
 export const makeTransactionController = (): Controller => {
-  const dbAddTransaction = makeDbAddTransaction();
-  const DbLoadCardById = makeDbLoadCardById();
   const dbPayOnce = makeDbPayOnce();
+  const dbPayAgain = makeDbPayAgain();
   const requiredFields = ['value'];
   const validationComposite = makeValidationComposite(requiredFields);
   const transactionController = new TransactionController(
-    dbAddTransaction,
     dbPayOnce,
-    DbLoadCardById,
+    dbPayAgain,
     validationComposite,
   );
   return makeLogControllerDecorator(transactionController);

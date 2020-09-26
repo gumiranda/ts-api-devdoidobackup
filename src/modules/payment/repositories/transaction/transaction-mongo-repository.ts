@@ -4,6 +4,7 @@ import { AddTransactionRepository } from './protocols/add-transaction-repository
 
 export class TransactionMongoRepository implements AddTransactionRepository {
   constructor(private readonly mongoRepository: MongoRepository) {}
+  transactionModel: TransactionModel;
 
   async add(
     transactionData: Omit<TransactionModel, '_id'>,
