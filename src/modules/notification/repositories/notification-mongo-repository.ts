@@ -1,4 +1,3 @@
-import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { MongoRepository } from '@/bin/repository/mongo-repository';
 import { ObjectId } from 'mongodb';
 import {

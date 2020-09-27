@@ -3,5 +3,5 @@ import { NotificationModel } from '@/modules/notification/models/notification-mo
 export type AddNotificationModel = Omit<NotificationModel, '_id'>;
 
 export type AddNotification = {
-  add(data: AddNotificationModel): Promise<void>;
+  add(data: AddNotificationModel): Promise<NotificationModel>;
 };
