@@ -25,8 +25,8 @@ export class CardMongoRepository
     const card = await this.mongoRepository.getOne({ card_id });
     return card;
   }
-  async deleteById(_id: string): Promise<CardModel> {
-    const card = await this.mongoRepository.deleteOne({ _id });
+  async deleteById(_id: string, userId: string): Promise<CardModel> {
+    const card = await this.mongoRepository.deleteOne({ _id, userId });
     return card;
   }
   countCardsByPage(userId: string): Promise<number> {

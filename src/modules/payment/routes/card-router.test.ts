@@ -81,4 +81,46 @@ describe('Name of the group', () => {
       await request(app).get('/api/card/1').expect(403);
     });
   });
+  describe('DELETE /card/:cardId', () => {
+    test('Should return 200 an card list on success', async () => {
+      const password = await hash('111123', 12);
+      const { token, _id } = await makeAccessToken('owner', password);
+      await cardCollection.insertMany([
+        {
+          card_id: 'anycardid',
+          cardNumber: 'string',
+          holder_name: 'string',
+          name: 'string',
+          brand: 'string',
+          street: 'string',
+          street_number: 'string',
+          neighborhood: 'string',
+          city: 'string',
+          state: 'string',
+          zipcode: 'string',
+          phone: 'string',
+          cpf: 'string',
+          email: 'string',
+          userId: new ObjectId(_id),
+          active: true,
+          createdAt: new Date(),
+        },
+      ]);
+      await request(app)
+        .delete('/api/card/anycardid')
+        .set('authorization', 'Bearer ' + token)
+        .expect(200);
+    });
+    test('Should return 403 with role client on card list', async () => {
+      const password = await hash('111123', 12);
+      const { token } = await makeAccessToken('client', password);
+      await request(app)
+        .delete('/api/card/anycardid')
+        .set('authorization', 'Bearer ' + token)
+        .expect(403);
+    });
+    test('Should return 403 without token role owner on card id', async () => {
+      await request(app).delete('/api/card/anycardid').expect(403);
+    });
+  });
 });

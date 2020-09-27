@@ -22,18 +22,18 @@ describe('DbDeleteCardById tests', () => {
 
   test('should call DeleteCardByIdRepository with correct values', async () => {
     const { sut, deleteByIdRepositoryStub } = makeSut();
-    await sut.deleteById(_id);
+    await sut.deleteById(_id, 'string');
     expect(deleteByIdRepositoryStub._id).toBe(_id);
   });
   test('should return null if DeleteCardByIdRepository returns null', async () => {
     const { sut, deleteByIdRepositoryStub } = makeSut();
     deleteByIdRepositoryStub.cardModel = null;
-    const card = await sut.deleteById(_id);
+    const card = await sut.deleteById(_id, 'string');
     expect(card).toBeNull();
   });
   test('should return card if DeleteCardByIdRepository returns an card', async () => {
     const { sut, deleteByIdRepositoryStub } = makeSut();
-    const card = await sut.deleteById(_id);
+    const card = await sut.deleteById(_id, 'string');
     expect(card).toEqual(deleteByIdRepositoryStub.cardModel);
   });
 
@@ -44,7 +44,7 @@ describe('DbDeleteCardById tests', () => {
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error())),
       );
-    const promise = sut.deleteById(_id);
+    const promise = sut.deleteById(_id, 'string');
     await expect(promise).rejects.toThrow();
   });
 });

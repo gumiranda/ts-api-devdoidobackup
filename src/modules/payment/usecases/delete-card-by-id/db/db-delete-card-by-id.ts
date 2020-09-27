@@ -6,9 +6,9 @@ export class DbDeleteCardById implements DeleteCardById {
   constructor(
     private readonly deleteCardByIdRepository: DeleteCardByIdRepository,
   ) {}
-  async deleteById(_id: string): Promise<CardModel> {
+  async deleteById(_id: string, userId: string): Promise<CardModel> {
     if (_id) {
-      const card = await this.deleteCardByIdRepository.deleteById(_id);
+      const card = await this.deleteCardByIdRepository.deleteById(_id, userId);
       if (card) {
         return card;
       }

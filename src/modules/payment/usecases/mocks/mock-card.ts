@@ -1,6 +1,7 @@
 import { CardModel, CardsPaginate } from '../../models/card-model';
 import { mockFakeCard, makeFakeArrayCards } from '../../models/mocks/mock-card';
 import { AddCard, AddCardModel } from '../add-card/add-card';
+import { DeleteCardById } from '../delete-card-by-id/delete-card-by-id';
 import { LoadCardById } from '../load-card-by-id/load-card-by-id';
 import { LoadCardByPage } from '../load-card-by-page/load-card-by-page';
 
@@ -41,4 +42,15 @@ export const mockLoadCardById = (): LoadCardById => {
     }
   }
   return new LoadCardByIdStub();
+};
+export const mockDeleteCardById = (): DeleteCardById => {
+  class DeleteCardByIdStub implements DeleteCardById {
+    cardModel = mockFakeCard();
+    _id: string;
+    async deleteById(_id: string): Promise<CardModel> {
+      this._id = _id;
+      return new Promise((resolve) => resolve(this.cardModel));
+    }
+  }
+  return new DeleteCardByIdStub();
 };
