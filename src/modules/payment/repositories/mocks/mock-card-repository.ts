@@ -5,6 +5,7 @@ import {
   mockValidCardData,
 } from '../../models/mocks/mock-card';
 import { AddCardRepository } from '../card/protocols/add-card-repository';
+import { DeleteCardByIdRepository } from '../card/protocols/delete-card-by-id-repository';
 import { LoadCardByIdRepository } from '../card/protocols/load-card-by-id-repository';
 import { LoadCardByPageRepository } from '../card/protocols/load-card-by-page-repository';
 
@@ -21,6 +22,7 @@ export const mockAddCardRepository = (): AddCardRepository => {
 export const mockLoadCardByIdRepository = (): LoadCardByIdRepository => {
   class LoadCardByIdStub implements LoadCardByIdRepository {
     card_id: string;
+    _id: string;
     cardModel = mockValidCardData();
     async loadById(card_id: string): Promise<CardModel> {
       this.card_id = card_id;
@@ -31,6 +33,20 @@ export const mockLoadCardByIdRepository = (): LoadCardByIdRepository => {
     }
   }
   return new LoadCardByIdStub();
+};
+export const mockDeleteCardByIdRepository = (): DeleteCardByIdRepository => {
+  class DeleteCardByIdStub implements DeleteCardByIdRepository {
+    _id: string;
+    cardModel = mockValidCardData();
+    async deleteById(_id: string): Promise<CardModel> {
+      this._id = _id;
+      if (this.cardModel !== null) {
+        this.cardModel._id = _id;
+      }
+      return new Promise((resolve) => resolve(this.cardModel));
+    }
+  }
+  return new DeleteCardByIdStub();
 };
 export const mockLoadCardByPageRepository = (): LoadCardByPageRepository => {
   class LoadCardByPageStub implements LoadCardByPageRepository {
