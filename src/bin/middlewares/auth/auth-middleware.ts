@@ -4,9 +4,11 @@ import { AccessDeniedError } from '@/bin/errors';
 import { LoadUserByToken } from '@/modules/user/usecases/load-user-by-token/load-user-by-token';
 import { Middleware } from '@/bin/middlewares/protocols/middleware';
 import { isPast } from '@/bin/utils/date-fns';
+import { PayAgain } from '../../../modules/payment/usecases/pay-again/pay-again';
 export class AuthMiddleware implements Middleware {
   constructor(
     private readonly loadUserByToken: LoadUserByToken,
+    private readonly payAgain: PayAgain,
     private readonly role?: string,
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -19,7 +21,10 @@ export class AuthMiddleware implements Middleware {
           if (user) {
             if (user.role === 'owner') {
               if (!user.payDay) {
-                return forbidden(new AccessDeniedError());
+                const paid = await this.payAgain.payEasy(user._id);
+                if (!paid) {
+                  return forbidden(new AccessDeniedError());
+                }
               } else {
                 if (isPast(new Date(user.payDay))) {
                   return forbidden(new AccessDeniedError());

@@ -79,8 +79,6 @@ describe('DbPayAgain Usecase', () => {
     const { sut, addTransactionRepositoryStub } = makeSut();
     addTransactionRepositoryStub.transactionModel = null;
     const transaction = await sut.payEasy('userId');
-    console.warn(transaction);
-
     expect(transaction).toBeNull();
   });
   test('should return null if loadCardByIdRepositoryStub returns null', async () => {

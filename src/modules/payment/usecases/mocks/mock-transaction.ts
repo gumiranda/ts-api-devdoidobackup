@@ -36,6 +36,9 @@ export const mockPayOnce = (): PayOnce => {
 };
 export const mockPayAgain = (): PayAgain => {
   class PayAgainStub implements PayAgain {
+    payEasy(userId: string): Promise<TransactionModel> {
+      return new Promise((resolve) => resolve(this.transactionModel));
+    }
     payAgain(
       cardId: string,
       value: Number,

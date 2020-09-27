@@ -12,7 +12,7 @@ export class CardMongoRepository
   constructor(private readonly mongoRepository: MongoRepository) {}
   cardModel: CardModel;
   card_id: string;
-
+  cards;
   async add(cardData: Omit<CardModel, '_id'>): Promise<CardModel> {
     const result = await this.mongoRepository.add(cardData);
     return result;

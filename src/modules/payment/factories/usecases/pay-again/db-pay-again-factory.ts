@@ -14,6 +14,7 @@ export const makeDbPayAgain = (): PayAgain => {
   return new DbPayAgain(
     transactionMongoRepository,
     cardMongoRepository,
+    cardMongoRepository,
     makeDbUpdatePayDay(),
   );
 };

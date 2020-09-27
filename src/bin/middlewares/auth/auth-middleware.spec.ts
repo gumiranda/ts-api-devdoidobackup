@@ -4,18 +4,23 @@ import { AuthMiddleware } from '@/bin/middlewares/auth/auth-middleware';
 import { mockFakeRequestHeader } from '@/bin/test/mock-auth';
 import { mockLoadUserByToken } from '@/modules/user/usecases/mocks/mock-user';
 import { LoadUserByToken } from '@/modules/user/usecases/load-user-by-token/load-user-by-token';
+import { mockPayAgain } from '@/modules/payment/usecases/mocks/mock-transaction';
+import { PayAgain } from '../../../modules/payment/usecases/pay-again/pay-again';
 
 type SutTypes = {
   sut: AuthMiddleware;
   loadUserByTokenStub: LoadUserByToken;
+  payAgainStub: PayAgain;
 };
 
 const makeSut = (role?: string): SutTypes => {
   const loadUserByTokenStub = mockLoadUserByToken();
-  const sut = new AuthMiddleware(loadUserByTokenStub, role);
+  const payAgainStub = mockPayAgain();
+  const sut = new AuthMiddleware(loadUserByTokenStub, payAgainStub, role);
   return {
     sut,
     loadUserByTokenStub,
+    payAgainStub,
   };
 };
 describe('auth middleware', () => {
