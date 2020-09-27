@@ -10,6 +10,6 @@ export class DbAddNotification implements AddNotification {
     private readonly addNotificationRepository: AddNotificationRepository,
   ) {}
   async add(data: AddNotificationModel): Promise<NotificationModel> {
-    await this.addNotificationRepository.add(data);
+    return await this.addNotificationRepository.add(data);
   }
 }
