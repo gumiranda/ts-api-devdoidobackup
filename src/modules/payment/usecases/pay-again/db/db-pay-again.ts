@@ -1,18 +1,15 @@
 import { PayAgain } from '../pay-again';
 import { TransactionModel } from '@/modules/payment/models/transaction-model';
 import pagarme from '@/bin/helpers/external-apis/pagarme';
-import { addDay } from '@/bin/utils/date-fns';
 import { AddTransactionRepository } from '../../../repositories/transaction/protocols/add-transaction-repository';
-import { UpdateUserRepository } from '../../../../user/repositories/protocols/update-user-repository';
-import { LoadUserByIdRepository } from '@/modules/user/repositories/protocols/load-user-by-id-repository';
 import { LoadCardByIdRepository } from '@/modules/payment/repositories/card/protocols/load-card-by-id-repository';
+import { UpdatePayDay } from '../../update-pay-day/update-pay-day';
 
 export class DbPayAgain implements PayAgain {
   constructor(
     private readonly addTransactionRepository: AddTransactionRepository,
     private readonly loadCardByIdRepository: LoadCardByIdRepository,
-    private readonly updateUserRepository: UpdateUserRepository,
-    private readonly loadUserByIdRepository: LoadUserByIdRepository,
+    private readonly updatePayDay: UpdatePayDay,
   ) {}
   async payAgain(
     cardId: string,
@@ -26,6 +23,7 @@ export class DbPayAgain implements PayAgain {
     if (value) {
       card.value = value;
     }
+    console.log(card);
     const transactionCreated = await pagarme.createTransactionByCardId(card);
     if (transactionCreated?.authorization_code) {
       const {
@@ -47,17 +45,11 @@ export class DbPayAgain implements PayAgain {
       const transactionAdded = await this.addTransactionRepository.add(
         transaction,
       );
+
       if (transactionAdded) {
-        const user = await this.loadUserByIdRepository.loadById(userId);
-        if (user) {
-          const payDay = addDay(new Date(user.payDay), 30);
-          const userUpdated = await this.updateUserRepository.updateOne(
-            { payDay },
-            userId,
-          );
-          if (userUpdated) {
-            return transactionAdded;
-          }
+        const userUpdated = await this.updatePayDay.updatePayDay(userId, 30);
+        if (userUpdated) {
+          return transactionAdded;
         }
       }
     }

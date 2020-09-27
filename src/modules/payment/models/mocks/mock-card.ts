@@ -19,6 +19,26 @@ export const mockFakeCardData = (): Omit<CardModel, '_id'> => ({
   active: true,
   createdAt: new Date(),
 });
+export const mockValidCardData = (): CardModel => ({
+  card_id: 'string',
+  cardNumber: 'string',
+  holder_name: 'string',
+  brand: 'string',
+  city: 'Ribeirão Preto',
+  name: 'Gu',
+  state: 'SP',
+  _id: 'valid_id',
+  zipcode: process.env.ZIPCODE,
+  neighborhood: process.env.NEIGHBORHOOD,
+  street: process.env.STREET,
+  email: process.env.EMAIL,
+  cpf: process.env.CPF,
+  phone: process.env.PHONE,
+  street_number: '444',
+  userId: 'string',
+  active: true,
+  createdAt: new Date(),
+});
 export const mockFakeCard = (): CardModel => ({
   _id: 'valid_id',
   card_id: 'string',

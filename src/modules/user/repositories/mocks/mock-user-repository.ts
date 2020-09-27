@@ -69,6 +69,18 @@ export const mockUpdateUserRepository = (): UpdateUserRepository => {
   }
   return new UpdateUserRepositoryStub();
 };
+export const mockUpdateUserOwnerRepository = (): UpdateUserRepository => {
+  class UpdateUserRepositoryStub implements UpdateUserRepository {
+    async updateOne(
+      userData: UserData,
+      userId: string,
+    ): Promise<Omit<UserModel, 'password'>> {
+      return new Promise((resolve) => resolve(this.userModel));
+    }
+    userModel = mockFakeUserUpdated('owner');
+  }
+  return new UpdateUserRepositoryStub();
+};
 export const mockUpdatePasswordRepository = (): UpdatePasswordRepository => {
   //  userModel = mockFakeUser('client');
   class UpdatePasswordRepositoryStub implements UpdatePasswordRepository {

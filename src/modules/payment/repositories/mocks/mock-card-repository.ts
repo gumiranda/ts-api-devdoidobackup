@@ -1,5 +1,9 @@
 import { CardModel } from '../../models/card-model';
-import { mockFakeCard, makeFakeArrayCards } from '../../models/mocks/mock-card';
+import {
+  mockFakeCard,
+  makeFakeArrayCards,
+  mockValidCardData,
+} from '../../models/mocks/mock-card';
 import { AddCardRepository } from '../card/protocols/add-card-repository';
 import { LoadCardByIdRepository } from '../card/protocols/load-card-by-id-repository';
 import { LoadCardByPageRepository } from '../card/protocols/load-card-by-page-repository';
@@ -17,7 +21,7 @@ export const mockAddCardRepository = (): AddCardRepository => {
 export const mockLoadCardByIdRepository = (): LoadCardByIdRepository => {
   class LoadCardByIdStub implements LoadCardByIdRepository {
     card_id: string;
-    cardModel = mockFakeCard();
+    cardModel = mockValidCardData();
     async loadById(card_id: string): Promise<CardModel> {
       this.card_id = card_id;
       if (this.cardModel !== null) {

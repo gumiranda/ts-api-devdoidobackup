@@ -4,19 +4,17 @@ import { TransactionMongoRepository } from '@/modules/payment/repositories/trans
 import { DbPayOnce } from '@/modules/payment/usecases/pay-once/db/db-pay-once';
 import { PayOnce } from '@/modules/payment/usecases/pay-once/pay-once';
 import { UserMongoRepository } from '@/modules/user/repositories/user-mongo-repository';
+import { makeDbUpdatePayDay } from '../update-pay-day/db-update-pay-day-factory';
 export const makeDbPayOnce = (): PayOnce => {
   const mongoRepositoryCard = new MongoRepository('cards');
   const mongoRepositoryTransaction = new MongoRepository('transaction');
-  const mongoRepositoryUser = new MongoRepository('users');
   const cardMongoRepository = new CardMongoRepository(mongoRepositoryCard);
   const transactionMongoRepository = new TransactionMongoRepository(
     mongoRepositoryTransaction,
   );
-  const userMongoRepository = new UserMongoRepository(mongoRepositoryUser);
   return new DbPayOnce(
     transactionMongoRepository,
     cardMongoRepository,
-    userMongoRepository,
-    userMongoRepository,
+    makeDbUpdatePayDay(),
   );
 };

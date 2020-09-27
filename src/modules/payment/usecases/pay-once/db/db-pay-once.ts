@@ -7,15 +7,13 @@ import pagarme from '@/bin/helpers/external-apis/pagarme';
 import { addDay } from '@/bin/utils/date-fns';
 import { AddTransactionRepository } from '../../../repositories/transaction/protocols/add-transaction-repository';
 import { AddCardRepository } from '../../../repositories/card/protocols/add-card-repository';
-import { UpdateUserRepository } from '../../../../user/repositories/protocols/update-user-repository';
-import { LoadUserByIdRepository } from '@/modules/user/repositories/protocols/load-user-by-id-repository';
+import { UpdatePayDay } from '../../update-pay-day/update-pay-day';
 
 export class DbPayOnce implements PayOnce {
   constructor(
     private readonly addTransactionRepository: AddTransactionRepository,
     private readonly addCardRepository: AddCardRepository,
-    private readonly updateUserRepository: UpdateUserRepository,
-    private readonly loadUserByIdRepository: LoadUserByIdRepository,
+    private readonly updatePayDay: UpdatePayDay,
   ) {}
   async payOnce(
     transaction: TransactionModelRequest,
@@ -86,16 +84,9 @@ export class DbPayOnce implements PayOnce {
           transaction,
         );
         if (transactionAdded) {
-          const user = await this.loadUserByIdRepository.loadById(userId);
-          if (user) {
-            const payDay = addDay(new Date(user.payDay), 30);
-            const userUpdated = await this.updateUserRepository.updateOne(
-              { payDay },
-              userId,
-            );
-            if (userUpdated) {
-              return transactionAdded;
-            }
+          const userUpdated = await this.updatePayDay.updatePayDay(userId, 30);
+          if (userUpdated) {
+            return transactionAdded;
           }
         }
       }

@@ -1,3 +1,5 @@
+import { mockFakeUserUpdated } from '@/modules/user/models/mocks/mock-user';
+import { UserModel } from '@/modules/user/models/user-model';
 import { mockFakeTransaction } from '../../models/mocks/mock-transaction';
 import {
   TransactionModel,
@@ -9,6 +11,7 @@ import {
 } from '../add-transaction/add-transaction';
 import { PayAgain } from '../pay-again/pay-again';
 import { PayOnce } from '../pay-once/pay-once';
+import { UpdatePayDay } from '../update-pay-day/update-pay-day';
 
 export const mockAddTransaction = (): AddTransaction => {
   class AddTransactionStub implements AddTransaction {
@@ -43,4 +46,16 @@ export const mockPayAgain = (): PayAgain => {
     transactionModel = mockFakeTransaction();
   }
   return new PayAgainStub();
+};
+export const mockUpdatePayDay = (): UpdatePayDay => {
+  class UpdatePayDayStub implements UpdatePayDay {
+    updatePayDay(
+      userId: string,
+      numberDays: Number,
+    ): Promise<Omit<UserModel, 'password'>> {
+      return new Promise((resolve) => resolve(this.userModel));
+    }
+    userModel = mockFakeUserUpdated('owner');
+  }
+  return new UpdatePayDayStub();
 };
