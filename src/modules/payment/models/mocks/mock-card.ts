@@ -20,7 +20,7 @@ export const mockFakeCardData = (): Omit<CardModel, '_id'> => ({
   createdAt: new Date(),
 });
 export const mockValidCardData = (): CardModel => ({
-  card_id: 'string',
+  card_id: process.env.CARDIDPAGARME,
   cardNumber: 'string',
   holder_name: 'string',
   brand: 'string',
@@ -41,7 +41,7 @@ export const mockValidCardData = (): CardModel => ({
 });
 export const mockFakeCard = (): CardModel => ({
   _id: 'valid_id',
-  card_id: 'string',
+  card_id: process.env.CARDIDPAGARME,
   cardNumber: 'string',
   holder_name: 'string',
   name: 'string',
@@ -64,21 +64,21 @@ export const mockFakeCardsPaginated = (): CardsPaginate => ({
   cardsCount: makeFakeArrayCards().length,
 });
 export const makeFakeArrayCards = (): CardModel[] => [
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
-  mockFakeCard(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
+  mockValidCardData(),
 ];
 export const makeFakeArrayAddCards = (): Omit<CardModel, '_id'>[] => [
   mockFakeCardData(),

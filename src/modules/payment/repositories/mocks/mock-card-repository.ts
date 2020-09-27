@@ -40,11 +40,11 @@ export const mockLoadCardByPageRepository = (): LoadCardByPageRepository => {
     async loadByPage(page: number, cardId: string): Promise<CardModel[]> {
       this.cardId = cardId;
       this.page = page;
-      return new Promise((resolve) => resolve(this.cards.slice(0, 10)));
+      return new Promise((resolve) => resolve(this.cards?.slice(0, 10)));
     }
     async countCardsByPage(cardId: string): Promise<number> {
       this.cardId = cardId;
-      return new Promise((resolve) => resolve(this.cards.length));
+      return new Promise((resolve) => resolve(this.cards?.length));
     }
   }
   return new LoadCardByPageStub();

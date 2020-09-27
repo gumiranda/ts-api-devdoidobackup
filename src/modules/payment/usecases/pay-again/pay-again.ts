@@ -6,4 +6,5 @@ export interface PayAgain {
     value: Number,
     userId: string,
   ): Promise<TransactionModel>;
+  payEasy(userId: string): Promise<TransactionModel>;
 }
