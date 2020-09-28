@@ -2,12 +2,14 @@ import {
   makeFakeArrayChats,
   mockFakeChat,
   mockFakeChatUpdated,
+  mockFakeMessagesPaginated,
 } from '../../models/mocks/mock-chat';
 import { ChatData, ChatModel, ChatsPaginate } from '../../models/chat-model';
 import { AddChat, AddChatModel } from '../add-chat/add-chat';
 import { LoadChatById } from '../load-chat-by-id/load-chat-by-id';
 import { LoadChatByPage } from '../load-chat-by-page/load-chat-by-page';
 import { UpdateChat } from '../update-chat/update-chat';
+import { LoadMessagesByPage } from '../load-messages-by-page/load-messages-by-page';
 
 export const mockAddChat = (): AddChat => {
   class AddChatStub implements AddChat {
@@ -46,6 +48,19 @@ export const mockLoadChatById = (): LoadChatById => {
     }
   }
   return new LoadChatByIdStub();
+};
+export const mockLoadMessagesByPage = (): LoadMessagesByPage => {
+  class LoadMessagesByPageStub implements LoadMessagesByPage {
+    loadMessagesByPage(
+      page: number,
+      chatId: string,
+      userId: string,
+    ): Promise<ChatModel> {
+      return new Promise((resolve) => resolve(this.chatModel));
+    }
+    chatModel = mockFakeMessagesPaginated();
+  }
+  return new LoadMessagesByPageStub();
 };
 export const mockUpdateChat = (): UpdateChat => {
   class UpdateChatStub implements UpdateChat {

@@ -71,6 +71,51 @@ describe('Name of the group', () => {
       await request(app).get('/api/chat/1').expect(403);
     });
   });
+  describe('GET /chat/:id/page/:page', () => {
+    test('Should return 200 an chat list on success', async () => {
+      const password = await hash('111123', 12);
+      const { token, _id } = await makeAccessToken('owner', password);
+      const userReceiver = await makeAccessToken('owner', password);
+      const chat = await chatCollection.insertOne({
+        countMessages: 1,
+        userBy: new ObjectId(userReceiver._id),
+        userFor: new ObjectId(_id),
+        lastMessage: 'oi',
+        messages: [
+          {
+            text: 'oi',
+            user: new ObjectId(userReceiver._id),
+            createdAt: new Date(),
+            read: false,
+          },
+        ],
+        createdAt: new Date(),
+      });
+      await request(app)
+        .get(`/api/chat/${chat.ops[0]._id}/page/1`)
+        .set('authorization', 'Bearer ' + token)
+        .expect(200);
+    });
+    test('Should return 200 an chat list empty', async () => {
+      const password = await hash('111123', 12);
+      const { token, _id } = await makeAccessToken('owner', password);
+      const userReceiver = await makeAccessToken('owner', password);
+      const chat = await chatCollection.insertOne({
+        countMessages: 0,
+        userBy: new ObjectId(userReceiver._id),
+        userFor: new ObjectId(_id),
+        lastMessage: '',
+        createdAt: new Date(),
+      });
+      await request(app)
+        .get(`/api/chat/${chat.ops[0]._id}/page/1`)
+        .set('authorization', 'Bearer ' + token)
+        .expect(200);
+    });
+    test('Should return 403 without token on chat list', async () => {
+      await request(app).get(`/api/chat/anychatid/page/1`).expect(403);
+    });
+  });
   describe('UPDATE /chat/:chatId', () => {
     test('Should return 202 an chat updated on success', async () => {
       const password = await hash('111123', 12);

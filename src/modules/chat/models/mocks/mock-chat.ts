@@ -1,4 +1,4 @@
-import { ChatsPaginate, ChatModel } from '../chat-model';
+import { ChatsPaginate, ChatModel, Message } from '../chat-model';
 export const mockFakeChatData = (): Omit<ChatModel, '_id'> => ({
   lastMessage: 'lastMessage',
   userFor: 'userFor',
@@ -24,12 +24,48 @@ export const mockFakeChat = (): ChatModel => ({
   countMessages: 0,
   createdAt: new Date(),
 });
+const makeMessage = (): Message => ({
+  read: false,
+  text: 'lastMessage',
+  createdAt: new Date(),
+  user: 'user',
+});
+export const mockFakeMessagesPaginated = (): ChatModel => ({
+  lastMessage: 'lastMessage',
+  _id: 'any_id',
+  userFor: 'userFor',
+  userBy: 'userBy',
+  messages: [
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+    makeMessage(),
+  ],
+  countMessages: 0,
+  createdAt: new Date(),
+});
 export const mockFakeChatUpdated = (): ChatModel => ({
   lastMessage: 'lastMessage',
   _id: 'any_id',
-  messages: [
-    { read: false, text: 'lastMessage', createdAt: new Date(), user: 'user' },
-  ],
+  messages: [makeMessage()],
   countMessages: 1,
   userFor: 'userFor',
   userBy: 'userBy',
@@ -40,6 +76,7 @@ export const mockFakeChatsPaginated = (): ChatsPaginate => ({
   chats: makeFakeArrayChats().slice(0, 10),
   chatsCount: makeFakeArrayChats().length,
 });
+
 export const makeFakeArrayChats = (): Omit<ChatModel, 'messages'>[] => [
   mockFakeChatWithoutMessages(),
   mockFakeChatWithoutMessages(),
@@ -57,6 +94,7 @@ export const makeFakeArrayChats = (): Omit<ChatModel, 'messages'>[] => [
   mockFakeChatWithoutMessages(),
   mockFakeChatWithoutMessages(),
 ];
+
 export const makeFakeArrayAddChats = (): Omit<ChatModel, '_id'>[] => [
   mockFakeChatData(),
   mockFakeChatData(),

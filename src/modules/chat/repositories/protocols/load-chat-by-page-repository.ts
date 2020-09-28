@@ -1,7 +1,7 @@
 import { ChatModel } from '../../models/chat-model';
 
 export interface LoadChatByPageRepository {
-  chats: ChatModel[];
+  chats: Omit<ChatModel, 'messages'>[];
   loadByPage(
     page: number,
     userId: string,

@@ -4,6 +4,7 @@ import { ChatData, ChatModel, Message } from '../models/chat-model';
 import { AddChatRepository } from './protocols/add-chat-repository';
 import { LoadChatByIdRepository } from './protocols/load-chat-by-id-repository';
 import { LoadChatByPageRepository } from './protocols/load-chat-by-page-repository';
+import { LoadMessagesByPageRepository } from './protocols/load-messages-by-page-repository';
 import { UpdateChatRepository } from './protocols/update-chat-repository';
 
 export class ChatMongoRepository
@@ -11,8 +12,10 @@ export class ChatMongoRepository
     AddChatRepository,
     LoadChatByIdRepository,
     UpdateChatRepository,
+    LoadMessagesByPageRepository,
     LoadChatByPageRepository {
   constructor(private readonly mongoRepository: MongoRepository) {}
+  chat: ChatModel;
   chatModel: ChatModel;
   chat_id: string;
   chats;
@@ -93,5 +96,28 @@ export class ChatMongoRepository
       10,
       { messages: 0 },
     );
+  }
+  async loadMessagesByPage(
+    page: number,
+    chatId: string,
+    userId: string,
+  ): Promise<ChatModel> {
+    const position = page * -20;
+    const chat: any = await this.mongoRepository.getOne(
+      {
+        _id: new ObjectId(chatId),
+        $or: [
+          {
+            $and: [{ userFor: { $ne: userId } }, { userBy: userId }],
+          },
+          {
+            $and: [{ userBy: { $ne: userId } }, { userFor: userId }],
+          },
+        ],
+      },
+      { messages: { $slice: [position, 20] } },
+    );
+    console.warn('chat com as msg paginada', chat);
+    return chat;
   }
 }
