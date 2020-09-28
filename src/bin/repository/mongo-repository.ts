@@ -31,9 +31,9 @@ export class MongoRepository {
     const collection = await this.getCollection();
     return await collection.deleteOne(query);
   }
-  async getOne(query) {
+  async getOne(query, options) {
     const collection = await this.getCollection();
-    return await collection.findOne(query);
+    return await collection.findOne(query, options);
   }
   async getAll(query) {
     const collection = await this.getCollection();

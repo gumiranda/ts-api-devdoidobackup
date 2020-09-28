@@ -38,9 +38,12 @@ export class NotificationMongoRepository
       },
       { upsert: true },
     );
-    const result = await this.mongoRepository.getOne({
-      _id: new ObjectId(notificationId),
-    });
+    const result: any = await this.mongoRepository.getOne(
+      {
+        _id: new ObjectId(notificationId),
+      },
+      {},
+    );
     return result;
   }
   async loadById(_id: string): Promise<NotificationModel> {

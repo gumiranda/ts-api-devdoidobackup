@@ -47,20 +47,30 @@ describe('Mongo Repository', () => {
       email: 'any_email@mail.com',
       password: 'any_password',
     });
-    const user = await sut.getOne({ email: 'any_email@mail.com' });
+    const user: any = await sut.getOne(
+      { email: 'any_email@mail.com' },
+      { projection: { password: 0 } },
+    );
     expect(user).toBeTruthy();
     expect(user._id).toBeTruthy();
     expect(user.name).toBe('any_name');
     expect(user.email).toBe('any_email@mail.com');
+    expect(user.password).toBeUndefined();
   });
   test('Should return null user if getOne fails', async () => {
     const sut = makeSut();
-    const user = await sut.getOne({ email: 'any_email@mail.com' });
+    const user = await sut.getOne(
+      { email: 'any_email@mail.com' },
+      { projection: { password: 0 } },
+    );
     expect(user).toBeFalsy();
   });
   test('Should return null user if getOne fails', async () => {
     const sut = makeSut();
-    const user = await sut.getOne({ email: 'any_email@mail.com' });
+    const user = await sut.getOne(
+      { email: 'any_email@mail.com' },
+      { projection: { password: 0 } },
+    );
     expect(user).toBeFalsy();
   });
 });

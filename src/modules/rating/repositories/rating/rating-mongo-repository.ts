@@ -12,9 +12,12 @@ export class RatingMongoRepository
   constructor(private readonly mongoRepository: MongoRepository) {}
 
   async loadById(_id: string): Promise<RatingModel> {
-    const rating: RatingModel = await this.mongoRepository.getOne({
-      _id: new ObjectId(_id),
-    });
+    const rating: any = await this.mongoRepository.getOne(
+      {
+        _id: new ObjectId(_id),
+      },
+      {},
+    );
     return rating;
   }
   async loadAll(): Promise<RatingModel[]> {

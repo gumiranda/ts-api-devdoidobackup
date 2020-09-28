@@ -22,7 +22,7 @@ export class CardMongoRepository
   }
 
   async loadById(card_id: string): Promise<CardModel> {
-    const card = await this.mongoRepository.getOne({ card_id });
+    const card: any = await this.mongoRepository.getOne({ card_id }, {});
     return card;
   }
   async deleteById(_id: string, userId: string): Promise<CardModel> {

@@ -39,7 +39,7 @@ export class UserMongoRepository
     return result && MongoHelper.mapPassword(result);
   }
   async loadByEmail(email: string): Promise<UserModel> {
-    const result = await this.mongoRepository.getOne({ email });
+    const result: any = await this.mongoRepository.getOne({ email }, {});
     return result;
   }
   async loadByToken(token: string, role: string): Promise<UserModel> {
@@ -49,8 +49,10 @@ export class UserMongoRepository
     if (role) {
       query.role = role;
     }
-    const result = await this.mongoRepository.getOne(query);
-    return result && MongoHelper.mapPassword(result);
+    const result: any = await this.mongoRepository.getOne(query, {
+      projection: { password: 0 },
+    });
+    return result;
   }
   async updateOne(
     userData: UserData,
@@ -65,8 +67,11 @@ export class UserMongoRepository
       },
       { upsert: true },
     );
-    const result = await this.mongoRepository.getOne({ _id: userId });
-    return result && MongoHelper.mapPassword(result);
+    const result: any = await this.mongoRepository.getOne(
+      { _id: userId },
+      { projection: { password: 0 } },
+    );
+    return result;
   }
   async updatePassword(
     newPassword: string,
@@ -136,11 +141,14 @@ export class UserMongoRepository
   async loadByFaceToken(faceId: string, faceToken: string): Promise<UserModel> {
     const response: any = await loginFB(faceId, faceToken);
     if (response?.data?.id) {
-      const result = await this.mongoRepository.getOne({
-        faceId,
-        face: true,
-        active: true,
-      });
+      const result: any = await this.mongoRepository.getOne(
+        {
+          faceId,
+          face: true,
+          active: true,
+        },
+        { projection: { password: 0 } },
+      );
       if (result) {
         return result;
       }
