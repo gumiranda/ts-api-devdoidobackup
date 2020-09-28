@@ -85,7 +85,6 @@ describe('Name of the group', () => {
         read: false,
         createdAt: new Date(),
       });
-      console.warn(notification.ops[0]._id);
       await request(app)
         .put(`/api/notification/${notification.ops[0]._id}`)
         .send({ read: true })

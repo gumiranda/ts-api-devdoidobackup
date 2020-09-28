@@ -30,7 +30,6 @@ export class UpdateNotificationController implements Controller {
         },
         notificationId,
       );
-      console.warn('RES', notification);
       return notification ? putOk(notification) : noContent();
     } catch (error) {
       return serverError(error);
