@@ -2,10 +2,10 @@ import { serverError, ok, forbidden } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
 import { HttpRequest } from '@/bin/protocols/http';
 import { InvalidParamError } from '@/bin/errors';
-import { LoadUserByPageController } from '@/modules/user/controllers/load-user-by-page/load-user-by-page';
-import { LoadUserByPage } from '@/modules/user/usecases/load-user-by-page/load-user-by-page';
-import { mockLoadUserByPage } from '@/modules/user/usecases/mocks/mock-user';
-import { mockFakeUsersPaginated } from '@/modules/user/models/mocks/mock-user';
+import { LoadNotificationByPage } from '../../usecases/load-notification-by-page/load-notification-by-page';
+import { mockFakeNotificationsPaginated } from '../../models/mocks/mock-notification';
+import { mockLoadNotificationByPage } from '../../usecases/mocks/mock-notification';
+import { LoadNotificationByPageController } from './load-notification-by-page';
 const makeFakeRequest = (): HttpRequest => ({
   params: {
     page: 1,
@@ -13,14 +13,14 @@ const makeFakeRequest = (): HttpRequest => ({
   userId: 'any_user_id',
 });
 type SutTypes = {
-  sut: LoadUserByPageController;
-  loadUserByPageStub: LoadUserByPage;
+  sut: LoadNotificationByPageController;
+  loadNotificationByPageStub: LoadNotificationByPage;
 };
 
 const makeSut = (): SutTypes => {
-  const loadUserByPageStub = mockLoadUserByPage();
-  const sut = new LoadUserByPageController(loadUserByPageStub);
-  return { sut, loadUserByPageStub };
+  const loadNotificationByPageStub = mockLoadNotificationByPage();
+  const sut = new LoadNotificationByPageController(loadNotificationByPageStub);
+  return { sut, loadNotificationByPageStub };
 };
 
 describe('LoadUserByPage Controller', () => {
@@ -31,44 +31,48 @@ describe('LoadUserByPage Controller', () => {
     MockDate.reset();
   });
   test('should call loadByPage with correct values', async () => {
-    const { sut, loadUserByPageStub } = makeSut();
-    const loadSpy = jest.spyOn(loadUserByPageStub, 'loadByPage');
+    const { sut, loadNotificationByPageStub } = makeSut();
+    const loadSpy = jest.spyOn(loadNotificationByPageStub, 'loadByPage');
     await sut.handle(makeFakeRequest());
     expect(loadSpy).toHaveBeenCalledWith(1, 'any_user_id');
   });
   test('should call load with correct values', async () => {
-    const { sut, loadUserByPageStub } = makeSut();
-    const loadSpy = jest.spyOn(loadUserByPageStub, 'loadByPage');
+    const { sut, loadNotificationByPageStub } = makeSut();
+    const loadSpy = jest.spyOn(loadNotificationByPageStub, 'loadByPage');
     await sut.handle(makeFakeRequest());
     expect(loadSpy).toHaveBeenCalledWith(1, 'any_user_id');
   });
   test('should return 403 if LoadUserById returns null', async () => {
-    const { sut, loadUserByPageStub } = makeSut();
+    const { sut, loadNotificationByPageStub } = makeSut();
     jest
-      .spyOn(loadUserByPageStub, 'loadByPage')
+      .spyOn(loadNotificationByPageStub, 'loadByPage')
       .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('page')));
   });
   test('should return 500 if LoadUserById throws', async () => {
-    const { sut, loadUserByPageStub } = makeSut();
-    jest.spyOn(loadUserByPageStub, 'loadByPage').mockImplementationOnce(() => {
-      throw new Error();
-    });
+    const { sut, loadNotificationByPageStub } = makeSut();
+    jest
+      .spyOn(loadNotificationByPageStub, 'loadByPage')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(serverError(new Error()));
   });
   test('should return 500 if LoadUserById throws', async () => {
-    const { sut, loadUserByPageStub } = makeSut();
-    jest.spyOn(loadUserByPageStub, 'loadByPage').mockImplementationOnce(() => {
-      throw new Error();
-    });
+    const { sut, loadNotificationByPageStub } = makeSut();
+    jest
+      .spyOn(loadNotificationByPageStub, 'loadByPage')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(serverError(new Error()));
   });
   test('should return 200 on success', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(ok(mockFakeUsersPaginated()));
+    expect(httpResponse).toEqual(ok(mockFakeNotificationsPaginated()));
   });
 });

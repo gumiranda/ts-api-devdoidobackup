@@ -28,7 +28,7 @@ export class NotificationMongoRepository
   async updateOne(
     notificationData: NotificationData,
     notificationId: string,
-  ): Promise<Omit<NotificationModel, 'password'>> {
+  ): Promise<NotificationModel> {
     await this.mongoRepository.updateOne(
       {
         _id: new ObjectId(notificationId),
@@ -38,7 +38,9 @@ export class NotificationMongoRepository
       },
       { upsert: true },
     );
-    const result = await this.mongoRepository.getOne({ _id: notificationId });
+    const result = await this.mongoRepository.getOne({
+      _id: new ObjectId(notificationId),
+    });
     return result;
   }
   async loadById(_id: string): Promise<NotificationModel> {

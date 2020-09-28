@@ -7,19 +7,24 @@ import {
   ok,
 } from '@/bin/helpers/http-helper';
 import { InvalidParamError } from '@/bin/errors';
-import { LoadUserByPage } from '@/modules/user/usecases/load-user-by-page/load-user-by-page';
+import { LoadNotificationByPage } from '../../usecases/load-notification-by-page/load-notification-by-page';
 
-export class LoadUserByPageController implements Controller {
-  constructor(private readonly loadUserByPage: LoadUserByPage) {}
+export class LoadNotificationByPageController implements Controller {
+  constructor(
+    private readonly loadNotificationByPage: LoadNotificationByPage,
+  ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { page } = httpRequest.params;
       const { userId } = httpRequest;
-      const users = await this.loadUserByPage.loadByPage(page, userId);
-      if (!users) {
+      const notifications = await this.loadNotificationByPage.loadByPage(
+        page,
+        userId,
+      );
+      if (!notifications) {
         return forbidden(new InvalidParamError('page'));
       }
-      return users ? ok(users) : noContent();
+      return notifications ? ok(notifications) : noContent();
     } catch (error) {
       return serverError(error);
     }

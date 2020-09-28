@@ -1,6 +1,7 @@
 import {
   makeFakeArrayNotifications,
   mockFakeNotification,
+  mockFakeNotificationReaded,
 } from '../../models/mocks/mock-notification';
 import {
   NotificationData,
@@ -58,7 +59,7 @@ export const mockLoadNotificationById = (): LoadNotificationById => {
 };
 export const mockUpdateNotification = (): UpdateNotification => {
   class UpdateNotificationStub implements UpdateNotification {
-    notificationModel = mockFakeNotification();
+    notificationModel = mockFakeNotificationReaded();
     async updateNotification(
       notification: NotificationData,
       notificationId: string,

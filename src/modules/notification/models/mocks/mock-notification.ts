@@ -19,6 +19,15 @@ export const mockFakeNotification = (): NotificationModel => ({
   type: 'string',
   createdAt: new Date(),
 });
+export const mockFakeNotificationReaded = (): NotificationModel => ({
+  content: 'string',
+  _id: 'any_id',
+  userFor: 'string',
+  userBy: 'string',
+  read: true,
+  type: 'string',
+  createdAt: new Date(),
+});
 export const mockFakeNotificationsPaginated = (): NotificationsPaginate => ({
   notifications: makeFakeArrayNotifications().slice(0, 10),
   notificationsCount: makeFakeArrayNotifications().length,
@@ -60,3 +69,8 @@ export const makeFakeArrayAddNotifications = (): Omit<
   mockFakeNotificationData(),
   mockFakeNotificationData(),
 ];
+export const mockFakeNotificationRequest = (userFor): any => ({
+  content: 'string',
+  userFor,
+  type: 'string',
+});

@@ -8,5 +8,5 @@ export interface UpdateNotificationRepository {
   updateOne(
     userData: NotificationData,
     userId: string,
-  ): Promise<Omit<NotificationModel, 'password'>>;
+  ): Promise<NotificationModel>;
 }

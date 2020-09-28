@@ -75,7 +75,7 @@ describe('DbPayAgain Usecase', () => {
     expect(transaction).toBeNull();
   });
   test('should return null if addTransactionRepositoryStub in payEasy returns null', async () => {
-    jest.setTimeout(30000);
+    jest.setTimeout(35000);
     const { sut, addTransactionRepositoryStub } = makeSut();
     addTransactionRepositoryStub.transactionModel = null;
     const transaction = await sut.payEasy('userId');
