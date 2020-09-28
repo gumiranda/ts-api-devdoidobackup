@@ -4,8 +4,8 @@ import { HttpRequest } from '@/bin/protocols/http';
 import {
   badRequest,
   serverError,
-  ok,
   forbidden,
+  createdOk,
 } from '@/bin/helpers/http-helper';
 import { MissingParamError, EmailInUseError, ServerError } from '@/bin/errors';
 import { Validation } from '@/bin/helpers/validators/validation';
@@ -78,10 +78,10 @@ describe('SignUp Controller', () => {
     expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 
-  test('Should return 200 if valid data is provided', async () => {
+  test('Should return 201 if valid data is provided', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(ok(mockFakeUser('client')));
+    expect(httpResponse).toEqual(createdOk(mockFakeUser('client')));
   });
   test('Should return 400 if validation returns an error', async () => {
     const { sut, validationStub } = makeSut();

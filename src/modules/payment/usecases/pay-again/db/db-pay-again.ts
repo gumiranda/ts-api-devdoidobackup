@@ -35,8 +35,10 @@ export class DbPayAgain implements PayAgain {
       const transactionAdded = await this.addTransactionRepository.add(
         transaction,
       );
-
-      if (transactionAdded) {
+      if (!card.value) {
+        return transactionAdded;
+      }
+      if (transactionAdded && card?.value > 0) {
         const userUpdated = await this.updatePayDay.updatePayDay(userId, 30);
         if (userUpdated) {
           return transactionAdded;

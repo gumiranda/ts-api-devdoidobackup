@@ -5,7 +5,7 @@ import {
   badRequest,
   serverError,
   noContent,
-  ok,
+  createdOk,
 } from '@/bin/helpers/http-helper';
 import { AddNotification } from '../../usecases/add-notification/add-notification';
 
@@ -31,7 +31,7 @@ export class AddNotificationController implements Controller {
         read: false,
         createdAt: new Date(),
       });
-      return notification ? ok(notification) : noContent();
+      return notification ? createdOk(notification) : noContent();
     } catch (error) {
       return serverError(error);
     }

@@ -35,7 +35,7 @@ describe('Name of the group', () => {
   });
 
   describe('POST /user/register', () => {
-    test('Should return 200 an user on success', async () => {
+    test('Should return 201 an user on success', async () => {
       await request(app)
         .post('/api/user/register')
         .send({
@@ -48,7 +48,7 @@ describe('Name of the group', () => {
           pushToken: 'any_token',
           payDay: addDay(new Date(), 7),
         })
-        .expect(200);
+        .expect(201);
     });
   });
 

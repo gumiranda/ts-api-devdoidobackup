@@ -3,8 +3,8 @@ import { HttpResponse, HttpRequest } from '@/bin/protocols/http';
 import {
   badRequest,
   serverError,
-  ok,
   forbidden,
+  createdOk,
 } from '@/bin/helpers/http-helper';
 import CryptoJSHelper from '@/bin/helpers/crypto-js';
 import { Validation } from '@/bin/helpers/validators/validation';
@@ -72,7 +72,7 @@ export class TransactionController implements Controller {
       };
       transactionAdded = await this.payOnce.payOnce(obj, userId);
       if (transactionAdded) {
-        return ok(transactionAdded);
+        return createdOk(transactionAdded);
       }
       return forbidden(new AccessDeniedError());
     } catch (error) {

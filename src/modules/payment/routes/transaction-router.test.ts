@@ -37,14 +37,14 @@ describe('Name of the group', () => {
   });
 
   describe('POST /', () => {
-    test('Should return 200 an transaction on success', async () => {
+    test('Should return 201 an transaction on success', async () => {
       const password = await hash('111123', 12);
       const accessToken = await makeAccessToken('owner', password);
       await request(app)
         .post('/api/transaction')
         .send(mockFakeTransactionRequest())
         .set('authorization', 'Bearer ' + accessToken)
-        .expect(200);
+        .expect(201);
     });
     test('Should return 403 with role client on transaction', async () => {
       const password = await hash('111123', 12);

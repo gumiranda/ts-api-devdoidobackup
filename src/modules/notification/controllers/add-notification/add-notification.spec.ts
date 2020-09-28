@@ -1,11 +1,6 @@
 import { HttpRequest } from '@/bin/protocols/http';
 import { Validation } from '@/bin/helpers/validators/validation';
-import {
-  badRequest,
-  serverError,
-  noContent,
-  ok,
-} from '@/bin/helpers/http-helper';
+import { badRequest, serverError, createdOk } from '@/bin/helpers/http-helper';
 import MockDate from 'mockdate';
 import { AddNotification } from '@/modules/notification/usecases/add-notification/add-notification';
 import { mockValidation } from '@/bin/test/mock-validation';
@@ -74,10 +69,10 @@ describe('AddNotification Controller', () => {
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse).toEqual(serverError(new Error()));
   });
-  test('should return 200 on success', async () => {
+  test('should return 201 on success', async () => {
     const { sut } = makeSut();
     const httpRequest = makeFakeRequest();
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse).toEqual(ok(mockFakeNotification()));
+    expect(httpResponse).toEqual(createdOk(mockFakeNotification()));
   });
 });

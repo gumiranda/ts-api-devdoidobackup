@@ -4,8 +4,8 @@ import { HttpResponse, HttpRequest } from '@/bin/protocols/http';
 import {
   badRequest,
   serverError,
-  ok,
   forbidden,
+  createdOk,
 } from '@/bin/helpers/http-helper';
 import { Validation } from '@/bin/helpers/validators/validation';
 import { EmailInUseError } from '@/bin/errors';
@@ -61,7 +61,7 @@ export class SignUpController implements Controller {
       if (pushToken) {
         await OneSignal.addDevice(pushToken);
       }
-      return ok(user);
+      return createdOk(user);
     } catch (error) {
       return serverError(error);
     }

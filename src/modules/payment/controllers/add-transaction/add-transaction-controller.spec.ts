@@ -2,8 +2,8 @@ import { HttpRequest } from '@/bin/protocols/http';
 import {
   badRequest,
   serverError,
-  ok,
   forbidden,
+  createdOk,
 } from '@/bin/helpers/http-helper';
 import { MissingParamError, ServerError } from '@/bin/errors';
 import { Validation } from '@/bin/helpers/validators/validation';
@@ -14,11 +14,7 @@ import {
   mockFakeTransaction,
   mockFakeTransactionRequest,
 } from '../../models/mocks/mock-transaction';
-import { AddTransaction } from '../../usecases/add-transaction/add-transaction';
 import { TransactionController } from './add-transaction-controller';
-import { mockAddCard, mockLoadCardById } from '../../usecases/mocks/mock-card';
-import { AddCard } from '../../usecases/add-card/add-card';
-import { LoadCardById } from '../../usecases/load-card-by-id/load-card-by-id';
 import {
   mockPayAgain,
   mockPayOnce,
@@ -77,10 +73,10 @@ describe('Transaction Controller', () => {
     expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 
-  test('Should return 200 if valid data is provided', async () => {
+  test('Should return 201 if valid data is provided', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(ok(mockFakeTransaction()));
+    expect(httpResponse).toEqual(createdOk(mockFakeTransaction()));
   });
   test('Should return 400 if validation returns an error', async () => {
     const { sut, validationStub } = makeSut();

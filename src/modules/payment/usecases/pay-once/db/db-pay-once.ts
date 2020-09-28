@@ -83,7 +83,7 @@ export class DbPayOnce implements PayOnce {
         const transactionAdded = await this.addTransactionRepository.add(
           transaction,
         );
-        if (transactionAdded) {
+        if (transactionAdded && Number(value) > 0) {
           const userUpdated = await this.updatePayDay.updatePayDay(userId, 30);
           if (userUpdated) {
             return transactionAdded;

@@ -97,7 +97,7 @@ describe('Name of the group', () => {
     });
   });
   describe('POST /notification', () => {
-    test('Should return 200 an notification on success', async () => {
+    test('Should return 201 an notification on success', async () => {
       const password = await hash('111123', 12);
       const { token } = await makeAccessToken('owner', password);
       const userReceiver = await makeAccessToken('owner', password);
@@ -105,7 +105,7 @@ describe('Name of the group', () => {
         .post(`/api/notification`)
         .send(mockFakeNotificationRequest(userReceiver._id))
         .set('authorization', 'Bearer ' + token)
-        .expect(200);
+        .expect(201);
     });
 
     test('Should return 403 without token on notification id', async () => {

@@ -28,6 +28,10 @@ export const putOk = (data: any): HttpResponse => ({
   statusCode: 202,
   body: data,
 });
+export const createdOk = (data: any): HttpResponse => ({
+  statusCode: 201,
+  body: data,
+});
 export const noContent = (): HttpResponse => ({
   statusCode: 204,
   body: null,
