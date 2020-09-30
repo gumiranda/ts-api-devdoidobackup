@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { adaptRoute } from '@/bin/configuration/adapters/express-route-adapter';
+import { auth } from '@/bin/middlewares/auth';
+import { makeAddRequestController } from '../factories/controllers/add-request-factory-controller';
+import { makeLoadRequestByPageController } from '../factories/controllers/load-request-by-page-factory-controller';
+import { makeUpdateRequestController } from '../factories/controllers/update-request-factory-controller';
+const router = Router();
+router.post('/', auth, adaptRoute(makeAddRequestController()));
+router.put('/:requestId', auth, adaptRoute(makeUpdateRequestController()));
+router.get('/:page', auth, adaptRoute(makeLoadRequestByPageController()));
+export default router;
