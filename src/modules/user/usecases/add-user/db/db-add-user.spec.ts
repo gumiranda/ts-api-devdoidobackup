@@ -13,7 +13,6 @@ import {
   mockFakeUserWithPasswordHashed,
 } from '@/modules/user/models/mocks/mock-user';
 import MockDate from 'mockdate';
-import { addDay } from '@/bin/utils/date-fns';
 
 type SutTypes = {
   sut: DbAddUser;

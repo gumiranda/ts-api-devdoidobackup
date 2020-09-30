@@ -205,4 +205,55 @@ describe('Name of the group', () => {
         .expect(403);
     });
   });
+  describe('POST /user/addProfessional', () => {
+    test('Should return 201 an add professional on my user', async () => {
+      const password = await hash('111123', 12);
+      const accessToken = await makeAccessToken('owner', password);
+      await request(app)
+        .post('/api/user/addProfessional')
+        .send({
+          name: 'any_name',
+          email: 'any_email@mail.com',
+          password: '111123',
+          passwordConfirmation: '111123',
+          coord: [25.0000188, -71.0087548],
+          pushToken: 'any_token',
+          pushId: 'any_id',
+        })
+        .set('authorization', 'Bearer ' + accessToken);
+      expect(201);
+    });
+    test('Should return 401 an token without role owner on users', async () => {
+      const password = await hash('111123', 12);
+      const accessToken = await makeAccessToken('client', password);
+
+      await request(app)
+        .post('/api/user/addProfessional')
+        .send({
+          name: 'any_name',
+          email: 'any_email@mail.com',
+          password: '111123',
+          passwordConfirmation: '111123',
+          coord: [25.0000188, -71.0087548],
+          pushToken: 'any_token',
+          pushId: 'any_id',
+        })
+        .set('authorization', 'Bearer ' + accessToken);
+      expect(401);
+    });
+    test('Should return 403 on users without token', async () => {
+      await request(app)
+        .post('/api/user/addProfessional')
+        .send({
+          name: 'any_name',
+          email: 'any_email@mail.com',
+          password: '111123',
+          passwordConfirmation: '111123',
+          coord: [25.0000188, -71.0087548],
+          pushToken: 'any_token',
+          pushId: 'any_id',
+        })
+        .expect(403);
+    });
+  });
 });

@@ -20,7 +20,6 @@ export class LoadMessagesByPageController implements Controller {
         chatId,
         userId,
       );
-      console.log(chat);
       if (!chat) {
         if (page) {
           return forbidden(new InvalidParamError('chatId'));

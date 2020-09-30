@@ -18,7 +18,7 @@ export class DbUpdatePayDay implements UpdatePayDay {
     if (user) {
       const payDay = addDay(new Date(user.payDay), numberDays);
       const userUpdated = await this.updateUserRepository.updateOne(
-        { payDay },
+        { payDay, active: true },
         userId,
       );
       if (userUpdated) {

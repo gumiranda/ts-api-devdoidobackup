@@ -12,9 +12,9 @@ import { LoadUserByToken } from '../load-user-by-token/load-user-by-token';
 import { UpdatePassword } from '../update-password/update-password';
 import { UpdateUser } from '../update-user/update-user';
 
-export const mockAddUser = (): AddUser => {
+export const mockAddUser = (role?): AddUser => {
   class AddUserStub implements AddUser {
-    userModel = mockFakeUser('client');
+    userModel = mockFakeUser(role ? role : 'client');
     async add(user: AddUserModel): Promise<UserModel> {
       //this.userModel = { _id: this.userModel._id, ...user };
       return new Promise((resolve) => resolve(this.userModel));

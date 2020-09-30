@@ -12,13 +12,11 @@ export class DbLoadMessagesByPage implements LoadMessagesByPage {
     chatId: string,
     userId: string,
   ): Promise<ChatModel> {
-    console.log(page, chatId, userId);
     const chat = await this.loadChatRepository.loadMessagesByPage(
       page,
       chatId,
       userId,
     );
-    console.log(chat);
     if (chat) {
       return chat;
     }

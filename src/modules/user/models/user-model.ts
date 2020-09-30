@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 export type UserModel = {
   _id: string;
   name?: string;
@@ -25,13 +27,14 @@ export type UserModel = {
   hourStart2?: string;
   hourEnd1?: string;
   hourEnd2?: string;
-  ownerId?: string;
+  ownerId?: ObjectId;
   numFollowers?: Number;
   numFollowing?: Number;
   numLikes?: Number;
   numDislikes?: Number;
   likes?: Like[];
   dislikes?: DisLike[];
+  services?: Services[];
   following?: Follower[];
   followers?: Follower[];
   photos?: Photo[];
@@ -59,6 +62,9 @@ export type DisLike = {
 };
 export type Follower = {
   followedBy: string;
+};
+export type Services = {
+  serviceId: ObjectId;
 };
 export type UserData = Omit<
   UserModel,

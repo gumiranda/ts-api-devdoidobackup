@@ -117,7 +117,6 @@ export class ChatMongoRepository
       },
       { messages: { $slice: [position, 20] } },
     );
-    console.warn('chat com as msg paginada', chat);
     return chat;
   }
 }

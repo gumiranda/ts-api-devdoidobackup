@@ -11,7 +11,8 @@ import { Validation } from '@/bin/helpers/validators/validation';
 import { EmailInUseError } from '@/bin/errors';
 import OneSignal from '@/bin/helpers/external-apis/onesignal';
 import { addDay } from '@/bin/utils/date-fns';
-export class SignUpController implements Controller {
+import { ObjectId } from 'mongodb';
+export class AddProfessionalController implements Controller {
   private readonly addUser: AddUser;
   private readonly validation: Validation;
 
@@ -27,7 +28,7 @@ export class SignUpController implements Controller {
         return badRequest(errors);
       }
       if (!httpRequest.body.role || httpRequest.body?.role === 'admin') {
-        httpRequest.body.role = 'client';
+        httpRequest.body.role = 'professional';
       }
       const {
         name,
@@ -36,9 +37,9 @@ export class SignUpController implements Controller {
         role,
         pushToken,
         pushId,
-        coord,
+        services,
       } = httpRequest.body;
-      let position = coord;
+      const { userId } = httpRequest;
       const payDay = addDay(new Date(), 7);
       let obj: any = {
         name,
@@ -46,13 +47,14 @@ export class SignUpController implements Controller {
         password,
         role,
         pushId,
-        coord: { type: 'Point', coordinates: position },
         payDay,
-        active: role === 'client' ? true : false,
+        ownerId: new ObjectId(userId),
+        active: role === 'professional' ? true : false,
         face: false,
-        plan: 'basic',
+        services,
         createdAt: new Date(),
       };
+      obj.services = obj.services.map((serviceId) => new ObjectId(serviceId));
       const user = await this.addUser.add(obj);
       if (!user) {
         return forbidden(new EmailInUseError());
