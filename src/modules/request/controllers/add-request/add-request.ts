@@ -8,6 +8,7 @@ import {
   createdOk,
 } from '@/bin/helpers/http-helper';
 import { AddRequest } from '../../usecases/add-request/add-request';
+import { ObjectId } from 'mongodb';
 
 export class AddRequestController implements Controller {
   constructor(
@@ -22,15 +23,19 @@ export class AddRequestController implements Controller {
       }
       const { content, type, userFor } = httpRequest.body;
       const { userId } = httpRequest;
-
-      const request = await this.addRequest.add({
-        userBy: userId,
+      let objToAdd = {
+        userBy: new ObjectId(userId),
         content,
-        userFor,
+        userFor: new ObjectId(userFor),
         type,
         read: false,
         createdAt: new Date(),
-      });
+      };
+      if (type === 'approveProfessional') {
+        objToAdd.content =
+          'Olá, gostaria de me cadastrar no seu sistema. Deseja confirmar?';
+      }
+      const request = await this.addRequest.add(objToAdd);
       return request ? createdOk(request) : noContent();
     } catch (error) {
       return serverError(error);

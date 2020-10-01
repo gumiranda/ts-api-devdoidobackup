@@ -76,13 +76,13 @@ describe('Name of the group', () => {
     test('Should return 202 an request updated on success', async () => {
       const password = await hash('111123', 12);
       const { token, _id } = await makeAccessToken('owner', password);
-      const userReceiver = await makeAccessToken('owner', password);
+      const userReceiver = await makeAccessToken('professional', password);
       const requestCreated = await requestCollection.insertOne({
         content: 'string',
         type: 'string',
         userBy: new ObjectId(userReceiver._id),
         userFor: new ObjectId(_id),
-        read: false,
+        read: true,
         createdAt: new Date(),
       });
       await request(app)

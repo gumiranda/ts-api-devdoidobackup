@@ -7,6 +7,7 @@ import { mockValidation } from '@/bin/test/mock-validation';
 import { mockAddRequest } from '@/modules/request/usecases/mocks/mock-request';
 import { AddRequestController } from './add-request';
 import { mockFakeRequest } from '../../models/mocks/mock-request';
+import { ObjectId } from 'mongodb';
 type SutTypes = {
   sut: AddRequestController;
   addRequestStub: AddRequest;
@@ -22,10 +23,21 @@ const makeSut = (): SutTypes => {
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     content: 'string',
-    userFor: 'string',
+    userFor: '5f36bcc7b104350034fec070',
     type: 'string',
     read: false,
-    userBy: 'string',
+    userBy: '5f36bcc7b104350034fec070',
+    createdAt: new Date(),
+  },
+  userId: '5f36bcc7b104350034fec070',
+});
+const makeFakeRequestObjectId = (): HttpRequest => ({
+  body: {
+    content: 'string',
+    userFor: new ObjectId('5f36bcc7b104350034fec070'),
+    type: 'string',
+    read: false,
+    userBy: new ObjectId('5f36bcc7b104350034fec070'),
     createdAt: new Date(),
   },
   userId: 'string',
@@ -56,7 +68,7 @@ describe('AddRequest Controller', () => {
     const addRequestSpy = jest.spyOn(addRequestStub, 'add');
     const httpRequest = makeFakeRequest();
     await sut.handle(httpRequest);
-    expect(addRequestSpy).toHaveBeenCalledWith(httpRequest.body);
+    expect(addRequestSpy).toHaveBeenCalledWith(makeFakeRequestObjectId().body);
   });
   test('should return 500 if AddRequest throws', async () => {
     const { sut, addRequestStub } = makeSut();
@@ -73,6 +85,7 @@ describe('AddRequest Controller', () => {
     const { sut } = makeSut();
     const httpRequest = makeFakeRequest();
     const httpResponse = await sut.handle(httpRequest);
+    console.warn(httpResponse);
     expect(httpResponse).toEqual(createdOk(mockFakeRequest()));
   });
 });

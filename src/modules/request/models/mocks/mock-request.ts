@@ -1,8 +1,9 @@
+import { ObjectId } from 'mongodb';
 import { RequestsPaginate, RequestModel } from '../request-model';
 export const mockFakeRequestData = (): Omit<RequestModel, '_id'> => ({
   content: 'string',
-  userFor: 'string',
-  userBy: 'string',
+  userFor: new ObjectId('5f36bcc7b104350034fec070'),
+  userBy: new ObjectId('5f36bcc7b104350034fec070'),
   read: false,
   type: 'string',
   createdAt: new Date(),
@@ -10,8 +11,17 @@ export const mockFakeRequestData = (): Omit<RequestModel, '_id'> => ({
 export const mockFakeRequest = (): RequestModel => ({
   content: 'string',
   _id: 'any_id',
-  userFor: 'string',
-  userBy: 'string',
+  userFor: new ObjectId('5f36bcc7b104350034fec070'),
+  userBy: new ObjectId('5f36bcc7b104350034fec070'),
+  read: false,
+  type: 'string',
+  createdAt: new Date(),
+});
+export const mockFakeRequestIdString = (): any => ({
+  content: 'string',
+  _id: 'any_id',
+  userFor: '5f36bcc7b104350034fec070',
+  userBy: '5f36bcc7b104350034fec070',
   read: false,
   type: 'string',
   createdAt: new Date(),
@@ -19,8 +29,8 @@ export const mockFakeRequest = (): RequestModel => ({
 export const mockFakeRequestReaded = (): RequestModel => ({
   content: 'string',
   _id: 'any_id',
-  userFor: 'string',
-  userBy: 'string',
+  userFor: new ObjectId('5f36bcc7b104350034fec070'),
+  userBy: new ObjectId('5f36bcc7b104350034fec070'),
   read: true,
   type: 'string',
   createdAt: new Date(),

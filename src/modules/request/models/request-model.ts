@@ -1,9 +1,11 @@
+import { ObjectId } from 'mongodb';
+
 export type RequestModel = {
   _id: string;
   content: string;
   type: string;
-  userFor: string;
-  userBy: string;
+  userFor: ObjectId;
+  userBy: ObjectId;
   read: boolean;
   createdAt?: Date;
 };

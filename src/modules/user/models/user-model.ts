@@ -84,6 +84,23 @@ export type UserData = Omit<
   | 'emailConfirmation'
   | 'faceId'
 >;
+export type UserDataOwner = Omit<
+  UserModel,
+  | 'plan'
+  | 'followers'
+  | 'following'
+  | 'numDislikes'
+  | 'numLikes'
+  | 'numFollowing'
+  | 'numFollowers'
+  | 'role'
+  | 'email'
+  | '_id'
+  | 'password'
+  | 'createdAt'
+  | 'emailConfirmation'
+  | 'faceId'
+>;
 export type Days = {
   monday: boolean;
   sunday: boolean;

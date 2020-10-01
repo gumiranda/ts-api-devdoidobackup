@@ -53,8 +53,9 @@ export const mockFakeUserPassword = (
 });
 export const mockFakeUserUpdated = (
   role: string,
+  id?: string,
 ): Omit<UserModel, 'password'> => ({
-  _id: 'valid_id',
+  _id: id ? id : 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
   role,

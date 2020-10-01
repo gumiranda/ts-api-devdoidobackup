@@ -5,7 +5,11 @@ import {
 } from '@/modules/user/models/mocks/mock-user';
 import { AddUserRepository } from '@/modules/user/repositories/protocols/add-user-repository';
 import { AddUserModel } from '@/modules/user/usecases/add-user/add-user';
-import { UserData, UserModel } from '@/modules/user/models/user-model';
+import {
+  UserData,
+  UserDataOwner,
+  UserModel,
+} from '@/modules/user/models/user-model';
 import { LoadUserByEmailRepository } from '@/modules/user/repositories/protocols/load-user-by-email-repository';
 import { LoadUserByTokenRepository } from '@/modules/user/repositories/protocols/load-user-by-token-repository';
 import { UpdateUserRepository } from '../protocols/update-user-repository';
@@ -60,12 +64,24 @@ export const mockLoadUserByTokenRepository = (): LoadUserByTokenRepository => {
 export const mockUpdateUserRepository = (): UpdateUserRepository => {
   class UpdateUserRepositoryStub implements UpdateUserRepository {
     async updateOne(
-      userData: UserData,
+      userData: UserDataOwner,
       userId: string,
     ): Promise<Omit<UserModel, 'password'>> {
       return new Promise((resolve) => resolve(this.userModel));
     }
     userModel = mockFakeUserUpdated('client');
+  }
+  return new UpdateUserRepositoryStub();
+};
+export const mockUpdateProfessionalUserRepository = (): UpdateUserRepository => {
+  class UpdateUserRepositoryStub implements UpdateUserRepository {
+    async updateOne(
+      userData: UserDataOwner,
+      userId: string,
+    ): Promise<Omit<UserModel, 'password'>> {
+      return new Promise((resolve) => resolve(this.userModel));
+    }
+    userModel = mockFakeUserUpdated('professional', '5f36bcc7b104350034fec070');
   }
   return new UpdateUserRepositoryStub();
 };

@@ -1,7 +1,7 @@
 import { AddUserRepository } from './protocols/add-user-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
 import { AddUserModel } from '@/modules/user/usecases/add-user/add-user';
-import { UserData, UserModel } from '@/modules/user/models/user-model';
+import { UserDataOwner, UserModel } from '@/modules/user/models/user-model';
 import { MongoRepository } from '@/bin/repository/mongo-repository';
 import { LoadUserByEmailRepository } from './protocols/load-user-by-email-repository';
 import variables from '@/bin/configuration/variables';
@@ -55,7 +55,7 @@ export class UserMongoRepository
     return result;
   }
   async updateOne(
-    userData: UserData,
+    userData: UserDataOwner,
     userId: string,
   ): Promise<Omit<UserModel, 'password'>> {
     await this.mongoRepository.updateOne(
@@ -68,9 +68,10 @@ export class UserMongoRepository
       { upsert: true },
     );
     const result: any = await this.mongoRepository.getOne(
-      { _id: userId },
+      { _id: new ObjectId(userId) },
       { projection: { password: 0 } },
     );
+    console.log('RESULT USER UPDATED', result);
     return result;
   }
   async updatePassword(

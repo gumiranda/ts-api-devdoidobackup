@@ -17,6 +17,19 @@ export class RequestMongoRepository
   request_id: string;
   requests;
   async add(requestData: Omit<RequestModel, '_id'>): Promise<RequestModel> {
+    if (requestData?.type === 'approveProfessional') {
+      const requestExists: any = await this.mongoRepository.getOne(
+        {
+          userFor: new ObjectId(requestData.userFor),
+          userBy: new ObjectId(requestData.userBy),
+        },
+        {},
+      );
+      if (requestExists) {
+        return null;
+      }
+    }
+
     const result = await this.mongoRepository.add(requestData);
     return result;
   }
@@ -24,6 +37,10 @@ export class RequestMongoRepository
     requestData: RequestData,
     requestId: string,
   ): Promise<RequestModel> {
+    const { read } = requestData;
+    if (!read) {
+      return null;
+    }
     await this.mongoRepository.updateOne(
       {
         _id: new ObjectId(requestId),

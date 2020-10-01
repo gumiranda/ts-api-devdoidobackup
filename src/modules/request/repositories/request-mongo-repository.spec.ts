@@ -1,6 +1,6 @@
 import { RequestMongoRepository } from './request-mongo-repository';
 import { MongoHelper } from '@/bin/helpers/db/mongo/mongo-helper';
-import { Collection } from 'mongodb';
+import { Collection, ObjectId } from 'mongodb';
 import { MongoRepository } from '@/bin/repository/mongo-repository';
 import MockDate from 'mockdate';
 import { mockFakeUserData } from '@/modules/user/models/mocks/mock-user';
@@ -54,7 +54,9 @@ describe('Request Mongo Repository', () => {
     expect(request._id).toBeTruthy();
     expect(request.content).toBe('string');
     expect(request.type).toBe('string');
-    expect(request.userBy).toBe('string');
+    expect(request.userBy).toStrictEqual(
+      new ObjectId('5f36bcc7b104350034fec070'),
+    );
   });
 
   test('Should return an request loaded by id with success', async () => {
@@ -71,7 +73,7 @@ describe('Request Mongo Repository', () => {
     let arrayRequests = makeFakeArrayRequests();
     arrayRequests.forEach((acc) => {
       delete acc._id;
-      acc.userFor = user._id;
+      acc.userFor = new ObjectId(user._id);
     });
     await requestCollection.insertMany(arrayRequests);
     const requests = await sut.loadByPage(1, user._id);
@@ -86,7 +88,7 @@ describe('Request Mongo Repository', () => {
     const user = await makeUser();
     arrayRequests.forEach((acc) => {
       delete acc._id;
-      acc.userFor = user._id;
+      acc.userFor = new ObjectId(user._id);
     });
     await requestCollection.insertMany(arrayRequests);
     const requestsCounts = await sut.countRequestsByPage(user._id);
