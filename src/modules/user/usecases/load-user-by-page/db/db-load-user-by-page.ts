@@ -4,11 +4,20 @@ import { UsersPaginate } from '@/modules/user/models/user-model';
 
 export class DbLoadUserByPage implements LoadUserByPage {
   constructor(private readonly loadUserRepository: LoadUserByPageRepository) {}
-  async loadByPage(page: number, userId: string): Promise<UsersPaginate> {
-    const users = await this.loadUserRepository.loadByPage(page, userId);
+  async loadByPage(
+    page: number,
+    userId: string,
+    typeUser: string,
+  ): Promise<UsersPaginate> {
+    const users = await this.loadUserRepository.loadByPage(
+      page,
+      userId,
+      typeUser,
+    );
     const usersCount = await this.loadUserRepository.countUsersByPage(
       page,
       userId,
+      typeUser,
     );
     return { users, usersCount };
   }

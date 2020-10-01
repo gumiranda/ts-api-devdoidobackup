@@ -138,7 +138,7 @@ describe('User Mongo Repository', () => {
     await userCollection.insertMany(arrayUsers);
     await userCollection.createIndex({ coord: '2dsphere' });
     const userAdded = await makeUser();
-    const users = await sut.loadByPage(1, userAdded._id);
+    const users = await sut.loadByPage(1, userAdded._id, 'owner');
     expect(users).toBeTruthy();
     expect(users[0]).toBeTruthy();
     expect(users[1]).toBeTruthy();
@@ -153,13 +153,13 @@ describe('User Mongo Repository', () => {
     });
     await userCollection.insertMany(arrayUsers);
     const userAdded = await makeUser();
-    const usersCounts = await sut.countUsersByPage(1, userAdded._id);
+    const usersCounts = await sut.countUsersByPage(1, userAdded._id, 'owner');
     expect(usersCounts).toBe(15);
   });
   test('Should return 0 on countUsersByPage success', async () => {
     const sut = makeSut();
     const userAdded = await makeUser();
-    const usersCounts = await sut.countUsersByPage(1, userAdded._id);
+    const usersCounts = await sut.countUsersByPage(1, userAdded._id, 'owner');
     expect(usersCounts).toBe(0);
   });
 });

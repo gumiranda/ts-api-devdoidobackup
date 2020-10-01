@@ -94,12 +94,16 @@ export class UserMongoRepository
     const result = await this.mongoRepository.getById(_id);
     return result;
   }
-  async countUsersByPage(page: number, userId: string): Promise<number> {
+  async countUsersByPage(
+    page: number,
+    userId: string,
+    typeUser: string,
+  ): Promise<number> {
     const userLogged = await this.mongoRepository.getById(userId);
     const query = new QueryBuilder()
       .geoNear({
         near: { type: 'Point', coordinates: userLogged.coord.coordinates },
-        query: { role: 'owner', _id: { $ne: new ObjectId(userId) } },
+        query: { role: typeUser, _id: { $ne: new ObjectId(userId) } },
         distanceField: 'distance',
         maxDistance: 100000,
         spherical: true,
@@ -115,13 +119,14 @@ export class UserMongoRepository
   async loadByPage(
     page: number,
     userId: string,
+    typeUser: string,
   ): Promise<Omit<UserModel, 'password'>[]> {
     const userLogged = await this.mongoRepository.getById(userId);
     const query = new QueryBuilder()
       .geoNear({
         near: { type: 'Point', coordinates: userLogged.coord.coordinates },
         query: {
-          role: 'owner',
+          role: typeUser,
           active: true,
           payDay: { $gte: new Date().toISOString() },
           _id: { $ne: new ObjectId(userId) },

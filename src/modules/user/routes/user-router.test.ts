@@ -95,7 +95,7 @@ describe('Name of the group', () => {
         },
       ]);
       await request(app)
-        .get('/api/user/page/1')
+        .get('/api/user/page/1?teste=eaefi&e=oe')
         .set('authorization', 'Bearer ' + accessToken);
       expect(200);
     });

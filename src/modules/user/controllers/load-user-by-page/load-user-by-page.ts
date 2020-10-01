@@ -14,8 +14,19 @@ export class LoadUserByPageController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { page } = httpRequest.params;
-      const { userId } = httpRequest;
-      const users = await this.loadUserByPage.loadByPage(page, userId);
+      const { userId, query } = httpRequest;
+      const { type } = query;
+      let typeUser;
+      if (type === 'owner' || type === 'professional') {
+        typeUser = type;
+      } else {
+        typeUser = 'owner';
+      }
+      const users = await this.loadUserByPage.loadByPage(
+        page,
+        userId,
+        typeUser,
+      );
       if (!users) {
         return forbidden(new InvalidParamError('page'));
       }

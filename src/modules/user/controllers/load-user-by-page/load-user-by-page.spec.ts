@@ -10,6 +10,9 @@ const makeFakeRequest = (): HttpRequest => ({
   params: {
     page: 1,
   },
+  query: {
+    type: 'owner',
+  },
   userId: 'any_user_id',
 });
 type SutTypes = {
@@ -34,13 +37,13 @@ describe('LoadUserByPage Controller', () => {
     const { sut, loadUserByPageStub } = makeSut();
     const loadSpy = jest.spyOn(loadUserByPageStub, 'loadByPage');
     await sut.handle(makeFakeRequest());
-    expect(loadSpy).toHaveBeenCalledWith(1, 'any_user_id');
+    expect(loadSpy).toHaveBeenCalledWith(1, 'any_user_id', 'owner');
   });
   test('should call load with correct values', async () => {
     const { sut, loadUserByPageStub } = makeSut();
     const loadSpy = jest.spyOn(loadUserByPageStub, 'loadByPage');
     await sut.handle(makeFakeRequest());
-    expect(loadSpy).toHaveBeenCalledWith(1, 'any_user_id');
+    expect(loadSpy).toHaveBeenCalledWith(1, 'any_user_id', 'owner');
   });
   test('should return 403 if LoadUserById returns null', async () => {
     const { sut, loadUserByPageStub } = makeSut();

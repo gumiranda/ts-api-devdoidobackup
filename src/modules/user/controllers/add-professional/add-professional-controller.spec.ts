@@ -33,6 +33,10 @@ const mockAddProfessional = () => ({
   password: 'valid_password',
   role: 'professional',
   pushId: 'any_id',
+  coord: {
+    coordinates: [43.6589, -67.0087548],
+    type: 'Point',
+  },
   payDay: addDay(new Date(), 7),
   ownerId: new ObjectId('5f5945e7cfcfc1123cd0d91e'),
   active: true,

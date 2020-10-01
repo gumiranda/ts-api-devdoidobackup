@@ -1,10 +1,7 @@
 import MockDate from 'mockdate';
 import { DbLoadUserByPage } from '@/modules/user/usecases/load-user-by-page/db/db-load-user-by-page';
 import { LoadUserByPageRepository } from '@/modules/user/repositories/protocols/load-user-by-page-repository';
-import {
-  makeFakeArrayUsers,
-  mockFakeUsersPaginated,
-} from '@/modules/user/models/mocks/mock-user';
+import { mockFakeUsersPaginated } from '@/modules/user/models/mocks/mock-user';
 import { mockLoadUserByPageRepository } from '@/modules/user/repositories/mocks/mock-user-repository';
 type SutTypes = {
   sut: DbLoadUserByPage;
@@ -28,18 +25,18 @@ describe('DbLoadUserByPage', () => {
   test('should call LoadUserByPageRepository with correct values', async () => {
     const { sut, loadUserStub } = makeSut();
     const loadUserSpy = jest.spyOn(loadUserStub, 'loadByPage');
-    await sut.loadByPage(1, 'user_id');
-    expect(loadUserSpy).toHaveBeenCalledWith(1, 'user_id');
+    await sut.loadByPage(1, 'user_id', 'owner');
+    expect(loadUserSpy).toHaveBeenCalledWith(1, 'user_id', 'owner');
   });
   test('should call countUsersByPage with correct values', async () => {
     const { sut, loadUserStub } = makeSut();
     const countUsersByPageSpy = jest.spyOn(loadUserStub, 'countUsersByPage');
-    await sut.loadByPage(1, 'user_id');
-    expect(countUsersByPageSpy).toHaveBeenCalledWith(1, 'user_id');
+    await sut.loadByPage(1, 'user_id', 'owner');
+    expect(countUsersByPageSpy).toHaveBeenCalledWith(1, 'user_id', 'owner');
   });
   test('should return users on success', async () => {
     const { sut } = makeSut();
-    const users = await sut.loadByPage(1, 'user_id');
+    const users = await sut.loadByPage(1, 'user_id', 'owner');
     expect(users).toEqual(mockFakeUsersPaginated());
   });
   test('should throw if LoadUserByPageRepository throws', async () => {
@@ -49,7 +46,7 @@ describe('DbLoadUserByPage', () => {
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error())),
       );
-    const promise = sut.loadByPage(1, 'user_id');
+    const promise = sut.loadByPage(1, 'user_id', 'owner');
     await expect(promise).rejects.toThrow();
   });
   test('should throw if LoadUserByPageRepository throws', async () => {
@@ -59,7 +56,7 @@ describe('DbLoadUserByPage', () => {
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error())),
       );
-    const promise = sut.loadByPage(1, 'user_id');
+    const promise = sut.loadByPage(1, 'user_id', 'owner');
     await expect(promise).rejects.toThrow();
   });
 });

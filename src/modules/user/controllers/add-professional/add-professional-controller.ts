@@ -35,12 +35,14 @@ export class AddProfessionalController implements Controller {
         email,
         password,
         role,
+        coord,
         pushToken,
         pushId,
         services,
       } = httpRequest.body;
       const { userId } = httpRequest;
       const payDay = addDay(new Date(), 7);
+      let position = coord;
       let obj: any = {
         name,
         email,
@@ -51,6 +53,7 @@ export class AddProfessionalController implements Controller {
         ownerId: new ObjectId(userId),
         active: role === 'professional' ? true : false,
         face: false,
+        coord: { type: 'Point', coordinates: position },
         services,
         createdAt: new Date(),
       };

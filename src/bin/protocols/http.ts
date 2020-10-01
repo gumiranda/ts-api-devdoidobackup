@@ -8,6 +8,7 @@ export type HttpRequest = {
   headers?: any;
   io?: any;
   params?: any;
+  query?: any;
   usuarioLogado?: any;
   userId?: string;
   connectedUsers?: any;
