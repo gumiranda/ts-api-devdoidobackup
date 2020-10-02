@@ -2,24 +2,36 @@ import { forbidden, ok, serverError } from '@/bin/helpers/http-helper';
 import { AccessDeniedError } from '@/bin/errors';
 import { AuthMiddleware } from '@/bin/middlewares/auth/auth-middleware';
 import { mockFakeRequestHeader } from '@/bin/test/mock-auth';
-import { mockLoadUserByToken } from '@/modules/user/usecases/mocks/mock-user';
+import {
+  mockLoadUserByToken,
+  mockLoadUserById,
+} from '@/modules/user/usecases/mocks/mock-user';
 import { LoadUserByToken } from '@/modules/user/usecases/load-user-by-token/load-user-by-token';
 import { mockPayAgain } from '@/modules/payment/usecases/mocks/mock-transaction';
 import { PayAgain } from '../../../modules/payment/usecases/pay-again/pay-again';
+import { LoadUserById } from '@/modules/user/usecases/load-user-by-id/load-user-by-id';
 
 type SutTypes = {
   sut: AuthMiddleware;
   loadUserByTokenStub: LoadUserByToken;
+  loadUserByIdStub: LoadUserById;
   payAgainStub: PayAgain;
 };
 
 const makeSut = (role?: string): SutTypes => {
   const loadUserByTokenStub = mockLoadUserByToken();
   const payAgainStub = mockPayAgain();
-  const sut = new AuthMiddleware(loadUserByTokenStub, payAgainStub, role);
+  const loadUserByIdStub = mockLoadUserById();
+  const sut = new AuthMiddleware(
+    loadUserByTokenStub,
+    loadUserByIdStub,
+    payAgainStub,
+    role,
+  );
   return {
     sut,
     loadUserByTokenStub,
+    loadUserByIdStub,
     payAgainStub,
   };
 };

@@ -85,7 +85,6 @@ describe('AddRequest Controller', () => {
     const { sut } = makeSut();
     const httpRequest = makeFakeRequest();
     const httpResponse = await sut.handle(httpRequest);
-    console.warn(httpResponse);
     expect(httpResponse).toEqual(createdOk(mockFakeRequest()));
   });
 });

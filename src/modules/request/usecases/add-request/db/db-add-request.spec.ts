@@ -48,13 +48,7 @@ describe('DbAddRequest', () => {
     const promise = sut.add(requestData);
     await expect(promise).rejects.toThrow();
   });
-  test('should call loadUserByIdRepositoryStub with correct values', async () => {
-    const { sut, loadUserByIdRepositoryStub } = makeSut();
-    const requestData = mockFakeRequest();
-    const loadUserByIdSpy = jest.spyOn(loadUserByIdRepositoryStub, 'loadById');
-    await sut.add(requestData);
-    expect(loadUserByIdSpy).toHaveBeenCalledWith(requestData.userFor);
-  });
+
   test('should throw if loadUserByIdRepositoryStub throws', async () => {
     const { sut, loadUserByIdRepositoryStub } = makeSut();
     const requestData = mockFakeRequest();

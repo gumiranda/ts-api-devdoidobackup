@@ -13,8 +13,12 @@ export class DbAddRequest implements AddRequest {
   ) {}
   async add(data: AddRequestModel): Promise<RequestModel> {
     const request = await this.addRequestRepository.add(data);
-    const userFor = await this.loadUserByIdRepository.loadById(data.userFor);
-    const userBy = await this.loadUserByIdRepository.loadById(data.userBy);
+    const userFor = await this.loadUserByIdRepository.loadById(
+      data.userFor.toString(),
+    );
+    const userBy = await this.loadUserByIdRepository.loadById(
+      data.userBy.toString(),
+    );
     if (userFor?.pushId && userBy?.name) {
       await OneSignal.sendNotification(
         userFor.pushId,

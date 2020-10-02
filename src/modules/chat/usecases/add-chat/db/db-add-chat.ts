@@ -13,15 +13,6 @@ export class DbAddChat implements AddChat {
   ) {}
   async add(data: AddChatModel): Promise<ChatModel> {
     const chat = await this.addChatRepository.add(data);
-    const userFor = await this.loadUserByIdRepository.loadById(data.userFor);
-    const userBy = await this.loadUserByIdRepository.loadById(data.userBy);
-    if (userFor?.pushId && userBy?.name) {
-      await OneSignal.sendNotification(
-        userFor.pushId,
-        userBy.name,
-        data.content,
-      );
-    }
     if (chat) {
       return chat;
     }

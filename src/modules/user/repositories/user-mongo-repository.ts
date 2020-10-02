@@ -71,7 +71,6 @@ export class UserMongoRepository
       { _id: new ObjectId(userId) },
       { projection: { password: 0 } },
     );
-    console.log('RESULT USER UPDATED', result);
     return result;
   }
   async updatePassword(

@@ -1,3 +1,4 @@
+import { LoadUserById } from './../../../modules/user/usecases/load-user-by-id/load-user-by-id';
 import { HttpRequest, HttpResponse } from '@/bin/protocols/http';
 import { forbidden, ok, serverError } from '@/bin/helpers/http-helper';
 import { AccessDeniedError } from '@/bin/errors';
@@ -8,6 +9,7 @@ import { PayAgain } from '../../../modules/payment/usecases/pay-again/pay-again'
 export class AuthMiddleware implements Middleware {
   constructor(
     private readonly loadUserByToken: LoadUserByToken,
+    private readonly loadUserById: LoadUserById,
     private readonly payAgain: PayAgain,
     private readonly role?: string,
   ) {}
@@ -20,15 +22,15 @@ export class AuthMiddleware implements Middleware {
           const user = await this.loadUserByToken.load(accessToken, this.role);
           if (user) {
             if (user.role === 'owner') {
-              if (!user.payDay) {
-                const paid = await this.payAgain.payEasy(user._id);
-                if (!paid) {
-                  return forbidden(new AccessDeniedError());
-                }
-              } else {
-                if (isPast(new Date(user.payDay))) {
-                  return forbidden(new AccessDeniedError());
-                }
+              const payVerification = await payMiddleware(user, this.payAgain);
+              if (payVerification) {
+                return payVerification;
+              }
+            } else if (user.role === 'professional' && user.ownerId) {
+              const owner = this.loadUserById.loadById(user.ownerId.toString());
+              const payVerification = await payMiddleware(owner, this.payAgain);
+              if (payVerification) {
+                return payVerification;
               }
             }
             return ok({ userId: user._id });
@@ -41,3 +43,16 @@ export class AuthMiddleware implements Middleware {
     }
   }
 }
+const payMiddleware = async (user, payAgain) => {
+  if (!user.payDay) {
+    const paid = await payAgain.payEasy(user._id);
+    if (!paid) {
+      return forbidden(new AccessDeniedError());
+    }
+  } else {
+    if (isPast(new Date(user.payDay))) {
+      return forbidden(new AccessDeniedError());
+    }
+  }
+  return false;
+};

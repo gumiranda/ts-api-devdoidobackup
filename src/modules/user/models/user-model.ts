@@ -27,6 +27,10 @@ export type UserModel = {
   hourStart2?: string;
   hourEnd1?: string;
   hourEnd2?: string;
+  hourLunchStart1?: string;
+  hourLunchEnd1?: string;
+  hourLunchStart2?: string;
+  hourLunchEnd2?: string;
   ownerId?: ObjectId;
   numFollowers?: Number;
   numFollowing?: Number;

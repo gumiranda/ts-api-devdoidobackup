@@ -21,10 +21,7 @@ export class DbUpdateRequest implements UpdateRequest {
       requestId,
     );
     if (requestResult && requestResult?.userFor) {
-      console.log('id', requestResult.userFor.toString());
       const userBy = requestResult?.userBy.toString();
-      console.log('userby', userBy);
-
       const professionalAdded = await this.updateUserRepository.updateOne(
         { ownerId: new ObjectId(requestResult.userFor.toString()) },
         userBy,

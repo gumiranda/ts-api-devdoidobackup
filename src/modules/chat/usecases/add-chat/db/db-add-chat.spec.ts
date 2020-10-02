@@ -48,22 +48,4 @@ describe('DbAddChat', () => {
     const promise = sut.add(chatData);
     await expect(promise).rejects.toThrow();
   });
-  test('should call loadUserByIdRepositoryStub with correct values', async () => {
-    const { sut, loadUserByIdRepositoryStub } = makeSut();
-    const chatData = mockFakeChat();
-    const loadUserByIdSpy = jest.spyOn(loadUserByIdRepositoryStub, 'loadById');
-    await sut.add(chatData);
-    expect(loadUserByIdSpy).toHaveBeenCalledWith(chatData.userFor);
-  });
-  test('should throw if loadUserByIdRepositoryStub throws', async () => {
-    const { sut, loadUserByIdRepositoryStub } = makeSut();
-    const chatData = mockFakeChat();
-    jest
-      .spyOn(loadUserByIdRepositoryStub, 'loadById')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error())),
-      );
-    const promise = sut.add(chatData);
-    await expect(promise).rejects.toThrow();
-  });
 });
